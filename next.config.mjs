@@ -3,11 +3,11 @@
  * for Docker builds.
  */
 await import("./src/env.mjs");
+import withPWA from "next-pwa";
 
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-
   /**
    * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
    * out.
@@ -20,4 +20,10 @@ const config = {
   },
 };
 
-export default config;
+const configWithPwa = withPWA({
+  disable: process.env.NODE_ENV === "development",
+  dest: "public",
+  mode: "production",
+});
+
+export default configWithPwa(config);

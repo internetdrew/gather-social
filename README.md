@@ -1,6 +1,6 @@
-# Create T3 App
+# Gather Social
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Create a private social network for your next event. See interactions from everyone and get access to every photo posted so you can save all of the memorable images.
 
 ## What's next? How do I make an app with this?
 

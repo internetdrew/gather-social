@@ -1,0 +1,10 @@
+{
+  "name": "Gather Social",
+  "short_name": "Gather",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#ffe1c4",
+  "orientation": "portrait-primary",
+  "icons": [{}]
+}

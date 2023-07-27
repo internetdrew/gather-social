@@ -11,6 +11,8 @@
 
 <!-- Getting others involved -->
 
+## Getting others involved
+
 - User (guest) should be able to join private network with associated password.
 - User (guest) can only see a network if they have the QR/Link and have signed in via OAuth.
 - User (guest) should be prompted to choose a photo so others can recognize them.

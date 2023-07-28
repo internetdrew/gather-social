@@ -15,7 +15,9 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-blue-400 to-blue-300"></main>
+      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-blue-400 to-blue-300">
+        <input type="file" accept="image/x-png,image/jpeg,image/gif" />
+      </main>
     </>
   );
 }

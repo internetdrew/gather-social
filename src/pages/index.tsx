@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { SignIn } from "@clerk/clerk-react";
 import { SignInButton } from "@clerk/nextjs";
 
 // import Link from "next/link";
@@ -20,7 +19,7 @@ export default function Home() {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-blue-500 to-blue-400">
         <SignInButton mode="modal">
-          <button className="rounded-full bg-[#CB4195] px-10 py-2 font-semibold text-white duration-300 hover:bg-pink-500 hover:shadow-lg">
+          <button className=" hover:shadow-3xl rounded-full bg-[#CB4195] px-10 py-2 text-xl font-semibold text-white transition-colors duration-300 hover:bg-[#FFA7E4] hover:text-blue-500">
             Sign in
           </button>
         </SignInButton>

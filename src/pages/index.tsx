@@ -1,10 +1,13 @@
 import Head from "next/head";
-import { SignInButton } from "@clerk/nextjs";
+import { SignInButton, useUser } from "@clerk/nextjs";
 import { Modak } from "next/font/google";
 
 const modak = Modak({ weight: "400", subsets: ["latin"] });
 
 export default function Home() {
+  const user = useUser();
+  console.log(user);
+
   return (
     <>
       <Head>
@@ -21,7 +24,7 @@ export default function Home() {
           Create private social networks for your special events.
         </h1>
         <SignInButton mode="modal">
-          <button className="rounded-2xl bg-[#FFA7E4] px-10 py-2 text-xl font-semibold text-white transition-shadow hover:shadow-2xl">
+          <button className="prevent-select rounded-2xl bg-[#FFA7E4] px-10 py-2 text-xl font-semibold text-white transition-shadow hover:shadow-2xl">
             Get started
           </button>
         </SignInButton>

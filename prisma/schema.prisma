@@ -10,8 +10,22 @@ datasource db {
     relationMode = "prisma"
 }
 
-model Example {
+model Post {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    images    Image[]
+    caption   String
+    authorId  String
+
+    @@index([authorId])
+}
+
+model Image {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    href      String
+    post      Post     @relation(fields: [postId], references: [id])
+    postId    String
+
+    @@index([postId])
 }

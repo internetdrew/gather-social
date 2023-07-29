@@ -21,7 +21,7 @@ export default function Home() {
           Create private social networks for your special events.
         </h1>
         <SignInButton mode="modal">
-          <button className="hover:shadow-3xl rounded-2xl bg-[#FFA7E4] px-10 py-2 text-xl font-semibold text-white transition-colors duration-300 hover:bg-[#CB4195]">
+          <button className="rounded-2xl bg-[#FFA7E4] px-10 py-2 text-xl font-semibold text-white transition-shadow hover:shadow-2xl">
             Get started
           </button>
         </SignInButton>

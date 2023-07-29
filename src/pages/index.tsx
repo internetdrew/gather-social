@@ -15,7 +15,7 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex h-screen flex-col items-center justify-center overflow-y-hidden bg-gradient-to-b from-blue-500 to-blue-400 px-3">
+      <main className="flex h-screen flex-col items-center justify-center overflow-y-hidden bg-blue-500 px-3">
         <p className={`${modak.className} text-8xl text-[#FFA7E4]`}>Gather</p>
         <h1 className="mb-5 text-center text-2xl font-semibold text-white md:text-3xl">
           Create private social networks for your special events.

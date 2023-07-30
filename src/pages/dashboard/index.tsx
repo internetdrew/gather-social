@@ -8,7 +8,7 @@ const UserProfile = () => {
   const { user } = useUser();
 
   return (
-    <article className="flex w-3/4 flex-col items-center justify-between space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl">
+    <article className="flex w-[95%] flex-col items-center justify-between space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">
       <div className="flex w-full items-center justify-between">
         <p className="text-xl">Hi, {user?.firstName}!</p>
         {user && (
@@ -37,7 +37,7 @@ const EventsFeed = () => {
   ];
 
   return (
-    <article className="flex w-3/4 flex-col space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl">
+    <article className="flex w-[95%] flex-col space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">
       <div>
         <h2 className="text-2xl font-semibold">Your Events</h2>
         <p className="text-slate-500">

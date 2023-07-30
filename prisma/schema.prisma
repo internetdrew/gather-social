@@ -10,6 +10,21 @@ datasource db {
     relationMode = "prisma"
 }
 
+model User {
+    id     String  @unique
+    avatar String
+    events Event[]
+}
+
+model Event {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    host      User     @relation(fields: [hostId], references: [id])
+    hostId    String
+
+    @@index([hostId])
+}
+
 model Post {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())

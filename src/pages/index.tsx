@@ -1,12 +1,12 @@
 import Head from "next/head";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { Modak } from "next/font/google";
+import Link from "next/link";
 
 const modak = Modak({ weight: "400", subsets: ["latin"] });
 
 export default function Home() {
   const user = useUser();
-  console.log(user);
 
   return (
     <>
@@ -23,11 +23,19 @@ export default function Home() {
         <h1 className="mb-5 text-center text-2xl font-semibold text-white md:text-3xl">
           Create private social networks for your special events.
         </h1>
-        <SignInButton mode="modal">
-          <button className="prevent-select rounded-2xl bg-[#FFA7E4] px-10 py-2 text-xl font-semibold text-white transition-shadow hover:shadow-2xl">
-            Get started
-          </button>
-        </SignInButton>
+        {user.isSignedIn ? (
+          <Link href={"/dashboard"}>
+            <button className="prevent-select rounded-2xl bg-[#FFA7E4] px-10 py-2 text-xl font-semibold text-white transition-shadow hover:shadow-2xl">
+              See my gatherings
+            </button>
+          </Link>
+        ) : (
+          <SignInButton mode="modal" redirectUrl="/dashboard">
+            <button className="prevent-select rounded-2xl bg-[#FFA7E4] px-10 py-2 text-xl font-semibold text-white transition-shadow hover:shadow-2xl">
+              Get started
+            </button>
+          </SignInButton>
+        )}
       </main>
     </>
   );

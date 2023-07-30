@@ -8,7 +8,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <div className="flex w-3/4 flex-col items-center space-y-2 rounded-3xl bg-slate-100 p-8">
+      <div className="flex w-3/4 flex-col items-center space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl">
         {user && (
           <div className="h-20 w-20 overflow-hidden rounded-full">
             <Image

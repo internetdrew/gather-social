@@ -1,7 +1,29 @@
-import { UserButton, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import Head from "next/head";
 import Image from "next/image";
 import React from "react";
+
+const UserProfile = () => {
+  const { user } = useUser();
+
+  return (
+    <>
+      <div className="flex w-[90%] items-center justify-between space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">
+        <p className="text-xl">Hi, {user?.firstName}!</p>
+        {user && (
+          <div className="h-10 w-10 overflow-hidden rounded-full">
+            <Image
+              src={user.profileImageUrl}
+              width={80}
+              height={80}
+              alt="user image"
+            />
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
 
 const Dashboard = () => {
   return (
@@ -15,12 +37,9 @@ const Dashboard = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <nav className="mx-auto flex max-w-5xl justify-end p-6">
-          <div className="ml-auto">
-            <UserButton />
-          </div>
-        </nav>
-        <section className="mx-auto flex max-w-2xl justify-center pt-20"></section>
+        <section className="mx-auto flex max-w-2xl justify-center pt-20">
+          <UserProfile />
+        </section>
       </main>
     </>
   );

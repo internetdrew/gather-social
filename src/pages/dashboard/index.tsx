@@ -8,7 +8,7 @@ const UserProfile = () => {
   const { user } = useUser();
 
   return (
-    <article className="flex w-[95%] flex-col items-center justify-between space-y-10 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">
+    <article className="flex w-[90%] flex-col items-center justify-between space-y-10 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">
       <div className="flex flex-col items-center justify-center">
         {user && (
           <div className="h-12 w-12 overflow-hidden rounded-full">
@@ -20,7 +20,7 @@ const UserProfile = () => {
             />
           </div>
         )}
-        <p className="text-xl">Hi, {user?.firstName}!</p>
+        <p className="text-xl font-semibold">Hi, {user?.firstName}!</p>
         <p className="text-slate-500">You have X active events right now.</p>
       </div>
       <Link href={"/new"} className="w-1/2 ">
@@ -40,7 +40,7 @@ const EventsFeed = () => {
   ];
 
   return (
-    <article className="flex w-[95%] flex-col space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">
+    <article className="flex w-[90%] flex-col space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">
       <div>
         <h2 className="text-2xl font-semibold">Active Events</h2>
         <p className="text-slate-500">

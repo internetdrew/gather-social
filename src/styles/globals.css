@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 body {
-  background-color: #3b82f6;
-  height: 100vh;
+  @apply bg-[#3b82f6];
 }
 
 .prevent-select {

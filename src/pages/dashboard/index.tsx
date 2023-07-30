@@ -8,22 +8,25 @@ const UserProfile = () => {
   const { user } = useUser();
 
   return (
-    <article className="flex w-[95%] flex-col items-center justify-between space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">
-      <div className="flex w-full items-center justify-between">
-        <p className="text-xl">Hi, {user?.firstName}!</p>
+    <article className="flex w-[95%] flex-col items-center justify-between space-y-10 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">
+      <div className="flex flex-col items-center justify-center">
         {user && (
-          <div className="h-10 w-10 overflow-hidden rounded-full">
+          <div className="h-12 w-12 overflow-hidden rounded-full">
             <Image
-              src={user.profileImageUrl}
+              src={user?.profileImageUrl}
               width={80}
               height={80}
               alt="user image"
             />
           </div>
         )}
+        <p className="text-xl">Hi, {user?.firstName}!</p>
+        <p className="text-slate-500">You have X active events right now.</p>
       </div>
-      <Link href={"/host-event"}>
-        <button>Host an event</button>
+      <Link href={"/new"} className="w-1/2 ">
+        <button className="h-full w-full rounded-xl bg-pink-500 py-2 font-semibold text-white">
+          Host an event
+        </button>
       </Link>
     </article>
   );
@@ -39,9 +42,9 @@ const EventsFeed = () => {
   return (
     <article className="flex w-[95%] flex-col space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">
       <div>
-        <h2 className="text-2xl font-semibold">Your Events</h2>
+        <h2 className="text-2xl font-semibold">Active Events</h2>
         <p className="text-slate-500">
-          See events you are hosting or attending.
+          See active events you are hosting or attending.
         </p>
       </div>
       {events?.map((event, idx) => (

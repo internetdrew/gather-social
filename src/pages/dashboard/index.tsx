@@ -7,21 +7,38 @@ const UserProfile = () => {
   const { user } = useUser();
 
   return (
-    <>
-      <div className="flex w-[90%] items-center justify-between space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">
-        <p className="text-xl">Hi, {user?.firstName}!</p>
-        {user && (
-          <div className="h-10 w-10 overflow-hidden rounded-full">
-            <Image
-              src={user.profileImageUrl}
-              width={80}
-              height={80}
-              alt="user image"
-            />
-          </div>
-        )}
+    <article className="flex items-center justify-between space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">
+      <p className="text-xl">Hi, {user?.firstName}!</p>
+      {user && (
+        <div className="h-10 w-10 overflow-hidden rounded-full">
+          <Image
+            src={user.profileImageUrl}
+            width={80}
+            height={80}
+            alt="user image"
+          />
+        </div>
+      )}
+    </article>
+  );
+};
+
+const EventsFeed = () => {
+  const events = [
+    "Bob and lisa's wedding",
+    "Some other event",
+    "Storm the psych ward",
+  ];
+
+  return (
+    <article className="flex items-center justify-between space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">
+      <div>
+        <h2 className="text-2xl font-semibold">Your Events</h2>
+        <p className="text-slate-500">
+          See events you are hosting or attending.
+        </p>
       </div>
-    </>
+    </article>
   );
 };
 
@@ -37,8 +54,9 @@ const Dashboard = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <section className="mx-auto flex max-w-2xl justify-center pt-20">
+        <section className="mx-auto flex max-w-2xl flex-col items-center justify-center space-y-10 pt-20">
           <UserProfile />
+          <EventsFeed />
         </section>
       </main>
     </>

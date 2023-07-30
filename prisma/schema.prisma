@@ -14,7 +14,7 @@ model Post {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     images    Image[]
-    caption   String
+    caption   String   @db.VarChar(255)
     authorId  String
 
     @@index([authorId])

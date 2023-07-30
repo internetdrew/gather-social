@@ -10,7 +10,7 @@ const UserProfile = () => {
     <>
       <div className="flex w-3/4 flex-col items-center space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl">
         {user && (
-          <div className="h-20 w-20 overflow-hidden rounded-full">
+          <div className="h-16 w-16 overflow-hidden rounded-full">
             <Image
               src={user.profileImageUrl}
               width={90}
@@ -19,7 +19,7 @@ const UserProfile = () => {
             />
           </div>
         )}
-        <p className="text-lg font-semibold">{user?.fullName}</p>
+        <p className="text-xl">{user?.fullName}</p>
       </div>
     </>
   );

@@ -51,10 +51,16 @@ const EventsFeed = () => {
       <div className="mb-2">
         <h2 className="text-2xl font-semibold">Active Events</h2>
       </div>
-      <h3 className="text-lg text-slate-500">Hosting</h3>
-      {events?.map((event, idx) => (
-        <div key={idx}>{event}</div>
-      ))}
+      <div>
+        <h3 className="text-lg text-slate-500">Hosting</h3>
+        {events?.map((event, idx) => (
+          <div key={idx}>{event}</div>
+        ))}
+        <h3 className="mt-6 text-lg text-slate-500">Attending</h3>
+        {events?.map((event, idx) => (
+          <div key={idx}>{event}</div>
+        ))}
+      </div>
     </article>
   );
 };

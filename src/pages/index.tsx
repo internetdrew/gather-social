@@ -24,7 +24,7 @@ export default function Home() {
           Create private social networks for your special events.
         </h1>
         {user.isSignedIn ? (
-          <Link href={"/dashboard"}>
+          <Link href={"/home"}>
             <button className="prevent-select rounded-2xl bg-[#FFA7E4] px-10 py-2 text-xl font-semibold text-white transition-shadow hover:shadow-2xl">
               See my gatherings
             </button>

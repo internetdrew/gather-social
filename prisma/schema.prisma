@@ -14,6 +14,8 @@ model User {
     id     String  @unique
     avatar String
     events Event[]
+    role   Role
+    Post   Post[]
 }
 
 model Event {
@@ -21,6 +23,9 @@ model Event {
     createdAt DateTime @default(now())
     host      User     @relation(fields: [hostId], references: [id])
     hostId    String
+    startDate DateTime
+    endDate   DateTime
+    Post      Post[]
 
     @@index([hostId])
 }
@@ -30,9 +35,13 @@ model Post {
     createdAt DateTime @default(now())
     images    Image[]
     caption   String   @db.VarChar(255)
+    author    User     @relation(fields: [authorId], references: [id])
     authorId  String
+    event     Event    @relation(fields: [eventId], references: [id])
+    eventId   String
 
     @@index([authorId])
+    @@index([eventId])
 }
 
 model Image {
@@ -43,4 +52,9 @@ model Image {
     postId    String
 
     @@index([postId])
+}
+
+enum Role {
+    host
+    guest
 }

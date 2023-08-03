@@ -30,7 +30,7 @@ export default function Home() {
             </button>
           </Link>
         ) : (
-          <SignInButton mode="modal" redirectUrl="/dashboard">
+          <SignInButton mode="modal" redirectUrl="/home">
             <button className="prevent-select rounded-2xl bg-[#FFA7E4] px-10 py-2 text-xl font-semibold text-white transition-shadow hover:shadow-2xl">
               Get started
             </button>

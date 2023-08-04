@@ -17,7 +17,7 @@ const Home = () => {
       <main>
         <section className="mx-auto flex max-w-2xl flex-col items-center justify-center space-y-10 pt-20">
           <UserWelcome />
-          <EventsFeed events={events} />1
+          <EventsFeed events={events} />
         </section>
       </main>
     </>

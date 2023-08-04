@@ -11,23 +11,26 @@ datasource db {
 }
 
 model User {
-    id     String  @unique
-    avatar String
-    events Event[]
-    role   Role
-    Post   Post[]
+    id        String  @id @unique
+    avatar    String
+    firstName String
+    lastName  String
+    Event     Event?  @relation(fields: [eventId], references: [id])
+    eventId   String?
+
+    @@index([eventId])
 }
 
 model Event {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
-    host      User     @relation(fields: [hostId], references: [id])
-    hostId    String
     startDate DateTime
     endDate   DateTime
-    Post      Post[]
+    hostId    String
+    title     String
 
-    @@index([hostId])
+    posts  Post[]
+    guests User[]
 }
 
 model Post {
@@ -35,12 +38,10 @@ model Post {
     createdAt DateTime @default(now())
     images    Image[]
     caption   String   @db.VarChar(255)
-    author    User     @relation(fields: [authorId], references: [id])
     authorId  String
     event     Event    @relation(fields: [eventId], references: [id])
     eventId   String
 
-    @@index([authorId])
     @@index([eventId])
 }
 
@@ -52,9 +53,4 @@ model Image {
     postId    String
 
     @@index([postId])
-}
-
-enum Role {
-    host
-    guest
 }

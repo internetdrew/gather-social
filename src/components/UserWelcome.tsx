@@ -30,7 +30,7 @@ const UserWelcome = () => {
         </Link>
         <Link
           href={"/join"}
-          className="h-full w-full rounded-xl px-4 py-2 text-center font-semibold text-pink-500 ring-1 ring-pink-500 duration-300 hover:bg-blue-500 hover:text-white hover:shadow-xl hover:ring-blue-500"
+          className="h-full w-full rounded-xl px-4 py-2 text-center font-semibold text-pink-500 ring-1 ring-pink-500 duration-300 hover:shadow-2xl "
         >
           Join an event
         </Link>

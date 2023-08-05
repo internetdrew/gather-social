@@ -19,16 +19,16 @@ model Event {
     title     String
 
     posts       Post[]
-    guestEvents GuestEvent[]
+    eventGuests EventGuestRelation[]
 }
 
-model GuestEvent {
-    id              String @id @default(cuid())
-    event           Event  @relation(fields: [eventId], references: [id])
-    eventId         String
-    guestIdentifier String
+model EventGuestRelation {
+    id      String @id @default(cuid())
+    event   Event  @relation(fields: [eventId], references: [id])
+    eventId String
+    guestId String
 
-    @@unique([eventId, guestIdentifier])
+    @@unique([eventId, guestId])
 }
 
 model Post {

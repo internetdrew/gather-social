@@ -1,7 +1,10 @@
 import { api } from "~/utils/api";
 
 const EventsFeed = () => {
-  const { data } = api.events.getAll.useQuery();
+  const { data, isLoading, isError } = api.events.getAll.useQuery();
+
+  if (isError) return <div>Something went wrong...</div>;
+
   const hostEvents = data?.hostEvents ?? [];
   const guestEvents = data?.guestEvents ?? [];
 
@@ -11,14 +14,20 @@ const EventsFeed = () => {
         <h2 className="text-2xl font-semibold">Active Events</h2>
       </div>
       <div>
-        <h3 className="text-lg text-slate-500">Hosting</h3>
-        {hostEvents?.map((hostEvent) => (
-          <div key={hostEvent.id}>{hostEvent.title}</div>
-        ))}
-        <h3 className="mt-6 text-lg text-slate-500">Attending</h3>
-        {guestEvents?.map((guestEvent) => (
-          <div key={guestEvent.id}>{guestEvent.event.title}</div>
-        ))}
+        {isLoading ? (
+          <div className="mt-4 text-center text-xl">Loading...</div>
+        ) : (
+          <>
+            <h3 className="text-lg text-slate-500">Hosting</h3>
+            {hostEvents?.map((hostEvent) => (
+              <div key={hostEvent.id}>{hostEvent.title}</div>
+            ))}
+            <h3 className="mt-6 text-lg text-slate-500">Attending</h3>
+            {guestEvents?.map((guestEvent) => (
+              <div key={guestEvent.id}>{guestEvent.event.title}</div>
+            ))}
+          </>
+        )}
       </div>
     </article>
   );

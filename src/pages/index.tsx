@@ -26,7 +26,7 @@ export default function Home() {
         {user.isSignedIn ? (
           <Link href={"/home"}>
             <button className="prevent-select rounded-2xl bg-[#FFA7E4] px-10 py-2 text-xl font-semibold text-white transition-shadow hover:shadow-2xl">
-              See my gatherings
+              See my events
             </button>
           </Link>
         ) : (

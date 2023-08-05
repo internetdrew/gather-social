@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { api } from "~/utils/api";
 
 const EventsFeed = () => {
@@ -20,11 +21,41 @@ const EventsFeed = () => {
           <>
             <h3 className="text-lg text-slate-500">Hosting</h3>
             {hostEvents?.map((hostEvent) => (
-              <div key={hostEvent.id}>{hostEvent.title}</div>
+              <div
+                key={hostEvent.id}
+                className="relative my-2 rounded-lg p-2 ring-1"
+              >
+                <p className="text-lg font-semibold">{hostEvent.title}</p>
+                <p className="text-sm">
+                  Hosted by {hostEvent.hostInfo.firstName}{" "}
+                  {hostEvent.hostInfo.lastName}
+                </p>
+                <Link
+                  href={`/join/events/${hostEvent.id}`}
+                  className="absolute bottom-2 right-4 rounded-2xl bg-pink-500 px-4 py-2 text-sm font-medium text-white"
+                >
+                  Join
+                </Link>
+              </div>
             ))}
             <h3 className="mt-6 text-lg text-slate-500">Attending</h3>
-            {guestEvents?.map((guestEvent) => (
-              <div key={guestEvent.id}>{guestEvent.event.title}</div>
+            {[...guestEvents, ...guestEvents]?.map((guestEvent) => (
+              <div
+                key={guestEvent.id}
+                className="relative my-4 rounded-lg p-2 ring-1"
+              >
+                <p className="text-lg font-semibold">{guestEvent.title}</p>
+                <p className="text-sm">
+                  Hosted by {guestEvent.hostInfo.firstName}{" "}
+                  {guestEvent.hostInfo.lastName}
+                </p>
+                <Link
+                  href={`/join/events/${guestEvent.id}`}
+                  className="absolute bottom-2 right-4 rounded-2xl bg-pink-500 px-4 py-2 text-sm font-medium text-white"
+                >
+                  Join
+                </Link>
+              </div>
             ))}
           </>
         )}

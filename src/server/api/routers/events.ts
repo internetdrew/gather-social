@@ -69,7 +69,7 @@ export const eventsRouter = createTRPCRouter({
     const guestEventsWithoutHostIds = guestEventsWithHostInfo.map(
       ({ event: { hostId: _hostId, ...everythingElse }, ...rest }) => ({
         ...rest,
-        event: everythingElse,
+        title: everythingElse.title,
       })
     );
 

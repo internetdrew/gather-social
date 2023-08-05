@@ -1,23 +1,21 @@
-import { clerkClient } from "@clerk/nextjs";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const eventsRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    console.log(ctx);
-    // const users = await clerkClient;
+    const { currentUser } = ctx;
 
     const hostEvents = await ctx.prisma.event.findMany({
       take: 10,
       where: {
-        hostId: "",
+        hostId: currentUser.userId!,
       },
     });
 
     const guestEvents = await ctx.prisma.guestEvent.findMany({
       take: 10,
       where: {
-        guestIdentifier: "",
+        guestIdentifier: currentUser.userId!,
       },
       include: {
         event: {

@@ -1,4 +1,4 @@
-import { EventsFeed, UserWelcome } from "~/components";
+import { UserEventsList, UserWelcome } from "~/components";
 import Head from "next/head";
 
 // const events = ["Bob and Lisa's wedding", "Another event", "Some other event"];
@@ -17,7 +17,7 @@ const Home = () => {
       <main>
         <section className="mx-auto flex max-w-2xl flex-col items-center justify-center space-y-10 pt-20">
           <UserWelcome />
-          <EventsFeed />
+          <UserEventsList />
         </section>
       </main>
     </>

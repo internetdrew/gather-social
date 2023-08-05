@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { api } from "~/utils/api";
 
-const EventsFeed = () => {
+const EventsList = () => {
   const { data, isLoading, isError } = api.events.getAll.useQuery();
 
   if (isError) return <div>Something went wrong...</div>;
@@ -64,4 +64,4 @@ const EventsFeed = () => {
   );
 };
 
-export default EventsFeed;
+export default EventsList;

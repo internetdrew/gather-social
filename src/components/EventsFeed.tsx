@@ -32,7 +32,7 @@ const EventsFeed = () => {
                 </p>
                 <Link
                   href={`/join/events/${hostEvent.id}`}
-                  className="absolute bottom-2 right-4 rounded-2xl bg-pink-500 px-4 py-2 text-sm font-medium text-white"
+                  className="absolute bottom-2 right-4 rounded-2xl bg-pink-500 px-4 py-1 text-sm font-medium text-white"
                 >
                   Join
                 </Link>
@@ -51,7 +51,7 @@ const EventsFeed = () => {
                 </p>
                 <Link
                   href={`/join/events/${guestEvent.id}`}
-                  className="absolute bottom-2 right-4 rounded-2xl bg-pink-500 px-4 py-2 text-sm font-medium text-white"
+                  className="absolute bottom-2 right-4 rounded-2xl bg-pink-500 px-4 py-1 text-sm font-medium text-white"
                 >
                   Join
                 </Link>

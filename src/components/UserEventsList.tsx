@@ -4,8 +4,6 @@ import { api } from "~/utils/api";
 const EventsList = () => {
   const { data, isLoading, isError } = api.events.getAll.useQuery();
 
-  if (isError) return <div>Something went wrong...</div>;
-
   const hostEvents = data?.hostEvents ?? [];
   const guestEvents = data?.guestEvents ?? [];
 
@@ -17,6 +15,10 @@ const EventsList = () => {
       <div>
         {isLoading ? (
           <div className="mt-4 text-center text-xl">Loading...</div>
+        ) : isError ? (
+          <div className="mt-4 text-center text-xl">
+            Something has gone wrong...
+          </div>
         ) : (
           <>
             <h3 className="text-lg text-slate-500">Hosting</h3>
@@ -32,7 +34,7 @@ const EventsList = () => {
                 </p>
                 <Link
                   href={`/join/events/${hostEvent.id}`}
-                  className="absolute bottom-2 right-4 rounded-2xl bg-pink-500 px-4 py-1 text-sm font-medium text-white"
+                  className="absolute bottom-2 right-4 rounded-2xl bg-pink-500 px-6 py-1 text-sm font-medium text-white duration-300 hover:scale-105 hover:shadow-xl"
                 >
                   Join
                 </Link>
@@ -51,7 +53,7 @@ const EventsList = () => {
                 </p>
                 <Link
                   href={`/join/events/${guestEvent.id}`}
-                  className="absolute bottom-2 right-4 rounded-2xl bg-pink-500 px-4 py-1 text-sm font-medium text-white"
+                  className="absolute bottom-2 right-4 rounded-2xl bg-pink-500 px-6 py-1 text-sm font-medium text-white duration-300 hover:scale-105 hover:shadow-xl"
                 >
                   Join
                 </Link>

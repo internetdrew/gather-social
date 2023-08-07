@@ -32,13 +32,15 @@ model EventGuestRelation {
 }
 
 model Post {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
     images    Image[]
-    caption   String   @db.VarChar(255)
+    caption   String    @db.VarChar(255)
     authorId  String
-    event     Event    @relation(fields: [eventId], references: [id])
+    event     Event     @relation(fields: [eventId], references: [id])
     eventId   String
+    comments  Comment[]
+    likes     Like[]
 
     @@index([eventId])
 }
@@ -49,6 +51,26 @@ model Image {
     href      String
     post      Post     @relation(fields: [postId], references: [id])
     postId    String
+
+    @@index([postId])
+}
+
+model Comment {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    post      Post     @relation(fields: [postId], references: [id])
+    postId    String
+    content   String   @db.VarChar(255)
+
+    @@index([postId])
+}
+
+model Like {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    post      Post     @relation(fields: [postId], references: [id])
+    postId    String
+    userId    String
 
     @@index([postId])
 }

@@ -20,6 +20,7 @@ model Event {
 
     posts       Post[]
     eventGuests EventGuestRelation[]
+    gallery     Image[]
 }
 
 model EventGuestRelation {
@@ -51,8 +52,11 @@ model Image {
     href      String
     post      Post     @relation(fields: [postId], references: [id])
     postId    String
+    Event     Event?   @relation(fields: [eventId], references: [id])
+    eventId   String?
 
     @@index([postId])
+    @@index([eventId])
 }
 
 model Comment {

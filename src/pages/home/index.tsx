@@ -1,8 +1,6 @@
 import { UserEventsList, UserWelcome } from "~/components";
 import Head from "next/head";
 
-// const events = ["Bob and Lisa's wedding", "Another event", "Some other event"];
-
 const Home = () => {
   return (
     <>

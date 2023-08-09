@@ -23,10 +23,10 @@ const UserWelcome = () => {
       </div>
       <div className="flex w-[90%] flex-col items-center justify-between gap-4 sm:flex-row ">
         <Link
-          href={"/new"}
+          href={"/create"}
           className="h-full w-full rounded-xl bg-pink-500 px-4 py-2 text-center font-semibold text-white duration-300 hover:shadow-2xl"
         >
-          Host an event
+          Create an event
         </Link>
         <Link
           href={"/join"}

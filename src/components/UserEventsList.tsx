@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useSetRecoilState } from "recoil";
 import { eventCountState } from "~/atoms/eventAtom";
 import { EventCard } from "~/components";

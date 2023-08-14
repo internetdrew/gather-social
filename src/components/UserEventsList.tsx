@@ -1,11 +1,17 @@
 import Link from "next/link";
+import { useSetRecoilState } from "recoil";
+import { eventCountState } from "~/atoms/eventAtom";
 import { api } from "~/utils/api";
 
 const EventsList = () => {
+  const setEventCount = useSetRecoilState(eventCountState);
   const { data, isLoading, isError } = api.events.getAll.useQuery();
+  console.log(data);
 
   const hostEvents = data?.hostEvents ?? [];
   const guestEvents = data?.guestEvents ?? [];
+  setEventCount(hostEvents.length + guestEvents.length);
+  console.log(hostEvents.length + guestEvents.length);
 
   return (
     <article className="flex w-[90%] flex-col space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">

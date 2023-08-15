@@ -33,43 +33,39 @@ export const eventsRouter = createTRPCRouter({
     const hostEventsWithHostInfo = hostEvents.map((hostEvent) => {
       const host = users.find((user) => user.id === hostEvent.hostId);
 
-      return {
-        ...hostEvent,
-        hostInfo: {
-          firstName: host?.firstName,
-          lastName: host?.lastName,
-          avatar: host?.profileImageUrl,
-        },
-      };
+      if (host && hostEvent)
+        return {
+          id: hostEvent.id,
+          createdAt: hostEvent.createdAt,
+          startDate: hostEvent.startDate,
+          endDate: hostEvent.endDate,
+          title: hostEvent.title,
+          hostInfo: {
+            firstName: host.firstName,
+            lastName: host.lastName,
+            avatar: host.profileImageUrl,
+          },
+        };
     });
 
     const guestEventsWithHostInfo = guestEvents.map((guestEvent) => {
       const host = users.find((user) => user.id === guestEvent.event.hostId);
 
-      return {
-        ...guestEvent,
-        hostInfo: {
-          firstName: host?.firstName,
-          lastName: host?.lastName,
-          avatar: host?.profileImageUrl,
-        },
-      };
+      if (host && guestEvent)
+        return {
+          id: guestEvent.id,
+          title: guestEvent.event.title,
+          hostInfo: {
+            firstName: host.firstName,
+            lastName: host.lastName,
+            avatar: host.profileImageUrl,
+          },
+        };
     });
 
-    const hostEventsWithoutHostIds = hostEventsWithHostInfo.map(
-      ({ hostId: _hostId, ...rest }) => rest
-    );
-
-    const guestEventsWithoutHostIds = guestEventsWithHostInfo.map(
-      ({ event: { hostId: _hostId, ...everythingElse }, ...rest }) => ({
-        ...rest,
-        title: everythingElse.title,
-      })
-    );
-
     return {
-      hostEvents: hostEventsWithoutHostIds,
-      guestEvents: guestEventsWithoutHostIds,
+      hostEvents: hostEventsWithHostInfo,
+      guestEvents: guestEventsWithHostInfo,
     };
   }),
 });

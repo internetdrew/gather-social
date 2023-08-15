@@ -26,13 +26,15 @@ const EventsList = () => {
         ) : (
           <>
             <h3 className="text-lg text-slate-500">Hosting</h3>
-            {hostEvents?.map((hostEvent) => (
-              <EventCard key={hostEvent?.id} event={hostEvent} />
-            ))}
+            {hostEvents?.map((hostEvent) => {
+              if (hostEvent)
+                return <EventCard key={hostEvent.id} event={hostEvent} />;
+            })}
             <h3 className="mt-6 text-lg text-slate-500">Attending</h3>
-            {[...guestEvents, ...guestEvents]?.map((guestEvent) => (
-              <EventCard key={guestEvent?.id} event={guestEvent} />
-            ))}
+            {[...guestEvents, ...guestEvents]?.map((guestEvent) => {
+              if (guestEvent)
+                return <EventCard key={guestEvent?.id} event={guestEvent} />;
+            })}
           </>
         )}
       </div>

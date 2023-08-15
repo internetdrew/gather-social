@@ -21,7 +21,7 @@ const EventsList = () => {
           <div className="mt-4 text-center text-xl">Loading...</div>
         ) : isError ? (
           <div className="mt-4 text-center text-xl">
-            Something went wrong...
+            Something went wrong....
           </div>
         ) : (
           <>

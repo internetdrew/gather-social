@@ -6,19 +6,17 @@ export const eventsRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     const { currentUser } = ctx;
 
-    async function getHostInfoFromClerk(hostId: string) {
-      return await clerkClient.users.getUser(hostId);
-    }
+    const users = await clerkClient.users.getUserList();
 
     const hostEvents = await ctx.prisma.event.findMany({
-      take: 10,
+      take: 100,
       where: {
         hostId: currentUser.userId!,
       },
     });
 
     const guestEvents = await ctx.prisma.eventGuestRelation.findMany({
-      take: 10,
+      take: 100,
       where: {
         guestId: currentUser.userId!,
       },
@@ -32,35 +30,31 @@ export const eventsRouter = createTRPCRouter({
       },
     });
 
-    const hostEventsWithHostInfo = await Promise.all(
-      hostEvents.map(async (hostEvent) => {
-        const hostInfo = await getHostInfoFromClerk(hostEvent.hostId);
+    const hostEventsWithHostInfo = hostEvents.map((hostEvent) => {
+      const host = users.find((user) => user.id === hostEvent.hostId);
 
-        return {
-          ...hostEvent,
-          hostInfo: {
-            firstName: hostInfo.firstName,
-            lastName: hostInfo.lastName,
-            avatar: hostInfo.profileImageUrl,
-          },
-        };
-      })
-    );
+      return {
+        ...hostEvent,
+        hostInfo: {
+          firstName: host?.firstName,
+          lastName: host?.lastName,
+          avatar: host?.profileImageUrl,
+        },
+      };
+    });
 
-    const guestEventsWithHostInfo = await Promise.all(
-      guestEvents.map(async (guestEvent) => {
-        const hostInfo = await getHostInfoFromClerk(guestEvent.event.hostId);
+    const guestEventsWithHostInfo = guestEvents.map((guestEvent) => {
+      const host = users.find((user) => user.id === guestEvent.event.hostId);
 
-        return {
-          ...guestEvent,
-          hostInfo: {
-            firstName: hostInfo.firstName,
-            lastName: hostInfo.lastName,
-            avatar: hostInfo.profileImageUrl,
-          },
-        };
-      })
-    );
+      return {
+        ...guestEvent,
+        hostInfo: {
+          firstName: host?.firstName,
+          lastName: host?.lastName,
+          avatar: host?.profileImageUrl,
+        },
+      };
+    });
 
     const hostEventsWithoutHostIds = hostEventsWithHostInfo.map(
       ({ hostId: _hostId, ...rest }) => rest

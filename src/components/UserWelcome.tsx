@@ -22,20 +22,22 @@ const UserWelcome = () => {
                 alt="user image"
               />
             </div>
-            <p className="text-xl font-semibold">Hi, {user?.firstName}!</p>
+            <p className="mt-2 text-xl font-semibold">Hi, {user?.firstName}!</p>
           </>
         )}
-        {eventCount ? (
-          <p className="text-slate-500">{`You have ${eventCount} active events right now.`}</p>
-        ) : null}
+        <p className="text-slate-500">
+          {eventCount
+            ? `You have ${eventCount} active events right now.`
+            : "You don't have any active events right now."}
+        </p>
       </div>
       <div className="flex w-[90%] flex-col items-center justify-between gap-4 sm:flex-row ">
-        <button className="h-full w-full rounded-xl bg-pink-500 px-4 py-2 text-center font-semibold text-white duration-300 hover:shadow-2xl">
+        <button className="h-full w-full rounded-xl bg-pink-500 px-4 py-2 text-center font-semibold text-white duration-300 hover:scale-105 hover:shadow-2xl">
           Create an event
         </button>
         <Link
           href={"/join"}
-          className="h-full w-full rounded-xl px-4 py-2 text-center font-semibold text-pink-500 ring-1 ring-pink-500 duration-300 hover:shadow-2xl "
+          className="h-full w-full rounded-xl px-4 py-2 text-center font-semibold text-pink-500 ring-1 ring-pink-500 duration-300 hover:scale-105 hover:shadow-2xl "
         >
           Join an event
         </Link>

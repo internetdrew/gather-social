@@ -1,10 +1,7 @@
 import { UserEventsList, UserWelcome } from "~/components";
 import Head from "next/head";
-import { api } from "~/utils/api";
 
 const Home = () => {
-  // const { data, isError, isLoading } = api.checkout.createSession.useQuery();
-
   return (
     <>
       <Head>

@@ -26,12 +26,12 @@ const EventsList = () => {
           </div>
         ) : (
           <>
-            <h3 className="text-lg text-slate-500">Hosting</h3>
+            <h3 className="mb-2 text-lg text-slate-500">Hosting</h3>
             {hostEvents?.map((hostEvent) => {
               if (hostEvent)
                 return <EventCard key={hostEvent.id} event={hostEvent} />;
             })}
-            <h3 className="text-lg text-slate-500">Attending</h3>
+            <h3 className="mb-2 text-lg text-slate-500">Attending</h3>
             {guestEvents.map((guestEvent) => {
               if (guestEvent)
                 return <EventCard key={guestEvent?.id} event={guestEvent} />;

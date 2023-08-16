@@ -18,7 +18,7 @@ const EventCard: React.FC<EventCardProps> = ({ key, event }) => {
   return (
     <div
       key={key}
-      className="relative mb-4 mt-2 rounded-lg p-3 ring-1 ring-pink-500"
+      className="relative mb-4 rounded-lg p-3 ring-1 ring-pink-500"
     >
       <p className="text-lg font-semibold">{event?.title}</p>
       <p className="text-sm">

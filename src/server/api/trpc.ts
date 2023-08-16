@@ -40,7 +40,6 @@ import { getAuth } from "@clerk/nextjs/server";
  */
 export const createTRPCContext = (opts: CreateNextContextOptions) => {
   const { req, res } = opts;
-
   const user = getAuth(req);
 
   return {

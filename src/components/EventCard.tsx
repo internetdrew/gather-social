@@ -10,7 +10,7 @@ interface Event {
 }
 
 interface EventCardProps {
-  key: number | string;
+  key: string | number;
   event: Event | null;
 }
 

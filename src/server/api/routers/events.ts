@@ -1,6 +1,7 @@
 // import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs";
+import { TRPCError } from "@trpc/server";
 
 export const eventsRouter = createTRPCRouter({
   getCurrentUserEvents: publicProcedure.query(async ({ ctx }) => {
@@ -51,6 +52,12 @@ export const eventsRouter = createTRPCRouter({
     const guestCheckinsWithHostInfo = guestCheckins.map((guestCheckin) => {
       const host = users.find((user) => user.id === guestCheckin.event.hostId);
 
+      if (!host)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "No host found on guest checkin.",
+        });
+
       if (host && guestCheckin)
         return {
           id: guestCheckin.id,
@@ -67,5 +74,33 @@ export const eventsRouter = createTRPCRouter({
       hostEvents: hostEventsWithHostInfo,
       guestCheckins: guestCheckinsWithHostInfo,
     };
+  }),
+  getCurrentUserEventCount: publicProcedure.query(async ({ ctx }) => {
+    const { currentUser } = ctx;
+
+    const hostEvents = await ctx.prisma.event.findMany({
+      take: 100,
+      where: {
+        hostId: currentUser.userId!,
+      },
+    });
+
+    const guestCheckins = await ctx.prisma.eventGuestCheckin.findMany({
+      take: 100,
+      where: {
+        guestId: currentUser.userId!,
+      },
+      include: {
+        event: {
+          select: {
+            title: true,
+            hostId: true,
+          },
+        },
+      },
+    });
+
+    const count = hostEvents.length + guestCheckins.length;
+    return { activeEvents: count };
   }),
 });

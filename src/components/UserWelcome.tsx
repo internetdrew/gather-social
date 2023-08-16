@@ -25,7 +25,7 @@ const UserWelcome = () => {
             <p className="mt-2 text-xl font-semibold">Hi, {user?.firstName}!</p>
           </>
         )}
-        <p className="text-slate-500">
+        <p className="text-center text-slate-500">
           {eventCount
             ? `You have ${eventCount} active events right now.`
             : "You don't have any active events right now."}

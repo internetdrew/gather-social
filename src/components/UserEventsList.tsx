@@ -5,7 +5,8 @@ import { api } from "~/utils/api";
 
 const EventsList = () => {
   const setEventCount = useSetRecoilState(eventCountState);
-  const { data, isLoading, isError } = api.events.getAll.useQuery();
+  const { data, isLoading, isError } =
+    api.events.getCurrentUserEvents.useQuery();
 
   const hostEvents = data?.hostEvents ?? [];
   const guestEvents = data?.guestEvents ?? [];
@@ -30,8 +31,8 @@ const EventsList = () => {
               if (hostEvent)
                 return <EventCard key={hostEvent.id} event={hostEvent} />;
             })}
-            <h3 className="mt-6 text-lg text-slate-500">Attending</h3>
-            {[...guestEvents, ...guestEvents]?.map((guestEvent) => {
+            <h3 className="text-lg text-slate-500">Attending</h3>
+            {guestEvents.map((guestEvent) => {
               if (guestEvent)
                 return <EventCard key={guestEvent?.id} event={guestEvent} />;
             })}

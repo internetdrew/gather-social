@@ -9,8 +9,8 @@ const EventsList = () => {
     api.events.getCurrentUserEvents.useQuery();
 
   const hostEvents = data?.hostEvents ?? [];
-  const guestEvents = data?.guestEvents ?? [];
-  setEventCount(hostEvents?.length + guestEvents?.length);
+  const guestCheckins = data?.guestCheckins ?? [];
+  setEventCount(hostEvents?.length + guestCheckins?.length);
 
   return (
     <article className="flex w-[90%] flex-col space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">
@@ -26,15 +26,21 @@ const EventsList = () => {
           </div>
         ) : (
           <>
-            <h3 className="mb-2 text-lg text-slate-500">Hosting</h3>
+            {hostEvents.length ? (
+              <h3 className="mb-2 text-lg text-slate-500">Hosting</h3>
+            ) : null}
             {hostEvents?.map((hostEvent) => {
               if (hostEvent)
-                return <EventCard key={hostEvent.id} event={hostEvent} />;
+                return <EventCard key={hostEvent?.id} event={hostEvent} />;
             })}
-            <h3 className="mb-2 text-lg text-slate-500">Attending</h3>
-            {guestEvents.map((guestEvent) => {
-              if (guestEvent)
-                return <EventCard key={guestEvent?.id} event={guestEvent} />;
+            {guestCheckins.length ? (
+              <h3 className="mb-2 text-lg text-slate-500">Attending</h3>
+            ) : null}
+            {guestCheckins.map((guestCheckin) => {
+              if (guestCheckin)
+                return (
+                  <EventCard key={guestCheckin?.id} event={guestCheckin} />
+                );
             })}
           </>
         )}

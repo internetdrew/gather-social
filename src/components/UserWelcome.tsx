@@ -1,13 +1,12 @@
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
-import { type SetterOrUpdater, useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { eventCountState } from "~/atoms/eventAtom";
 
 const UserWelcome = () => {
   const { user } = useUser();
-  const [eventCount]: [number, SetterOrUpdater<number>] =
-    useRecoilState(eventCountState);
+  const eventCount: number = useRecoilValue(eventCountState);
 
   return (
     <article className="flex w-[90%] flex-col items-center justify-between space-y-10 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">

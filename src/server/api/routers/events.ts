@@ -15,7 +15,7 @@ export const eventsRouter = createTRPCRouter({
       },
     });
 
-    const guestEvents = await ctx.prisma.eventGuestRelation.findMany({
+    const guestCheckins = await ctx.prisma.eventGuestCheckin.findMany({
       take: 100,
       where: {
         guestId: currentUser.userId!,
@@ -48,13 +48,13 @@ export const eventsRouter = createTRPCRouter({
         };
     });
 
-    const guestEventsWithHostInfo = guestEvents.map((guestEvent) => {
-      const host = users.find((user) => user.id === guestEvent.event.hostId);
+    const guestCheckinsWithHostInfo = guestCheckins.map((guestCheckin) => {
+      const host = users.find((user) => user.id === guestCheckin.event.hostId);
 
-      if (host && guestEvent)
+      if (host && guestCheckin)
         return {
-          id: guestEvent.id,
-          title: guestEvent.event.title,
+          id: guestCheckin.id,
+          title: guestCheckin.event.title,
           hostInfo: {
             firstName: host.firstName,
             lastName: host.lastName,
@@ -65,7 +65,7 @@ export const eventsRouter = createTRPCRouter({
 
     return {
       hostEvents: hostEventsWithHostInfo,
-      guestEvents: guestEventsWithHostInfo,
+      guestCheckins: guestCheckinsWithHostInfo,
     };
   }),
 });

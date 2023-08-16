@@ -19,11 +19,11 @@ model Event {
     title     String
 
     posts       Post[]
-    eventGuests EventGuestRelation[]
+    eventGuests EventGuestCheckin[]
     gallery     Image[]
 }
 
-model EventGuestRelation {
+model EventGuestCheckin {
     id      String @id @default(cuid())
     event   Event  @relation(fields: [eventId], references: [id])
     eventId String

@@ -29,7 +29,7 @@ const EventsList = () => {
             {hostEvents.length ? (
               <h3 className="mb-2 text-lg text-slate-500">Hosting</h3>
             ) : null}
-            {hostEvents?.map((hostEvent) => {
+            {hostEvents.map((hostEvent) => {
               if (hostEvent)
                 return <EventCard key={hostEvent?.id} event={hostEvent} />;
             })}

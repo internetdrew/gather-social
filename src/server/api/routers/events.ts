@@ -3,7 +3,7 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs";
 
 export const eventsRouter = createTRPCRouter({
-  getAll: publicProcedure.query(async ({ ctx }) => {
+  getCurrentUserEvents: publicProcedure.query(async ({ ctx }) => {
     const { currentUser } = ctx;
 
     const users = await clerkClient.users.getUserList();

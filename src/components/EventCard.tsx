@@ -10,16 +10,12 @@ interface Event {
 }
 
 interface EventCardProps {
-  key: string | number;
   event: Event | null;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ key, event }) => {
+const EventCard: React.FC<EventCardProps> = ({ event }) => {
   return (
-    <div
-      key={key}
-      className="relative mb-4 rounded-lg p-3 ring-1 ring-pink-500"
-    >
+    <div className="relative mb-4 rounded-lg p-3 ring-1 ring-pink-500">
       <p className="text-lg font-semibold">{event?.title}</p>
       <p className="text-sm">
         Hosted by {event?.hostInfo?.firstName} {event?.hostInfo?.lastName}

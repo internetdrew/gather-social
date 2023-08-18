@@ -6,7 +6,7 @@
  * TL;DR - This is where all the tRPC server stuff is created and plugged in. The pieces you will
  * need to use are documented accordingly near the end.
  */
-import { initTRPC } from "@trpc/server";
+import { TRPCError, initTRPC } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import { ZodError } from "zod";
@@ -40,11 +40,11 @@ import { getAuth } from "@clerk/nextjs/server";
  */
 export const createTRPCContext = (opts: CreateNextContextOptions) => {
   const { req, res } = opts;
-  const user = getAuth(req);
+  const auth = getAuth(req);
 
   return {
     prisma,
-    currentUser: user,
+    auth,
     req,
     res,
   };
@@ -94,3 +94,19 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
+
+const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
+  if (!ctx.auth) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+    });
+  }
+
+  return next({
+    ctx: {
+      auth: ctx.auth,
+    },
+  });
+});
+
+export const privateProcedure = t.procedure.use(enforceUserIsAuthed);

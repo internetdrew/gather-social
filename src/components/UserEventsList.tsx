@@ -34,9 +34,7 @@ const EventsList = () => {
             ) : null}
             {guestCheckins.map((guestCheckin) => {
               if (guestCheckin)
-                return (
-                  <EventCard key={guestCheckin?.id} event={guestCheckin} />
-                );
+                return <EventCard key={guestCheckin.id} event={guestCheckin} />;
             })}
           </>
         )}

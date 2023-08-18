@@ -11,10 +11,10 @@ datasource db {
 }
 
 model Event {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    startDate DateTime
-    endDate   DateTime
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    startDate DateTime?
+    endDate   DateTime?
     hostId    String
     title     String
 

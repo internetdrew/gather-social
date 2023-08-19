@@ -1,24 +1,24 @@
-// import { z } from "zod";
+import { z } from "zod";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs";
 import { TRPCError } from "@trpc/server";
 
 export const eventsRouter = createTRPCRouter({
   getCurrentUserEvents: privateProcedure.query(async ({ ctx }) => {
-    const { auth } = ctx;
+    const { userId } = ctx;
     const users = await clerkClient.users.getUserList();
 
     const hostEvents = await ctx.prisma.event.findMany({
       take: 100,
       where: {
-        hostId: auth.userId!,
+        hostId: userId!,
       },
     });
 
     const guestCheckins = await ctx.prisma.eventGuestCheckin.findMany({
       take: 100,
       where: {
-        guestId: auth.userId!,
+        guestId: userId!,
       },
       include: {
         event: {
@@ -75,19 +75,19 @@ export const eventsRouter = createTRPCRouter({
     };
   }),
   getCurrentUserEventCount: privateProcedure.query(async ({ ctx }) => {
-    const { auth } = ctx;
+    const { userId } = ctx;
 
     const hostEvents = await ctx.prisma.event.findMany({
       take: 100,
       where: {
-        hostId: auth.userId!,
+        hostId: userId!,
       },
     });
 
     const guestCheckins = await ctx.prisma.eventGuestCheckin.findMany({
       take: 100,
       where: {
-        guestId: auth.userId!,
+        guestId: userId!,
       },
       include: {
         event: {
@@ -102,4 +102,21 @@ export const eventsRouter = createTRPCRouter({
     const count = hostEvents.length + guestCheckins.length;
     return { activeEvents: count };
   }),
+  create: privateProcedure
+    .input(
+      z.object({
+        title: z.string().min(1).max(255),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const hostId = ctx.userId!;
+
+      const event = await ctx.prisma.event.create({
+        data: {
+          hostId,
+          title: input.title,
+        },
+      });
+      return event;
+    }),
 });

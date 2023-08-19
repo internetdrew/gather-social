@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { api } from "~/utils/api";
 
 const Create = () => {
-  const [eventName, setEventName] = useState("");
+  const [eventTitle, setEventTitle] = useState("");
+
+  const { mutate: createEvent } = api.events.create.useMutation();
 
   return (
     <div className="flex h-screen items-center justify-center">
@@ -13,19 +16,20 @@ const Create = () => {
               type="text"
               name="event-name"
               id="event-name"
-              value={eventName}
-              onChange={(e) => setEventName(e.target.value)}
+              value={eventTitle}
+              onChange={(e) => setEventTitle(e.target.value)}
               placeholder="Ex. Bob and Lisa's Wedding"
               className="rounded-xl p-3 outline-pink-500"
             />
           </div>
-          {eventName !== "" && (
+          {eventTitle !== "" && (
             <button
               type="submit"
               className="mt-4 rounded-xl bg-pink-500 px-4 py-2 text-white"
+              onClick={() => createEvent({ title: eventTitle })}
             >
               Create a private social network for{" "}
-              <span className="font-semibold">{eventName}</span>
+              <span className="font-semibold">{eventTitle}</span>
             </button>
           )}
         </form>

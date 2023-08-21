@@ -2,6 +2,21 @@ import { z } from "zod";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs";
 import { TRPCError } from "@trpc/server";
+import { spawn } from "child_process";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+
+const bucketName = process.env.S3_BUCKET_NAME;
+const bucketRegion = process.env.S3_BUCKET_REGION;
+const accessKey = process.env.S3_ACCESS_KEY;
+const secretKey = process.env.S3_SECRET_KEY;
+
+const s3 = new S3Client({
+  region: bucketRegion,
+  credentials: {
+    accessKeyId: accessKey!,
+    secretAccessKey: secretKey!,
+  },
+});
 
 export const eventsRouter = createTRPCRouter({
   getCurrentUserEvents: privateProcedure.query(async ({ ctx }) => {
@@ -117,6 +132,7 @@ export const eventsRouter = createTRPCRouter({
           title: input.title,
         },
       });
+
       return event;
     }),
 });

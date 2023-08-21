@@ -4,8 +4,6 @@
 
 [x] User (host/guest) should be able to sign in with OAuth (Facebook, Google, LinkedIn(?)).
 
-[ ] User should be able to choose role (host vs guest).
-
 [ ] Initial user (host) should be able to invite others to be hosts.
 
 [ ] User (host) should be able to purchase 30 days of access to a private social network.

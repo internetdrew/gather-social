@@ -17,6 +17,7 @@ model Event {
     endDate   DateTime?
     hostId    String
     title     String
+    qrCode    String?
 
     posts       Post[]
     eventGuests EventGuestCheckin[]

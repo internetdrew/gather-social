@@ -4,6 +4,7 @@ import { clerkClient } from "@clerk/nextjs";
 import { TRPCError } from "@trpc/server";
 import { spawn } from "child_process";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { join } from "path";
 
 const bucketName = process.env.S3_BUCKET_NAME;
 const bucketRegion = process.env.S3_BUCKET_REGION;
@@ -131,6 +132,35 @@ export const eventsRouter = createTRPCRouter({
           hostId,
           title: input.title,
         },
+      });
+
+      // Generate QR code
+      const pythonScriptPath = join(
+        process.cwd(),
+        "/src/server/generate_qr.py"
+      );
+
+      const pythonProcess = spawn("python3", [pythonScriptPath, event.id]);
+
+      let qrCodeImageData = "";
+      pythonProcess.stdout.on("data", (data: Buffer) => {
+        qrCodeImageData += data.toString();
+      });
+
+      pythonProcess.on("error", (error) => {
+        console.log(error);
+      });
+
+      pythonProcess.on("close", (code) => {
+        if (code === 0) {
+          // qrCodeImageData now contains the base64-encoded image data
+          console.log("Received QR code image data:", qrCodeImageData);
+
+          // ... (rest of the code)
+        } else {
+          // Handle QR code generation failure
+          throw new Error("QR code generation failed");
+        }
       });
 
       return event;

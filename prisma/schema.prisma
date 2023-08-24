@@ -50,11 +50,11 @@ model Post {
 model Image {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
-    href      String
+    url       String
     post      Post     @relation(fields: [postId], references: [id])
     postId    String
-    Event     Event?   @relation(fields: [eventId], references: [id])
-    eventId   String?
+    Event     Event    @relation(fields: [eventId], references: [id])
+    eventId   String
 
     @@index([postId])
     @@index([eventId])

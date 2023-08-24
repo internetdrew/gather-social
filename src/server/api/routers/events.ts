@@ -2,22 +2,9 @@ import { z } from "zod";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs";
 import { TRPCError } from "@trpc/server";
-import { spawn } from "child_process";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { join } from "path";
-
-const bucketName = process.env.S3_BUCKET_NAME;
-const bucketRegion = process.env.S3_BUCKET_REGION;
-const accessKey = process.env.S3_ACCESS_KEY;
-const secretKey = process.env.S3_SECRET_KEY;
-
-const s3 = new S3Client({
-  region: bucketRegion,
-  credentials: {
-    accessKeyId: accessKey!,
-    secretAccessKey: secretKey!,
-  },
-});
+import { generateQRCodePromise } from "~/utils/qrCodeUtils";
+import { Buffer } from "buffer";
 
 export const eventsRouter = createTRPCRouter({
   getCurrentUserEvents: privateProcedure.query(async ({ ctx }) => {
@@ -134,35 +121,48 @@ export const eventsRouter = createTRPCRouter({
         },
       });
 
-      // Generate QR code
-      const pythonScriptPath = join(
-        process.cwd(),
-        "/src/server/generate_qr.py"
-      );
+      const qrCodeImageData: string = await generateQRCodePromise(event);
+      const binaryImageData: Buffer = Buffer.from(qrCodeImageData, "base64");
 
-      const pythonProcess = spawn("python3", [pythonScriptPath, event.id]);
+      const bucketName = process.env.S3_BUCKET_NAME;
+      const bucketRegion = process.env.S3_BUCKET_REGION;
+      const accessKey = process.env.S3_ACCESS_KEY;
+      const secretKey = process.env.S3_SECRET_KEY;
 
-      let qrCodeImageData = "";
-      pythonProcess.stdout.on("data", (data: Buffer) => {
-        qrCodeImageData += data.toString();
+      const s3 = new S3Client({
+        region: bucketRegion,
+        credentials: {
+          accessKeyId: accessKey!,
+          secretAccessKey: secretKey!,
+        },
       });
 
-      pythonProcess.on("error", (error) => {
-        console.log(error);
-      });
+      const qrImageKey = `qr_codes/event_${event.id}.png`;
 
-      pythonProcess.on("close", (code) => {
-        if (code === 0) {
-          // qrCodeImageData now contains the base64-encoded image data
-          console.log("Received QR code image data:", qrCodeImageData);
+      const params = {
+        Bucket: bucketName,
+        Key: qrImageKey,
+        Body: binaryImageData,
+        ContentType: "image/png",
+      };
 
-          // ... (rest of the code)
-        } else {
-          // Handle QR code generation failure
-          throw new Error("QR code generation failed");
-        }
-      });
+      try {
+        const command = new PutObjectCommand(params);
+        await s3.send(command);
 
-      return event;
+        const s3ImageUrl = `https://${bucketName}.s3.amazonaws.com/qr_codes/${qrImageKey}`;
+
+        const updatedEvent = await ctx.prisma.event.update({
+          where: { id: event.id },
+          data: {
+            qrCodeImageUrl: s3ImageUrl,
+          },
+        });
+
+        return updatedEvent;
+      } catch (error) {
+        console.error("Problem sending QR code to s3: ", error);
+        throw error;
+      }
     }),
 });

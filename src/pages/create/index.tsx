@@ -1,10 +1,18 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 
 const Create = () => {
+  const router = useRouter();
   const [eventTitle, setEventTitle] = useState("");
 
   const { mutate: createEvent } = api.events.create.useMutation();
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    createEvent({ title: eventTitle });
+    void router.push("/home");
+  };
 
   return (
     <div className="flex h-screen items-center justify-center">
@@ -26,7 +34,9 @@ const Create = () => {
             <button
               type="submit"
               className="mt-4 rounded-xl bg-pink-500 px-4 py-2 text-white"
-              onClick={() => createEvent({ title: eventTitle })}
+              onClick={(e) => {
+                handleClick(e);
+              }}
             >
               Create a private social network for{" "}
               <span className="font-semibold">{eventTitle}</span>

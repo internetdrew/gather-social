@@ -2,11 +2,13 @@ import sys
 import qrcode
 from base64 import b64encode
 from io import BytesIO
+from urllib.parse import quote
 
 event_id = sys.argv[1]
 
 # Construct the URL using the event ID
 event_url = f'https://gathersocial.com/event/{event_id}'
+encoded_event_url = quote(event_url, safe=':/')
 
 qr = qrcode.QRCode(
     version=1,
@@ -14,7 +16,7 @@ qr = qrcode.QRCode(
     box_size=10,
     border=4,
 )
-qr.add_data(event_url)
+qr.add_data(encoded_event_url)
 qr.make(fit=True)
 
 qr_image = qr.make_image(fill_color="black", back_color="white")

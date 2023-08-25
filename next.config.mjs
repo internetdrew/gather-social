@@ -26,6 +26,9 @@ const config = {
       },
     ],
   },
+  // async rewrites() {
+  //   return [];
+  // },
 };
 
 const configWithPwa = withPWA({

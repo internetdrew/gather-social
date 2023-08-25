@@ -8,7 +8,10 @@ interface Event {
 
 export const generateQRCodePromise = (event: Event) => {
   return new Promise<string>((resolve, reject) => {
-    const pythonScriptPath = join(process.cwd(), "/src/server/generate_qr.py");
+    const pythonScriptPath = join(
+      process.cwd(),
+      "/src/server/api/generate_qr.py"
+    );
 
     const pythonProcess = spawn("python3", [pythonScriptPath, event.id]);
 

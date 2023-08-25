@@ -9,6 +9,7 @@ const Create = () => {
   const { mutate: createEvent, isLoading: isCreating } =
     api.events.create.useMutation({
       onSuccess: (data) => {
+        console.log("Success: ", data);
         if (data) void router.push("/home");
       },
     });

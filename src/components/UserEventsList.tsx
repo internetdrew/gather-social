@@ -9,17 +9,15 @@ const EventsList = () => {
   const guestCheckins = data?.guestCheckins ?? [];
 
   return (
-    <article className="flex w-[90%] flex-col space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl sm:w-3/4">
+    <article className="flex w-[90%] flex-col space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl ring-1 ring-black sm:w-3/4">
       <div className="mb-2">
         <h2 className="text-2xl font-semibold">Active Events</h2>
       </div>
       <div>
         {isLoading ? (
-          <div className="mt-4 text-center text-xl">Loading...</div>
+          <p className="mt-4 text-center text-xl">Loading...</p>
         ) : isError ? (
-          <div className="mt-4 text-center text-xl">
-            Something went wrong...
-          </div>
+          <p className="mt-4 text-center text-xl">Something went wrong...</p>
         ) : (
           <>
             {hostEvents.length ? (

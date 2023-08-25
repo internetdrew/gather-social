@@ -108,7 +108,7 @@ export const eventsRouter = createTRPCRouter({
   create: privateProcedure
     .input(
       z.object({
-        title: z.string().min(1).max(255),
+        title: z.string().min(1).max(60),
       })
     )
     .mutation(async ({ ctx, input }) => {

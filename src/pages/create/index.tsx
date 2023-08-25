@@ -8,9 +8,7 @@ const Create = () => {
 
   const { mutate: createEvent, isLoading: isCreating } =
     api.events.create.useMutation({
-      onSuccess: async () => {
-        await router.push("/home");
-      },
+      onSuccess: () => router.push("/home"),
     });
 
   const maxInputChars = 60;

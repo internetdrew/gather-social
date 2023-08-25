@@ -8,7 +8,7 @@ const EventsList = () => {
   const hostEvents = data?.hostEvents ?? [];
   const guestCheckins = data?.guestCheckins ?? [];
 
-  if (!hostEvents.length || !guestCheckins.length) return null;
+  if (!hostEvents.length && !guestCheckins.length) return null;
 
   return (
     <article className="flex w-[90%] flex-col space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl ring-1 ring-black sm:w-3/4">

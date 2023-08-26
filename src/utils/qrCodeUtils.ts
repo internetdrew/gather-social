@@ -1,5 +1,6 @@
 import { spawn } from "child_process";
 import { join } from "path";
+import QRCode from "qrcode";
 
 interface Event {
   id: string;
@@ -33,4 +34,16 @@ export const generateQRCodePromise = (event: Event) => {
       }
     });
   });
+};
+
+export const generateQRCode = async (eventId: string): Promise<string> => {
+  try {
+    const qrCode = await QRCode.toDataURL(
+      `https://gathersocial.com/events/${eventId}`
+    );
+    return qrCode;
+  } catch (error) {
+    console.error(`Trouble generating QR code: `, error);
+    throw error;
+  }
 };

@@ -3,7 +3,7 @@ import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs";
 import { TRPCError } from "@trpc/server";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { generateQRCodePromise } from "~/utils/qrCodeUtils";
+import { generateQRCode } from "~/utils/qrCodeUtils";
 import { Buffer } from "buffer";
 
 export const eventsRouter = createTRPCRouter({
@@ -121,8 +121,11 @@ export const eventsRouter = createTRPCRouter({
         },
       });
 
-      const qrCodeImageData: string = await generateQRCodePromise(event);
-      const binaryImageData: Buffer = Buffer.from(qrCodeImageData, "base64");
+      const qrCodeImageData: string = await generateQRCode(event.id);
+      const binaryImageData: Buffer = Buffer.from(
+        qrCodeImageData.replace(/^data:image\/\w+;base64,/, ""),
+        "base64"
+      );
 
       const bucketName = process.env.S3_BUCKET_NAME;
       const bucketRegion = process.env.S3_BUCKET_REGION;

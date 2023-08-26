@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { OptionsMenu } from "~/components";
 
 interface Event {
   id: string;
@@ -16,14 +17,31 @@ interface EventCardProps {
   event: Event | null;
 }
 
+const menuOptions = [
+  {
+    id: 1,
+    intent: "Edit event",
+    url: "",
+    icon: <PencilSquareIcon className="mr-2 h-5 w-5" />,
+  },
+  {
+    id: 2,
+    intent: "Delete event",
+    url: "",
+    icon: <TrashIcon className="mr-2 h-5 w-5" />,
+  },
+];
+
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
   if (!event) return null;
   return (
-    <article className="mb-4 flex h-40 flex-col rounded-lg p-4 ring-1 ring-black">
+    <article className="mb-4 flex min-h-[12rem] flex-col rounded-lg p-4 ring-1 ring-black">
       <div className="flex items-start justify-between">
-        <h4 className="text-xl font-semibold">{event?.title}</h4>
+        <h4 className="max-w-xs flex-1 text-xl font-semibold">
+          {event?.title}
+        </h4>
         {/* <EventCardOptions /> */}
-        <EllipsisVerticalIcon className="mt-1 h-6 w-6 flex-shrink-0 cursor-pointer text-slate-500" />
+        <OptionsMenu options={menuOptions} eventId={event.id} />
       </div>
       <div className="flex"></div>
 

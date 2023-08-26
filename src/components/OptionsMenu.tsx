@@ -18,7 +18,7 @@ const OptionsMenu = (props: OptionsMenuProps) => {
 
   const { options } = props;
   return (
-    <div className="relative mt-1 h-6 w-6 flex-shrink-0">
+    <div className="relative z-10 mt-1 h-6 w-6 flex-shrink-0">
       <button onClick={() => setShowMenu(!showMenu)}>
         <EllipsisVerticalIcon className="h-full w-full" />
       </button>
@@ -26,7 +26,7 @@ const OptionsMenu = (props: OptionsMenuProps) => {
       <div
         className={`${
           showMenu ? "opacity-100" : "hidden opacity-0"
-        } absolute right-3 top-8 w-40 overflow-hidden rounded-md ring-1 ring-black transition-opacity ease-in-out`}
+        } absolute right-3 top-8 w-40 overflow-hidden rounded-md bg-slate-100 ring-1 ring-black transition-all ease-in-out`}
       >
         <ul className="text-sm">
           {options.map((option, idx, arr) => (

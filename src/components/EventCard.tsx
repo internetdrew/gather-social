@@ -35,9 +35,9 @@ const menuOptions = [
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
   if (!event) return null;
   return (
-    <article className="mb-4 flex min-h-[12rem] flex-col rounded-lg p-4 ring-1 ring-black">
+    <article className="mb-4 flex h-64 flex-col rounded-lg p-4 ring-1 ring-black">
       <div className="flex items-start justify-between">
-        <h4 className="max-w-xs flex-1 text-xl font-semibold">
+        <h4 className="max-w-xs flex-1 overflow-hidden break-words text-lg font-semibold sm:text-xl">
           {event?.title}
         </h4>
         {/* <EventCardOptions /> */}
@@ -57,7 +57,10 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
               className="mr-1 h-5 w-5 rounded-full"
             />
             <span className="font-medium">
-              {event?.hostInfo?.firstName} {event?.hostInfo?.lastName}
+              {event?.hostInfo?.firstName}{" "}
+              <span className="hidden sm:inline">
+                {event?.hostInfo?.lastName}
+              </span>
             </span>
           </div>
         </div>

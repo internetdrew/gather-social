@@ -32,7 +32,7 @@ export const checkoutRouter = createTRPCRouter({
         throw new Error("Invalid session url");
       }
     } catch (err) {
-      console.log("Error from Stripe payment intent: ", err);
+      console.error("Error from Stripe payment intent: ", err);
     }
   }),
 });

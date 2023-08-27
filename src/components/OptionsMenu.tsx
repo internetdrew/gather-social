@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDetectClickOutside } from "react-detect-click-outside";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 interface MenuOption {
@@ -15,17 +16,22 @@ interface OptionsMenuProps {
 
 const OptionsMenu = (props: OptionsMenuProps) => {
   const [showMenu, setShowMenu] = useState(false);
+  const ref = useDetectClickOutside({ onTriggered: closeMenu });
+
+  function closeMenu() {
+    setShowMenu(false);
+  }
 
   const { options } = props;
   return (
-    <div className="relative z-10 mt-1 h-6 w-6 flex-shrink-0">
+    <div className="relative z-10 mt-1 h-6 w-6 flex-shrink-0" ref={ref}>
       <button onClick={() => setShowMenu(!showMenu)}>
         <EllipsisVerticalIcon className="h-full w-full" />
       </button>
 
       <div
         className={`${
-          showMenu ? "opacity-100" : "hidden opacity-0"
+          showMenu ? "block" : "hidden"
         } absolute right-3 top-8 w-40 overflow-hidden rounded-md bg-slate-100 ring-1 ring-black transition-all ease-in-out`}
       >
         <ul className="text-sm">

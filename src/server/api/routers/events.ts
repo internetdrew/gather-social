@@ -99,6 +99,17 @@ export const eventsRouter = createTRPCRouter({
         },
       });
 
+      await ctx.prisma.eventGuestCheckin.create({
+        data: {
+          event: {
+            connect: {
+              id: event.id,
+            },
+          },
+          guestId: hostId,
+        },
+      });
+
       const qrCodeImageData: string = await generateQRCode(event.id);
       const binaryImageData: Buffer = Buffer.from(
         qrCodeImageData.replace(/^data:image\/\w+;base64,/, ""),

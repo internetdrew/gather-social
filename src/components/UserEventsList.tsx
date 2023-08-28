@@ -1,4 +1,4 @@
-import { EventCard } from "~/components";
+import { EventCard, EventModal } from "~/components";
 import { api } from "~/utils/api";
 
 const EventsList = () => {
@@ -39,6 +39,7 @@ const EventsList = () => {
           </>
         )}
       </div>
+      <EventModal />
     </article>
   );
 };

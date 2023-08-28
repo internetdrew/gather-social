@@ -24,7 +24,7 @@ const OptionsMenu = (props: OptionsMenuProps) => {
     setShowMenu(false);
   }
 
-  const { options, eventId } = props;
+  const { options } = props;
 
   return (
     <div className="relative z-10 mt-1 h-6 w-6 flex-shrink-0" ref={ref}>
@@ -37,7 +37,7 @@ const OptionsMenu = (props: OptionsMenuProps) => {
           showMenu ? "block" : "hidden"
         } absolute right-3 top-8 w-40 overflow-hidden rounded-md bg-slate-100 ring-1 ring-black transition-all ease-in-out`}
       >
-        <ul className="text-sm">
+        <ul>
           {options.map((option, idx, arr) => (
             <li
               key={option.id}

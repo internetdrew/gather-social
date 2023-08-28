@@ -51,59 +51,37 @@ export const eventsRouter = createTRPCRouter({
         };
     });
 
-    const guestCheckinsWithHostInfo = guestCheckins.map((guestCheckin) => {
-      const host = users.find((user) => user.id === guestCheckin.event.hostId);
+    const guestCheckinsWithHostInfo = guestCheckins
+      .filter((guestCheckIn) => guestCheckIn.event.hostId !== userId)
+      .map((guestCheckin) => {
+        const host = users.find(
+          (user) => user.id === guestCheckin.event.hostId
+        );
 
-      if (!host)
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "No host found on guest checkin.",
-        });
+        if (!host)
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "No host found on guest checkin.",
+          });
 
-      if (host && guestCheckin)
-        return {
-          id: guestCheckin.id,
-          title: guestCheckin.event.title,
-          hostInfo: {
-            firstName: host.firstName,
-            lastName: host.lastName,
-            avatar: host.profileImageUrl,
-          },
-        };
-    });
+        if (host && guestCheckin)
+          return {
+            id: guestCheckin.id,
+            title: guestCheckin.event.title,
+            hostInfo: {
+              firstName: host.firstName,
+              lastName: host.lastName,
+              avatar: host.profileImageUrl,
+            },
+          };
+      });
 
     return {
       hostEvents: hostEventsWithHostInfo,
       guestCheckins: guestCheckinsWithHostInfo,
+      eventCount:
+        hostEventsWithHostInfo.length + guestCheckinsWithHostInfo.length,
     };
-  }),
-  getCurrentUserEventCount: privateProcedure.query(async ({ ctx }) => {
-    const { userId } = ctx;
-
-    const hostEvents = await ctx.prisma.event.findMany({
-      take: 100,
-      where: {
-        hostId: userId!,
-      },
-    });
-
-    const guestCheckins = await ctx.prisma.eventGuestCheckin.findMany({
-      take: 100,
-      where: {
-        guestId: userId!,
-      },
-      include: {
-        event: {
-          select: {
-            title: true,
-            hostId: true,
-          },
-        },
-      },
-    });
-
-    const count = hostEvents.length + guestCheckins.length;
-    return { activeEvents: count };
   }),
   create: privateProcedure
     .input(
@@ -168,4 +146,6 @@ export const eventsRouter = createTRPCRouter({
         throw error;
       }
     }),
+  // addGuest: privateProcedure.mutation(async ({ ctx }) => {}),
+  // activate: privateProcedure.mutation(async ({ ctx }) => {}),
 });

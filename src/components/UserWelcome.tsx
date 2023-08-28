@@ -6,8 +6,8 @@ import { api } from "~/utils/api";
 const UserWelcome = () => {
   const { user } = useUser();
 
-  const { data } = api.events.getCurrentUserEventCount.useQuery();
-  const eventCount = data?.activeEvents;
+  const { data } = api.events.getCurrentUserEvents.useQuery();
+  const eventCount = data?.eventCount;
 
   return (
     <article className="flex w-[95%] flex-col items-center justify-between space-y-10 rounded-3xl bg-slate-100 p-8 shadow-2xl ring-1 ring-black sm:w-3/4">

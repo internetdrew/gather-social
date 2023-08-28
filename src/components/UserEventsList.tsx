@@ -13,7 +13,7 @@ const EventsList = () => {
   return (
     <article className="flex w-[95%] flex-col space-y-2 rounded-3xl bg-slate-100 p-6 shadow-2xl ring-1 ring-black sm:w-3/4">
       <div className="mb-2">
-        <h2 className="text-2xl font-semibold">Active Events</h2>
+        <h2 className="text-2xl font-semibold">Your Events</h2>
       </div>
       <div>
         {isLoading ? (
@@ -30,7 +30,7 @@ const EventsList = () => {
                 return <EventCard key={hostEvent.id} event={hostEvent} />;
             })}
             {guestCheckins.length ? (
-              <h3 className="mb-2 text-lg text-slate-500">Attending</h3>
+              <h3 className="mb-2 mt-10 text-lg text-slate-500">Attending</h3>
             ) : null}
             {guestCheckins.map((guestCheckin) => {
               if (guestCheckin)

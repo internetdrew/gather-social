@@ -10,7 +10,7 @@ const UserWelcome = () => {
   const eventCount = data?.activeEvents;
 
   return (
-    <article className="flex w-[90%] flex-col items-center justify-between space-y-10 rounded-3xl bg-slate-100 p-8 shadow-2xl ring-1 ring-black sm:w-3/4">
+    <article className="flex w-[95%] flex-col items-center justify-between space-y-10 rounded-3xl bg-slate-100 p-8 shadow-2xl ring-1 ring-black sm:w-3/4">
       <div className="flex w-full flex-col items-center justify-center">
         {user && (
           <>

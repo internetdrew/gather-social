@@ -1,11 +1,13 @@
 import { useState } from "react";
+import Link from "next/link";
 import { useDetectClickOutside } from "react-detect-click-outside";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 interface MenuOption {
   id: number;
   intent: string;
-  url: string;
+  caption: string;
+  url?: string;
   icon: JSX.Element;
 }
 
@@ -22,7 +24,8 @@ const OptionsMenu = (props: OptionsMenuProps) => {
     setShowMenu(false);
   }
 
-  const { options } = props;
+  const { options, eventId } = props;
+
   return (
     <div className="relative z-10 mt-1 h-6 w-6 flex-shrink-0" ref={ref}>
       <button onClick={() => setShowMenu(!showMenu)}>
@@ -44,9 +47,18 @@ const OptionsMenu = (props: OptionsMenuProps) => {
                   : "border-b border-gray-300"
               } duration-300 hover:bg-pink-500`}
             >
-              <button className="flex h-full w-full items-center p-2">
-                {option.icon} {option.intent}
-              </button>
+              {option.url && option.intent === "edit" ? (
+                <Link
+                  href={option.url}
+                  className="flex h-full w-full items-center p-2"
+                >
+                  {option.icon} {option.caption}
+                </Link>
+              ) : (
+                <button className="flex h-full w-full items-center p-2">
+                  {option.icon} {option.caption}
+                </button>
+              )}
             </li>
           ))}
         </ul>

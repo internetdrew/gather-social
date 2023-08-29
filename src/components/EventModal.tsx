@@ -2,7 +2,6 @@ import {
   useRef,
   forwardRef,
   useImperativeHandle,
-  useEffect,
   type ForwardRefRenderFunction,
 } from "react";
 import { type Event } from "./EventCard";

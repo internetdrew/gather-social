@@ -5,6 +5,7 @@ import {
   type ForwardRefRenderFunction,
 } from "react";
 import { type Event } from "./EventCard";
+import { api } from "~/utils/api";
 
 interface EventModalProps {
   event: Event | null;
@@ -36,6 +37,12 @@ const EventModal: ForwardRefRenderFunction<EventModalRef, EventModalProps> = (
     closeModal,
   }));
 
+  const { mutate: activateEvent } = api.events.activate.useMutation({
+    onSuccess: (data) => {
+      console.log(data);
+    },
+  });
+
   return (
     <dialog
       className="top-1/2 h-56 w-[95%] -translate-y-1/2 overflow-hidden rounded-3xl text-center font-semibold ring-1 ring-black sm:w-1/2 lg:w-1/3 xl:w-1/4"
@@ -48,7 +55,12 @@ const EventModal: ForwardRefRenderFunction<EventModalRef, EventModalProps> = (
         </p>
         <p className="mt-1">{"You'll have 30 days to use the space."}</p>
         <div className="mx-auto mt-auto flex w-[90%] items-center justify-between gap-4">
-          <button className="w-full rounded-full bg-pink-500 px-4 py-2 ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl active:scale-95">
+          <button
+            className="w-full rounded-full bg-pink-500 px-4 py-2 ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl active:scale-95"
+            onClick={() => {
+              if (event) activateEvent({ id: event.id });
+            }}
+          >
             Yes
           </button>
           <button

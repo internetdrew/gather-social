@@ -157,6 +157,16 @@ export const eventsRouter = createTRPCRouter({
         throw error;
       }
     }),
+  activate: privateProcedure
+    .input(
+      z.object({
+        id: z.string().min(1),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      const userId = ctx.userId;
+      console.log(userId);
+      console.log(input);
+    }),
   // addGuest: privateProcedure.mutation(async ({ ctx }) => {}),
-  // activate: privateProcedure.mutation(async ({ ctx }) => {}),
 });

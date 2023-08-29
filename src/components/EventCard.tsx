@@ -47,10 +47,11 @@ const EventCard: React.FC<EventCardProps> = ({
   if (!event) return;
 
   const handleClick = () => {
-    if (setEvent)
-      setEvent((prevEvent) => (prevEvent === event ? prevEvent : event));
-    if (eventModalRef) {
-      eventModalRef.current?.openModal();
+    if (eventModalRef?.current) {
+      eventModalRef.current.openModal();
+    }
+    if (setEvent) {
+      setEvent((prevEvent) => (prevEvent?.id === event.id ? prevEvent : event));
     }
   };
 

@@ -2,6 +2,7 @@ import {
   useRef,
   forwardRef,
   useImperativeHandle,
+  useEffect,
   type ForwardRefRenderFunction,
 } from "react";
 import { type Event } from "./EventCard";
@@ -20,14 +21,15 @@ const EventModal: ForwardRefRenderFunction<EventModalRef, EventModalProps> = (
   ref
 ) => {
   const modalRef = useRef<HTMLDialogElement>(null);
-  const dialog = modalRef.current;
 
   const openModal = () => {
-    if (dialog) dialog.showModal();
+    if (modalRef.current) {
+      modalRef.current.showModal();
+    }
   };
 
   const closeModal = () => {
-    if (dialog) dialog.close();
+    if (modalRef.current) modalRef.current.close();
   };
 
   useImperativeHandle(ref, () => ({
@@ -37,7 +39,7 @@ const EventModal: ForwardRefRenderFunction<EventModalRef, EventModalProps> = (
 
   return (
     <dialog
-      className="top-1/2 h-56 w-[95%] -translate-y-1/2 overflow-hidden rounded-3xl text-center font-semibold ring-1 ring-black sm:w-1/2 lg:w-1/3"
+      className="top-1/2 h-56 w-[95%] -translate-y-1/2 overflow-hidden rounded-3xl text-center font-semibold ring-1 ring-black sm:w-1/2 lg:w-1/3 xl:w-1/4"
       ref={modalRef}
     >
       <div className="flex h-full w-full flex-col bg-slate-100 p-4">

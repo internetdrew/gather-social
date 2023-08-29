@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { OptionsMenu } from "~/components";
+import { type SetStateAction } from "react";
+import type { EventModalRef } from "./EventModal";
 
 export interface Event {
   id: string;
@@ -16,7 +18,8 @@ export interface Event {
 
 interface EventCardProps {
   event: Event | null;
-  setEvent?: (event: Event | null) => void;
+  setEvent?: React.Dispatch<SetStateAction<Event | null>>;
+  eventModalRef?: React.RefObject<EventModalRef | null>;
 }
 
 const menuOptions = [
@@ -36,11 +39,19 @@ const menuOptions = [
   },
 ];
 
-const EventCard: React.FC<EventCardProps> = ({ event }) => {
+const EventCard: React.FC<EventCardProps> = ({
+  event,
+  setEvent,
+  eventModalRef,
+}) => {
   if (!event) return;
 
   const handleClick = () => {
-    console.log("click");
+    if (setEvent)
+      setEvent((prevEvent) => (prevEvent === event ? prevEvent : event));
+    if (eventModalRef) {
+      eventModalRef.current?.openModal();
+    }
   };
 
   return (

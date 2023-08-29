@@ -1,9 +1,16 @@
+import { useState, useRef } from "react";
 import { EventCard, EventModal } from "~/components";
+import type { EventModalRef } from "./EventModal";
 import { api } from "~/utils/api";
+import { type Event } from "./EventCard";
 
 const EventsList = () => {
+  const eventModalRef = useRef<EventModalRef | null>(null);
+  const [eventToActivate, setEventToActivate] = useState<Event | null>(null);
   const { data, isLoading, isError } =
     api.events.getCurrentUserEvents.useQuery();
+
+  console.log(eventModalRef.current);
 
   const hostEvents = data?.hostEvents ?? [];
   const guestCheckins = data?.guestCheckins ?? [];
@@ -27,7 +34,14 @@ const EventsList = () => {
             ) : null}
             {hostEvents.map((hostEvent) => {
               if (hostEvent)
-                return <EventCard key={hostEvent.id} event={hostEvent} />;
+                return (
+                  <EventCard
+                    key={hostEvent.id}
+                    event={hostEvent}
+                    setEvent={setEventToActivate}
+                    eventModalRef={eventModalRef}
+                  />
+                );
             })}
             {guestCheckins.length ? (
               <h3 className="mb-2 mt-10 text-lg text-slate-500">Attending</h3>
@@ -39,7 +53,7 @@ const EventsList = () => {
           </>
         )}
       </div>
-      <EventModal />
+      <EventModal event={eventToActivate} ref={eventModalRef} />
     </article>
   );
 };

@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef } from "react";
 import { EventCard, EventModal } from "~/components";
 import type { EventModalRef } from "./EventModal";
 import { api } from "~/utils/api";
@@ -7,10 +7,7 @@ import { type Event } from "./EventCard";
 const EventsList = () => {
   const eventModalRef = useRef<EventModalRef | null>(null);
   const [eventToActivate, setEventToActivate] = useState<Event | null>(null);
-  const memoizedEventModal = useMemo(
-    () => <EventModal event={eventToActivate} ref={eventModalRef} />,
-    [eventToActivate, eventModalRef]
-  );
+
   const { data, isLoading, isError } =
     api.events.getCurrentUserEvents.useQuery();
 
@@ -55,7 +52,7 @@ const EventsList = () => {
           </>
         )}
       </div>
-      {memoizedEventModal}
+      <EventModal event={eventToActivate} ref={eventModalRef} />
     </article>
   );
 };

@@ -25,9 +25,7 @@ const EventModal: ForwardRefRenderFunction<EventModalRef, EventModalProps> = (
   const router = useRouter();
 
   const openModal = () => {
-    if (modalRef.current) {
-      modalRef.current.showModal();
-    }
+    if (modalRef.current) modalRef.current.showModal();
   };
 
   const closeModal = () => {
@@ -39,10 +37,12 @@ const EventModal: ForwardRefRenderFunction<EventModalRef, EventModalProps> = (
     closeModal,
   }));
 
+  const ctx = api.useContext();
+
   const { mutate: activateEvent, isLoading } = api.events.activate.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
       closeModal();
-      router.reload();
+      await ctx.events.invalidate();
     },
     onError: (error) => console.log(error),
   });

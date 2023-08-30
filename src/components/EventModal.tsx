@@ -4,7 +4,6 @@ import {
   useImperativeHandle,
   type ForwardRefRenderFunction,
 } from "react";
-import { useRouter } from "next/router";
 import { type Event } from "./EventCard";
 import { api } from "~/utils/api";
 
@@ -22,7 +21,6 @@ const EventModal: ForwardRefRenderFunction<EventModalRef, EventModalProps> = (
   ref
 ) => {
   const modalRef = useRef<HTMLDialogElement>(null);
-  const router = useRouter();
 
   const openModal = () => {
     if (modalRef.current) modalRef.current.showModal();

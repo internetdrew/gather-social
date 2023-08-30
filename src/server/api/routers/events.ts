@@ -163,10 +163,26 @@ export const eventsRouter = createTRPCRouter({
         id: z.string().min(1),
       })
     )
-    .mutation(({ ctx, input }) => {
-      const userId = ctx.userId;
-      console.log(userId);
-      console.log(input);
+    .mutation(async ({ ctx, input }) => {
+      const startDate = new Date();
+
+      const endDate = new Date();
+      endDate.setDate(startDate.getDate() + 30);
+
+      try {
+        const eventWithActiveDates = await ctx.prisma.event.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            startDate: startDate,
+            endDate: endDate,
+          },
+        });
+        return eventWithActiveDates;
+      } catch (error) {
+        console.error(error);
+      }
     }),
   // addGuest: privateProcedure.mutation(async ({ ctx }) => {}),
 });

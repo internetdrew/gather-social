@@ -184,5 +184,36 @@ export const eventsRouter = createTRPCRouter({
         console.error(error);
       }
     }),
-  // addGuest: privateProcedure.mutation(async ({ ctx }) => {}),
+  getEventDetails: privateProcedure
+    .input(
+      z.object({
+        id: z.string().min(1),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const users = await clerkClient.users.getUserList();
+
+      const eventDetails = await ctx.prisma.event.findUnique({
+        where: {
+          id: input.id,
+        },
+      });
+      const { hostId, ...cleanEventDetails } = eventDetails ?? {};
+
+      const hostDetails = users.find((user) => user.id === hostId);
+      const {
+        firstName,
+        lastName,
+        profileImageUrl: avatar,
+      } = hostDetails ?? {};
+
+      return {
+        ...cleanEventDetails,
+        hostDetails: {
+          firstName,
+          lastName,
+          avatar,
+        },
+      };
+    }),
 });

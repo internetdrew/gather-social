@@ -4,3 +4,4 @@ export { default as EventCard } from "./EventCard";
 export { default as LoadingSpinner } from "./LoadingSpinner";
 export { default as OptionsMenu } from "./OptionsMenu";
 export { default as EventModal } from "./EventModal";
+export { default as EventHeader } from "./EventHeader";

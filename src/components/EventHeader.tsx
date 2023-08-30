@@ -3,24 +3,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 
-// interface EventDetails {
-//   id: string;
-//   createdAt: Date;
-//   startDate: Date;
-//   endDate: Date;
-//   title: string;
-//   qrCodeImageUrl: string;
-//   hostDetails: {
-//     firstName: string;
-//     lastName: string;
-//     avatar: string;
-//   };
-// }
-
-// interface EventHeaderProps {
-//   data: EventDetails;
-// }
-
 const EventHeader = () => {
   const router = useRouter();
   const { eventId } = router.query;

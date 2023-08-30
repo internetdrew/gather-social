@@ -41,12 +41,12 @@ const EventHeader = () => {
           width={80}
           height={80}
           src={data.hostDetails.avatar ?? ""}
-          className="inline h-10 w-10 rounded-full"
+          className="inline h-11 w-11 rounded-full"
           alt="user profile image"
         />
         <div className="text-start">
           <p>Hosted by</p>
-          <p>
+          <p className="font-medium">
             {data?.hostDetails.firstName} {data?.hostDetails.lastName}
           </p>
         </div>

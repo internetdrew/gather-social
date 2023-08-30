@@ -34,18 +34,19 @@ const EventHeader = () => {
   if (!data) return;
 
   return (
-    <div className="mx-auto w-[95%] rounded-3xl bg-slate-100 p-6 text-center ring-1 ring-black sm:w-1/2 xl:w-1/3">
-      <h1 className="text-3xl font-semibold">{data?.title}</h1>
-      <div className="mt-10 flex items-center justify-center gap-2">
-        <Image
-          width={80}
-          height={80}
-          src={data.hostDetails.avatar ?? ""}
-          className="inline h-11 w-11 rounded-full"
-          alt="user profile image"
-        />
-        <div className="text-start">
-          <p>Hosted by</p>
+    <div className="mx-auto flex w-[95%] flex-col rounded-3xl bg-slate-100 p-6 text-center ring-1 ring-black sm:w-1/2 xl:w-1/3">
+      <h1 className="mb-10 text-3xl font-semibold">{data?.title}</h1>
+
+      <div className="mt-auto text-lg">
+        <p>Hosted by</p>
+        <div className="flex items-center justify-center gap-1">
+          <Image
+            width={80}
+            height={80}
+            src={data.hostDetails.avatar ?? ""}
+            className="inline h-8 w-8 rounded-full"
+            alt="user profile image"
+          />
           <p className="font-medium">
             {data?.hostDetails.firstName} {data?.hostDetails.lastName}
           </p>

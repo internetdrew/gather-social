@@ -40,7 +40,7 @@ const EventModal: ForwardRefRenderFunction<EventModalRef, EventModalProps> = (
   const { mutate: activateEvent, isLoading } = api.events.activate.useMutation({
     onSuccess: async () => {
       closeModal();
-      await ctx.events.invalidate();
+      await ctx.events.getCurrentUserEvents.invalidate();
     },
     onError: (error) => console.log(error),
   });

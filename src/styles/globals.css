@@ -4,6 +4,11 @@
 
 body {
   @apply bg-[#3b82f6];
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: none;
 }
 
 .prevent-select {

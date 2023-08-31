@@ -1,4 +1,4 @@
-import { EventHeader } from "~/components";
+import { EventHeader, ImageUpload } from "~/components";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
@@ -19,18 +19,20 @@ const EventPage = () => {
     <>
       <Head>
         <title>
-          {data?.title} by {data?.hostDetails.firstName}{" "}
+          {data?.title}: Hosted by {data?.hostDetails.firstName}{" "}
           {data?.hostDetails.lastName}
         </title>
         <meta
           name="description"
-          content="See private social networks you're hosting and attending."
+          content={`${data?.title}: An private event feed hosted by ${data?.hostDetails.firstName}{" "}
+          ${data?.hostDetails.lastName}`}
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
         <section className="mt-20">
           <EventHeader />
+          <ImageUpload />
         </section>
       </main>
     </>

@@ -30,10 +30,10 @@ const ImageUpload = () => {
         <div className="flex items-center justify-between font-semibold">
           <p className="text-2xl">New post</p>
           <button
-            className="flex h-8 w-8 items-center justify-center rounded-md duration-300 hover:scale-105 active:scale-95"
+            className="flex items-center justify-center rounded-md duration-300 hover:scale-105 active:scale-95"
             onClick={() => modalRef.current?.close()}
           >
-            <XMarkIcon />
+            <XMarkIcon className="h-8 w-8" />
           </button>
         </div>
 

@@ -1,5 +1,5 @@
 import { useRef, useEffect, type ChangeEvent, useState } from "react";
-import { XMarkIcon, PhotoIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon, PhotoIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 
 const ImageUpload = () => {
@@ -7,6 +7,7 @@ const ImageUpload = () => {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  console.log(selectedImages);
 
   const onFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -14,7 +15,14 @@ const ImageUpload = () => {
     const imagesArr: string[] = Array.from(selectedFiles).map((file) =>
       URL.createObjectURL(file)
     );
+
     setSelectedImages(imagesArr);
+  };
+
+  const handleDelete = (indexToRemove: number) => {
+    setSelectedImages((prevImages) =>
+      prevImages.filter((_, idx) => idx !== indexToRemove)
+    );
   };
 
   useEffect(() => {
@@ -71,14 +79,19 @@ const ImageUpload = () => {
           <div className="mt-4 flex items-center justify-center gap-2">
             {selectedImages.length
               ? selectedImages.map((image, idx) => (
-                  <div key={image}>
+                  <div key={image} className="relative bg-green-300">
                     <Image
                       alt={`image-${idx}`}
                       src={image}
-                      width={40}
-                      height={40}
+                      width={90}
+                      height={90}
                     />
-                    <span></span>
+                    <button
+                      className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full bg-red-500 p-2"
+                      onClick={() => handleDelete(idx)}
+                    >
+                      <TrashIcon className="h-full w-full" />
+                    </button>
                   </div>
                 ))
               : null}

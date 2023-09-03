@@ -79,7 +79,7 @@ const ImageUpload = () => {
           <div className="mt-4 flex items-center justify-center gap-2">
             {selectedImages.length
               ? selectedImages.map((image, idx) => (
-                  <div key={image} className="relative bg-green-300">
+                  <div key={image} className="relative">
                     <Image
                       alt={`image-${idx}`}
                       src={image}

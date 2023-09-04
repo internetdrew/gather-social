@@ -82,7 +82,6 @@ const ImageUpload = () => {
               multiple
               accept="image/jpeg, image/png"
               className="hidden"
-              capture="environment"
             />
             <div
               className="mb-1 flex h-48 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-400"

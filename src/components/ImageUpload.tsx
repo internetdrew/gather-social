@@ -16,7 +16,7 @@ const ImageUpload = () => {
       URL.createObjectURL(file)
     );
 
-    setSelectedImages(imagesArr);
+    setSelectedImages((prevImages) => prevImages.concat(imagesArr));
   };
 
   const handleDelete = (indexToRemove: number) => {
@@ -26,6 +26,7 @@ const ImageUpload = () => {
   };
 
   useEffect(() => {
+    alert("hey");
     if (modalRef.current) modalRef.current.showModal();
   }, []);
 

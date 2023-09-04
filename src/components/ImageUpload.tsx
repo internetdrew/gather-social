@@ -2,11 +2,13 @@ import { useRef, useEffect, type ChangeEvent, useState } from "react";
 import { XMarkIcon, PhotoIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import imageCompression from "browser-image-compression";
+import { api } from "~/utils/api";
 
 const ImageUpload = () => {
   const modalRef = useRef<HTMLDialogElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
+  const [caption, setCaption] = useState<string>("");
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
   const onFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
@@ -99,7 +101,7 @@ const ImageUpload = () => {
               Browse
             </button>
           </div>
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+          <div className="mt-4 space-y-4">
             {selectedImages.length
               ? selectedImages.map((image, idx) => (
                   <div key={image} className="relative">
@@ -109,6 +111,7 @@ const ImageUpload = () => {
                       width={90}
                       height={90}
                       loading="lazy"
+                      className="h-auto w-auto"
                     />
                     <button
                       className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full bg-red-500 p-2"
@@ -130,8 +133,10 @@ const ImageUpload = () => {
               rows={4}
               className="rounded-lg p-3 text-lg outline-none ring-1 ring-black focus:outline-2 focus:outline-pink-600 focus:ring-0"
               placeholder="Caption your post here..."
+              value={caption}
+              onChange={(e) => setCaption(e.target.value)}
             />
-            <small>
+            <small className="text-red-600">
               {selectedImages.length > 10
                 ? `Please delete at least ${selectedImages.length - 10} photo${
                     selectedImages.length - 10 > 1 ? "s" : ""

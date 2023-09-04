@@ -11,6 +11,8 @@ const ImageUpload = () => {
   const [caption, setCaption] = useState<string>("");
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
+  const MAX_IMAGE_COUNT = 10;
+
   const onFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
 
@@ -57,10 +59,10 @@ const ImageUpload = () => {
   return (
     <dialog
       ref={modalRef}
-      className="mx-auto my-auto w-[95%] rounded-2xl bg-slate-100 ring-1 ring-black sm:w-[60%] md:w-1/2 xl:w-1/3"
+      className="no-scrollbar mx-auto my-auto w-[95%] rounded-2xl bg-slate-100 ring-1 ring-black sm:w-[60%] md:w-1/2 xl:w-1/3"
     >
-      <div className="flex flex-col px-10 py-6">
-        <div className="flex items-center justify-between font-semibold">
+      <div className="flex flex-col px-10 pb-6">
+        <div className="sticky top-0 z-10 flex items-center justify-between bg-slate-100 py-6 font-semibold">
           <p className="text-2xl">New post</p>
           <button
             className="flex items-center justify-center rounded-md duration-300 hover:scale-105 active:scale-95"
@@ -91,7 +93,7 @@ const ImageUpload = () => {
             >
               <PhotoIcon className="h-8 w-8 text-gray-500" />
               <span className="text-gray-500">
-                Choose up to 10 images to post
+                {`Choose up to ${MAX_IMAGE_COUNT} images to post`}
               </span>
             </div>
             <button
@@ -101,7 +103,7 @@ const ImageUpload = () => {
               Browse
             </button>
           </div>
-          <div className="mt-4 space-y-4">
+          <div className="my-4 space-y-4">
             {selectedImages.length
               ? selectedImages.map((image, idx) => (
                   <div key={image} className="relative">
@@ -111,10 +113,10 @@ const ImageUpload = () => {
                       width={90}
                       height={90}
                       loading="lazy"
-                      className="h-auto w-auto"
+                      className="h-auto w-auto rounded-md shadow-xl"
                     />
                     <button
-                      className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full bg-red-500 p-2"
+                      className="absolute bottom-1 right-1 flex h-10 w-10 items-center justify-center rounded-full bg-red-500 p-2 duration-300 hover:bg-red-600 sm:h-8 sm:w-8"
                       onClick={() => handleDelete(idx)}
                     >
                       <TrashIcon className="h-full w-full" />
@@ -125,7 +127,7 @@ const ImageUpload = () => {
           </div>
           <div className="flex flex-1 flex-col gap-1">
             <label htmlFor="caption" className="invisible font-medium">
-              Write your post caption:
+              Post caption:
             </label>
             <textarea
               id="caption"
@@ -138,24 +140,28 @@ const ImageUpload = () => {
             />
             <small className="text-red-600">
               {selectedImages.length > 10
-                ? `Please delete at least ${selectedImages.length - 10} photo${
-                    selectedImages.length - 10 > 1 ? "s" : ""
+                ? `Please delete at least ${
+                    selectedImages.length - MAX_IMAGE_COUNT
+                  } photo${
+                    selectedImages.length - MAX_IMAGE_COUNT > 1 ? "s" : ""
                   } to be able to post.`
                 : null}
             </small>
           </div>
         </div>
 
-        <div className="ml-auto mt-6 w-max space-x-3 font-semibold">
+        <div className="ml-auto mt-6 flex w-full flex-col items-center justify-center gap-2 font-semibold sm:flex-row">
           <button
-            className="rounded-lg px-6 py-2 text-slate-600 ring-1 ring-gray-300 duration-300 hover:text-slate-800 hover:shadow-2xl active:scale-95"
+            className="w-full rounded-lg px-6 py-2 text-slate-600 ring-1 ring-gray-300 duration-300 hover:text-slate-800 hover:shadow-2xl active:scale-95"
             onClick={() => modalRef.current?.close()}
           >
             Cancel
           </button>
           <button
-            className="rounded-lg bg-pink-600 px-6 py-2 text-slate-200 duration-300 hover:bg-pink-700 hover:shadow-2xl active:scale-95 disabled:cursor-not-allowed disabled:bg-slate-400"
-            disabled={selectedImages.length > 10}
+            className="w-full rounded-lg bg-pink-600 px-6 py-2 text-slate-200 duration-300 hover:bg-pink-700 hover:shadow-2xl active:scale-95 disabled:cursor-not-allowed disabled:bg-slate-400"
+            disabled={
+              !selectedImages.length || selectedImages.length > MAX_IMAGE_COUNT
+            }
           >
             Post
           </button>

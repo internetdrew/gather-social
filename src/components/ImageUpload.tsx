@@ -1,22 +1,45 @@
 import { useRef, useEffect, type ChangeEvent, useState } from "react";
 import { XMarkIcon, PhotoIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import imageCompression from "browser-image-compression";
 
 const ImageUpload = () => {
   const modalRef = useRef<HTMLDialogElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  console.log(selectedImages);
 
   const onFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    const selectedFiles: FileList = e.target.files;
-    const imagesArr: string[] = Array.from(selectedFiles).map((file) =>
-      URL.createObjectURL(file)
-    );
 
-    setSelectedImages((prevImages) => prevImages.concat(imagesArr));
+    const compressAndSetImages = async (files: FileList) => {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 800,
+      };
+
+      try {
+        const compressedImagesArr = await Promise.all(
+          Array.from(files).map(async (file) => {
+            try {
+              const compressedFile = await imageCompression(file, options);
+              return URL.createObjectURL(compressedFile);
+            } catch (error) {
+              console.error("Image compression error:", error);
+              throw error;
+            }
+          })
+        );
+
+        setSelectedImages((prevImages) =>
+          prevImages.concat(compressedImagesArr)
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    void compressAndSetImages(e.target.files);
   };
 
   const handleDelete = (indexToRemove: number) => {
@@ -26,14 +49,13 @@ const ImageUpload = () => {
   };
 
   useEffect(() => {
-    alert("hey");
     if (modalRef.current) modalRef.current.showModal();
   }, []);
 
   return (
     <dialog
       ref={modalRef}
-      className="mx-auto my-auto w-[95%] rounded-2xl bg-slate-100 ring-1 ring-black sm:w-1/2 lg:w-1/3"
+      className="mx-auto my-auto w-[95%] rounded-2xl bg-slate-100 ring-1 ring-black sm:w-[60%] md:w-1/2 xl:w-1/3"
     >
       <div className="flex flex-col px-10 py-6">
         <div className="flex items-center justify-between font-semibold">
@@ -60,6 +82,7 @@ const ImageUpload = () => {
               multiple
               accept="image/jpeg, image/png"
               className="hidden"
+              capture="environment"
             />
             <div
               className="mb-1 flex h-48 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-400"
@@ -86,6 +109,7 @@ const ImageUpload = () => {
                       src={image}
                       width={90}
                       height={90}
+                      loading="lazy"
                     />
                     <button
                       className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full bg-red-500 p-2"

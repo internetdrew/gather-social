@@ -76,7 +76,7 @@ const ImageUpload = () => {
               Browse
             </button>
           </div>
-          <div className="mt-4 flex items-center justify-center gap-2">
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
             {selectedImages.length
               ? selectedImages.map((image, idx) => (
                   <div key={image} className="relative">

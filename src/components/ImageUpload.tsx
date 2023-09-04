@@ -131,6 +131,13 @@ const ImageUpload = () => {
               className="rounded-lg p-3 text-lg outline-none ring-1 ring-black focus:outline-2 focus:outline-pink-600 focus:ring-0"
               placeholder="Caption your post here..."
             />
+            <small>
+              {selectedImages.length > 10
+                ? `Please delete at least ${selectedImages.length - 10} photo${
+                    selectedImages.length - 10 > 1 ? "s" : ""
+                  } to be able to post.`
+                : null}
+            </small>
           </div>
         </div>
 
@@ -141,7 +148,10 @@ const ImageUpload = () => {
           >
             Cancel
           </button>
-          <button className="rounded-lg bg-pink-600 px-6 py-2 text-slate-200 duration-300 hover:bg-pink-700 hover:shadow-2xl active:scale-95">
+          <button
+            className="rounded-lg bg-pink-600 px-6 py-2 text-slate-200 duration-300 hover:bg-pink-700 hover:shadow-2xl active:scale-95 disabled:cursor-not-allowed disabled:bg-slate-400"
+            disabled={selectedImages.length > 10}
+          >
             Post
           </button>
         </div>

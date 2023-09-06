@@ -234,7 +234,7 @@ const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
               Cancel
             </button>
             <button
-              className="w-full rounded-lg bg-pink-500 px-6 py-2 text-black ring-1 ring-black duration-300 hover:scale-105 hover:bg-pink-600 hover:shadow-2xl active:scale-95 disabled:cursor-not-allowed disabled:bg-slate-400"
+              className="w-full rounded-lg bg-pink-500 px-6 py-2 text-black ring-1 ring-black duration-300 hover:scale-105 hover:bg-pink-600 hover:shadow-2xl active:scale-95 disabled:cursor-not-allowed disabled:bg-slate-400 disabled:text-gray-700 disabled:ring-0 disabled:hover:scale-100"
               disabled={
                 !compressedImagesForUI.length ||
                 compressedImagesForUI.length > MAX_IMAGE_COUNT ||

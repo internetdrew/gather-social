@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
-import { api } from "~/utils/api";
 
 export const postsRouter = createTRPCRouter({
   getAllForEvent: privateProcedure
@@ -18,13 +17,14 @@ export const postsRouter = createTRPCRouter({
         },
         orderBy: [{ createdAt: "desc" }],
       });
-      console.log(posts);
+      return posts;
     }),
   create: privateProcedure
     .input(
       z.object({
         eventId: z.string().min(1),
         caption: z.string().nullable(),
+        userId: z.string().min(1),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -32,13 +32,16 @@ export const postsRouter = createTRPCRouter({
         const post = await ctx.prisma.post.create({
           data: {
             caption: input.caption,
-            authorId: ctx.userId!,
+            authorId: input.userId,
             eventId: input.eventId,
           },
         });
         return post;
       } catch (err) {
-        console.log(err);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Problem when trying to create new post.",
+        });
       }
     }),
 });

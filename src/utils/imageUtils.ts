@@ -5,7 +5,6 @@ export function convertBlobToBase64(blob: Blob): Promise<string> {
 
       reader.onloadend = () => {
         if (typeof reader.result === "string") {
-          console.log(reader.result);
           resolve(reader.result);
         } else {
           reject(new Error("Failed to read blob as Base64."));
@@ -18,7 +17,7 @@ export function convertBlobToBase64(blob: Blob): Promise<string> {
 
       reader.readAsDataURL(blob);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   });
 }

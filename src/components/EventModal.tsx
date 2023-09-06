@@ -42,7 +42,7 @@ const EventModal: ForwardRefRenderFunction<EventModalRef, EventModalProps> = (
       closeModal();
       await ctx.events.getCurrentUserEvents.invalidate();
     },
-    onError: (error) => console.log(error),
+    onError: (error) => console.error(error),
   });
 
   return (

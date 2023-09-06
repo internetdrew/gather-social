@@ -14,18 +14,17 @@ const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
   const [compressedImagesForUI, setCompressedImagesForUI] = useState<string[]>(
     []
   );
-  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
+  const [imageFileMapping, setImageFileMapping] = useState<
+    Record<string, File>
+  >({});
 
-  console.log(uploadedImageUrls);
-
-  const { user } = useUser();
-  // if (!user) return null;
-
-  const { mutateAsync: addImageToDatabase, isLoading: addingImageToDatabase } =
+  const { mutateAsync: addImageToDatabase } =
     api.images.addToDatabase.useMutation({});
 
   const { mutateAsync: createPost, isLoading: isPosting } =
     api.posts.create.useMutation({});
+
+  const { user } = useUser();
 
   const { mutateAsync: createPresignedUrl } =
     api.images.createPresignedUrl.useMutation({});
@@ -34,7 +33,6 @@ const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
 
   const onFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-
     setImageFiles(Array.from(e.target.files));
 
     const compressAndSetImages = async (files: FileList) => {
@@ -48,7 +46,14 @@ const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
           Array.from(files).map(async (file) => {
             try {
               const compressedFile = await imageCompression(file, options);
-              return URL.createObjectURL(compressedFile);
+              const compressedImageUrl = URL.createObjectURL(compressedFile);
+
+              setImageFileMapping((prevMapping) => ({
+                ...prevMapping,
+                [compressedImageUrl]: file,
+              }));
+
+              return compressedImageUrl;
             } catch (error) {
               console.error("Image compression error:", error);
               throw error;
@@ -67,56 +72,55 @@ const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
     void compressAndSetImages(e.target.files);
   };
 
-  const handleDelete = (indexToRemove: number) => {
+  const handleDelete = (compressedImageUrl: string) => {
+    // Use the compressed image URL to identify the original file
+    const originalFile = imageFileMapping[compressedImageUrl];
+
+    // Remove the original file from the imageFiles state
+    setImageFiles((prevFiles) =>
+      prevFiles.filter((file) => file !== originalFile)
+    );
+
+    // Remove the compressed image URL from the UI state
     setCompressedImagesForUI((prevImages) =>
-      prevImages.filter((_, idx) => idx !== indexToRemove)
+      prevImages.filter((imageUrl) => imageUrl !== compressedImageUrl)
     );
   };
 
   const handleSubmit = async () => {
+    if (!user || !imageFiles) return;
     const fileNames = imageFiles.map((image) => image.name);
+
     try {
+      const post = await createPost({
+        eventId,
+        caption: caption.length > 0 ? caption : null,
+        userId: user.id,
+      });
+
+      if (!post?.id) return;
+
       const presignedUrls = await createPresignedUrl({
         eventId,
         fileNames: fileNames,
+        postId: post.id,
       });
-      console.log(presignedUrls);
-      return;
-      for (const imageFile of imageFiles) {
-        await fetch(presignedUrl, {
+      for (const [idx, imageFile] of imageFiles.entries()) {
+        await fetch(`${presignedUrls[idx]}`, {
           method: "PUT",
           body: imageFile,
         });
-
-        setUploadedImageUrls((prev) => [...prev, presignedUrl]);
       }
 
-      const post = await createPost({
-        eventId,
-        caption: caption.length ? caption : null,
-      });
-      console.log(post);
-
-      const postId = post!.id;
-
-      for (const url of uploadedImageUrls) {
+      for (const url of presignedUrls) {
         await addImageToDatabase({
           imageUrl: url,
           eventId,
-          postId: postId,
+          postId: post.id,
         });
       }
-
-      // await uploadToS3();
-
-      // createPost({
-      //   userId: user!.id,
-      //   eventId,
-      //   caption: caption.length ? caption : null,
-      //   images: s3Urls,
-      // });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -187,7 +191,7 @@ const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
                       />
                       <button
                         className="absolute bottom-1 right-1 flex h-10 w-10 items-center justify-center rounded-full bg-red-500 p-2 duration-300 hover:bg-red-600 sm:h-8 sm:w-8"
-                        onClick={() => handleDelete(idx)}
+                        onClick={() => handleDelete(image)}
                       >
                         <TrashIcon className="h-full w-full" />
                       </button>

@@ -4,7 +4,7 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { useS3 } from "~/hooks/useS3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { randomUUID } from "crypto";
-import { api } from "~/utils/api";
+import { TRPCError } from "@trpc/server";
 
 export const imagesRouter = createTRPCRouter({
   createPresignedUrl: privateProcedure
@@ -12,6 +12,7 @@ export const imagesRouter = createTRPCRouter({
       z.object({
         eventId: z.string(),
         fileNames: z.array(z.string()),
+        postId: z.string(),
       })
     )
     .mutation(({ ctx, input }) => {
@@ -21,8 +22,8 @@ export const imagesRouter = createTRPCRouter({
       const signedUrls = Promise.all(
         fileNames.map((fileName) => {
           const ext = fileName.split(".")[1];
-          const Key = `images/event-${input.eventId}/${
-            ctx.userId
+          const Key = `images/event-${input.eventId}/${ctx.userId}/post-${
+            input.postId
           }/${randomUUID()}.${ext}`;
 
           const command = new PutObjectCommand({
@@ -46,7 +47,6 @@ export const imagesRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      console.log(input);
       try {
         const image = await ctx.prisma.image.create({
           data: {
@@ -55,10 +55,12 @@ export const imagesRouter = createTRPCRouter({
             eventId: input.eventId,
           },
         });
-        console.log(image);
         return image;
       } catch (error) {
-        console.error(error);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to create new image in db.",
+        });
       }
     }),
 });

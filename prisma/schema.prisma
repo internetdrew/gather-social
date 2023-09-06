@@ -26,7 +26,7 @@ model Event {
 
 model EventGuestCheckin {
     id      String @id @default(cuid())
-    event   Event  @relation(fields: [eventId], references: [id])
+    event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
     eventId String
     guestId String
 
@@ -39,7 +39,7 @@ model Post {
     images    Image[]
     caption   String?   @db.VarChar(255)
     authorId  String
-    event     Event?    @relation(fields: [eventId], references: [id])
+    event     Event?    @relation(fields: [eventId], references: [id], onDelete: Cascade)
     eventId   String
     comments  Comment[]
     likes     Like[]
@@ -51,7 +51,7 @@ model Image {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     url       String   @db.VarChar(600)
-    post      Post     @relation(fields: [postId], references: [id])
+    post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
     postId    String
     Event     Event    @relation(fields: [eventId], references: [id])
     eventId   String
@@ -63,7 +63,7 @@ model Image {
 model Comment {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
-    post      Post     @relation(fields: [postId], references: [id])
+    post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
     postId    String
     content   String   @db.VarChar(255)
 
@@ -73,7 +73,7 @@ model Comment {
 model Like {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
-    post      Post     @relation(fields: [postId], references: [id])
+    post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
     postId    String
     userId    String
 

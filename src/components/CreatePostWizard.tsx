@@ -170,7 +170,7 @@ const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
                 </span>
               </div>
               <button
-                className="mt-auto w-full rounded-lg bg-pink-600 px-6 py-2 font-semibold text-slate-200 duration-300 hover:bg-pink-700 active:scale-95"
+                className="mt-auto w-full rounded-lg bg-pink-500 px-6 py-2 font-semibold text-black ring-1 ring-black duration-300 hover:bg-pink-600 active:scale-95"
                 disabled={isPosting}
                 onClick={() => imageInputRef.current?.click()}
               >
@@ -207,7 +207,7 @@ const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
                 id="caption"
                 name="caption"
                 rows={4}
-                className="rounded-lg p-3 text-lg outline-none ring-1 ring-black focus:outline-2 focus:outline-pink-600 focus:ring-0"
+                className="rounded-lg p-3 text-lg outline-none ring-1 ring-black focus:outline-2 focus:outline-pink-500 focus:ring-0"
                 placeholder="Caption your post here..."
                 value={caption}
                 onChange={(e) => setCaption(e.target.value)}
@@ -226,15 +226,15 @@ const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
             </div>
           </div>
 
-          <div className="ml-auto mt-6 flex w-full flex-col items-center justify-center gap-2 font-semibold sm:flex-row">
+          <div className="ml-auto mt-6 flex w-full flex-col items-center justify-center gap-4 font-semibold sm:flex-row sm:gap-6">
             <button
-              className="w-full rounded-lg px-6 py-2 text-slate-600 ring-1 ring-gray-300 duration-300 hover:text-slate-800 hover:shadow-2xl active:scale-95"
+              className="w-full rounded-lg px-6 py-2 text-slate-600 ring-1 ring-gray-400 duration-300 hover:text-black hover:shadow-2xl hover:ring-gray-500 active:scale-95"
               onClick={() => modalRef.current?.close()}
             >
               Cancel
             </button>
             <button
-              className="w-full rounded-lg bg-pink-600 px-6 py-2 text-slate-200 duration-300 hover:bg-pink-700 hover:shadow-2xl active:scale-95 disabled:cursor-not-allowed disabled:bg-slate-400"
+              className="w-full rounded-lg bg-pink-500 px-6 py-2 text-black ring-1 ring-black duration-300 hover:scale-105 hover:bg-pink-600 hover:shadow-2xl active:scale-95 disabled:cursor-not-allowed disabled:bg-slate-400"
               disabled={
                 !compressedImagesForUI.length ||
                 compressedImagesForUI.length > MAX_IMAGE_COUNT ||

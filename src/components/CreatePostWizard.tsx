@@ -74,13 +74,15 @@ const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
   };
 
   const handleSubmit = async () => {
+    const fileNames = imageFiles.map((image) => image.name);
     try {
+      const presignedUrls = await createPresignedUrl({
+        eventId,
+        fileNames: fileNames,
+      });
+      console.log(presignedUrls);
+      return;
       for (const imageFile of imageFiles) {
-        const presignedUrl = await createPresignedUrl({
-          eventId,
-          fileName: imageFile.name,
-        });
-
         await fetch(presignedUrl, {
           method: "PUT",
           body: imageFile,

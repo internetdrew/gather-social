@@ -11,24 +11,31 @@ export const imagesRouter = createTRPCRouter({
     .input(
       z.object({
         eventId: z.string(),
-        fileName: z.string(),
+        fileNames: z.array(z.string()),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(({ ctx, input }) => {
       const s3 = useS3();
-      const ext = input.fileName.split(".")[1];
 
-      const Key = `images/event-${input.eventId}/${
-        ctx.userId
-      }/${randomUUID()}.${ext}`;
+      const fileNames = input.fileNames;
+      const signedUrls = Promise.all(
+        fileNames.map((fileName) => {
+          const ext = fileName.split(".")[1];
+          const Key = `images/event-${input.eventId}/${
+            ctx.userId
+          }/${randomUUID()}.${ext}`;
 
-      const command = new PutObjectCommand({
-        Bucket: process.env.S3_BUCKET_NAME,
-        Key,
-      });
-      return getSignedUrl(s3, command, {
-        expiresIn: 3600,
-      });
+          const command = new PutObjectCommand({
+            Bucket: process.env.S3_BUCKET_NAME,
+            Key,
+          });
+
+          return getSignedUrl(s3, command, {
+            expiresIn: 3600,
+          });
+        })
+      );
+      return signedUrls;
     }),
   addToDatabase: privateProcedure
     .input(

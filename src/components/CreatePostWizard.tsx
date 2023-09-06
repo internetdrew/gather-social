@@ -207,7 +207,7 @@ const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
                 id="caption"
                 name="caption"
                 rows={4}
-                className="rounded-lg p-3 text-lg outline-none ring-1 ring-black focus:outline-2 focus:outline-pink-500 focus:ring-0"
+                className="rounded-lg p-3 text-lg outline outline-gray-400 focus:outline-2 focus:outline-pink-500 focus:ring-0"
                 placeholder="Caption your post here..."
                 value={caption}
                 onChange={(e) => setCaption(e.target.value)}

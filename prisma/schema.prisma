@@ -37,9 +37,9 @@ model Post {
     id        String    @id @default(cuid())
     createdAt DateTime  @default(now())
     images    Image[]
-    caption   String    @db.VarChar(255)
+    caption   String?   @db.VarChar(255)
     authorId  String
-    event     Event     @relation(fields: [eventId], references: [id])
+    event     Event?    @relation(fields: [eventId], references: [id])
     eventId   String
     comments  Comment[]
     likes     Like[]
@@ -50,7 +50,7 @@ model Post {
 model Image {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
-    url       String
+    url       String   @db.VarChar(600)
     post      Post     @relation(fields: [postId], references: [id])
     postId    String
     Event     Event    @relation(fields: [eventId], references: [id])

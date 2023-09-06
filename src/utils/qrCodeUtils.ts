@@ -39,7 +39,7 @@ export const generateQRCodePromise = (event: Event) => {
 export const generateQRCode = async (eventId: string): Promise<string> => {
   try {
     const qrCode = await QRCode.toDataURL(
-      `https://gathersocial.com/events/${eventId}`
+      `https://gathersocial.com/event/feed/${eventId}`
     );
     return qrCode;
   } catch (error) {

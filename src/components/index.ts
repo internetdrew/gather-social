@@ -5,4 +5,4 @@ export { default as LoadingSpinner } from "./LoadingSpinner";
 export { default as OptionsMenu } from "./OptionsMenu";
 export { default as EventModal } from "./EventModal";
 export { default as EventHeader } from "./EventHeader";
-export { default as ImageUpload } from "./ImageUpload";
+export { default as CreatePostWizard } from "./CreatePostWizard";

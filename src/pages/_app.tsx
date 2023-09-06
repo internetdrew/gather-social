@@ -4,10 +4,19 @@ import "~/styles/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { AppProps } from "next/app";
 import { RecoilRoot } from "recoil";
+import Head from "next/head";
 
 const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
   return (
     <ClerkProvider {...pageProps}>
+      <Head>
+        <title>Gather Social</title>
+        <meta
+          name="description"
+          content="Create private social networks for your special events."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <RecoilRoot>
         <Component {...pageProps} />
       </RecoilRoot>

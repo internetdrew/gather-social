@@ -10,14 +10,6 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>Gather Social</title>
-        <meta
-          name="description"
-          content="Create private social networks for your special events."
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <main className="flex h-screen flex-col items-center justify-center overflow-y-hidden bg-blue-500 px-3">
         <p className={`${modak.className} text-8xl text-pink-500`}>Gather</p>
         <h1 className="mb-5 text-center text-2xl font-semibold text-white md:text-3xl">

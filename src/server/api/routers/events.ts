@@ -5,6 +5,7 @@ import { TRPCError } from "@trpc/server";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { generateQRCode } from "~/utils/qrCodeUtils";
 import { Buffer } from "buffer";
+import { useS3 } from "~/hooks/useS3";
 
 export const eventsRouter = createTRPCRouter({
   getCurrentUserEvents: privateProcedure.query(async ({ ctx }) => {
@@ -117,17 +118,8 @@ export const eventsRouter = createTRPCRouter({
       );
 
       const bucketName = process.env.S3_BUCKET_NAME;
-      const bucketRegion = process.env.S3_BUCKET_REGION;
-      const accessKey = process.env.S3_ACCESS_KEY;
-      const secretKey = process.env.S3_SECRET_KEY;
 
-      const s3 = new S3Client({
-        region: bucketRegion,
-        credentials: {
-          accessKeyId: accessKey!,
-          secretAccessKey: secretKey!,
-        },
-      });
+      const s3 = useS3();
 
       const qrImageKey = `qr_codes/event_${event.id}.png`;
 
@@ -187,20 +179,18 @@ export const eventsRouter = createTRPCRouter({
   getEventDetails: privateProcedure
     .input(
       z.object({
-        id: z.string().min(1),
+        eventId: z.string().min(1),
       })
     )
     .query(async ({ ctx, input }) => {
-      const users = await clerkClient.users.getUserList();
-
       const eventDetails = await ctx.prisma.event.findUnique({
         where: {
-          id: input.id,
+          id: input.eventId,
         },
       });
       const { hostId, ...cleanEventDetails } = eventDetails ?? {};
 
-      const hostDetails = users.find((user) => user.id === hostId);
+      const hostDetails = await clerkClient.users.getUser(hostId!);
       const {
         firstName,
         lastName,

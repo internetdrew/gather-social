@@ -1,9 +1,13 @@
+import Image from "next/image";
 import React from "react";
+import { type RouterOutputs } from "~/utils/api";
 
-const EventHeader = () => {
+type EventData = RouterOutputs["events"]["getEventDetails"];
+
+const EventHeader: React.FC<{ eventData: EventData }> = ({ eventData }) => {
   return (
     <div className="mx-auto flex w-[95%] flex-col rounded-3xl bg-slate-100 p-6 text-center ring-1 ring-black sm:w-1/2 xl:w-1/3">
-      {/* <h1 className="mb-2 text-xl font-semibold lg:text-3xl">
+      <h1 className="mb-2 text-xl font-semibold lg:text-3xl">
         {eventData?.title}
       </h1>
       <div className="text-lg">
@@ -20,7 +24,7 @@ const EventHeader = () => {
             {eventData.hostDetails.firstName} {eventData.hostDetails.lastName}
           </p>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

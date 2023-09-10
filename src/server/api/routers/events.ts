@@ -2,7 +2,7 @@ import { z } from "zod";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs";
 import { TRPCError } from "@trpc/server";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { generateQRCode } from "~/utils/qrCodeUtils";
 import { Buffer } from "buffer";
 import { useS3 } from "~/hooks/useS3";

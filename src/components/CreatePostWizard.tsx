@@ -156,6 +156,13 @@ const CreatePostWizard: ForwardRefRenderFunction<
 
       if (modalRef.current) modalRef.current.close();
       await ctx.posts.getAllForEvent.invalidate();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      compressedImagesForUI.forEach((url) => {
+        URL.revokeObjectURL(url);
+      });
+      setCaption("");
+      setImageFiles([]);
+      setCompressedImagesForUI([]);
     } catch (error) {
       console.error(error);
     }

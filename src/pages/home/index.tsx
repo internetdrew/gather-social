@@ -13,7 +13,7 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <section className="mx-auto flex max-w-2xl flex-col items-center justify-center space-y-10 pt-20">
+        <section className="mx-auto flex max-w-2xl flex-col items-center justify-center space-y-10 pt-10">
           <UserWelcome />
           <UserEventsList />
         </section>

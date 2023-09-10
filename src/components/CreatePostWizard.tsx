@@ -1,11 +1,30 @@
-import React, { useRef, type ChangeEvent, useState } from "react";
+import React, {
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+  type ChangeEvent,
+  type ForwardRefRenderFunction,
+  useState,
+} from "react";
 import { XMarkIcon, PhotoIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import imageCompression from "browser-image-compression";
 import { useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 
-const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
+interface PostWizardProps {
+  eventId: string;
+}
+
+export interface PostWizardRef {
+  openModal: () => void;
+  closeModal: () => void;
+}
+
+const CreatePostWizard: ForwardRefRenderFunction<
+  PostWizardRef,
+  PostWizardProps
+> = ({ eventId }, ref) => {
   const modalRef = useRef<HTMLDialogElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
@@ -17,6 +36,19 @@ const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
   const [imageFileMapping, setImageFileMapping] = useState<
     Record<string, File>
   >({});
+
+  const openModal = () => {
+    if (modalRef.current) modalRef.current.showModal();
+  };
+
+  const closeModal = () => {
+    if (modalRef.current) modalRef.current.close();
+  };
+
+  useImperativeHandle(ref, () => ({
+    openModal,
+    closeModal,
+  }));
 
   const ctx = api.useContext();
 
@@ -252,4 +284,4 @@ const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
   );
 };
 
-export default CreatePostWizard;
+export default forwardRef(CreatePostWizard);

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
+import { clerkClient } from "@clerk/nextjs";
 
 export const postsRouter = createTRPCRouter({
   getAllForEvent: privateProcedure
@@ -9,15 +10,45 @@ export const postsRouter = createTRPCRouter({
         eventId: z.string().min(1),
       })
     )
-    .query(({ ctx, input }) => {
-      const posts = ctx.prisma.post.findMany({
+    .query(async ({ ctx, input }) => {
+      const posts = await ctx.prisma.post.findMany({
         take: 100,
         where: {
           eventId: input.eventId,
         },
+        include: {
+          images: {
+            select: {
+              url: true,
+              id: true,
+            },
+          },
+          comments: true,
+          likes: true,
+        },
         orderBy: [{ createdAt: "desc" }],
       });
-      return posts;
+
+      const users = await clerkClient.users.getUserList({
+        userId: posts.map((post) => post.authorId),
+        limit: 100,
+      });
+
+      return posts.map((post) => {
+        const postAuthor = users.find((user) => user.id === post.authorId);
+        if (postAuthor) {
+          const { authorId, ...postDetails } = post;
+          void authorId;
+          return {
+            ...postDetails,
+            author: {
+              avatar: postAuthor.profileImageUrl,
+              firstName: postAuthor.firstName,
+              lastName: postAuthor.lastName,
+            },
+          };
+        }
+      });
     }),
   create: privateProcedure
     .input(

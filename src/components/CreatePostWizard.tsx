@@ -1,4 +1,4 @@
-import React, { useRef, type ChangeEvent, useState, useEffect } from "react";
+import React, { useRef, type ChangeEvent, useState } from "react";
 import { XMarkIcon, PhotoIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import imageCompression from "browser-image-compression";
@@ -17,6 +17,8 @@ const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
   const [imageFileMapping, setImageFileMapping] = useState<
     Record<string, File>
   >({});
+
+  const ctx = api.useContext();
 
   const { mutateAsync: addImageToDatabase } =
     api.images.addToDatabase.useMutation({});
@@ -119,14 +121,13 @@ const CreatePostWizard: React.FC<{ eventId: string }> = ({ eventId }) => {
           postId: post.id,
         });
       }
+
+      if (modalRef.current) modalRef.current.close();
+      await ctx.posts.getAllForEvent.invalidate();
     } catch (error) {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    if (modalRef.current) modalRef.current.showModal();
-  }, []);
 
   return (
     <dialog

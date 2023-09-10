@@ -1,4 +1,4 @@
-import { EventHeader, CreatePostWizard } from "~/components";
+import { EventHeader, CreatePostWizard, EventFeed } from "~/components";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
@@ -7,17 +7,19 @@ import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
 
 const EventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
-  const { data } = api.events.getEventDetails.useQuery({
+  const { data: eventDetails } = api.events.getEventDetails.useQuery({
     eventId,
   });
-  if (!data) return <h1>No data</h1>;
+  const { data: postData } = api.posts.getAllForEvent.useQuery({ eventId });
+  if (!eventDetails) return <h1>No data</h1>;
 
   return (
     <>
       <main>
-        <section className="mt-20">
-          <EventHeader eventData={data} />
-          <CreatePostWizard eventId={eventId} />
+        <section>
+          <EventHeader eventData={eventDetails} />
+          {/* <CreatePostWizard eventId={eventId} /> */}
+          <EventFeed posts={postData!} />
         </section>
       </main>
     </>

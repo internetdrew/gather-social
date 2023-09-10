@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import type { AppProps } from "next/app";
 import { RecoilRoot } from "recoil";
 import Head from "next/head";
+import { Layout } from "~/components";
 
 const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
   return (
@@ -18,7 +19,9 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <RecoilRoot>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </RecoilRoot>
     </ClerkProvider>
   );

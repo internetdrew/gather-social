@@ -24,6 +24,10 @@ const config = {
         protocol: "https",
         hostname: "images.clerk.dev",
       },
+      {
+        protocol: "https",
+        hostname: "gather-social.s3.us-east-1.amazonaws.com",
+      },
     ],
   },
   // async rewrites() {

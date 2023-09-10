@@ -6,3 +6,7 @@ export { default as OptionsMenu } from "./OptionsMenu";
 export { default as EventModal } from "./EventModal";
 export { default as EventHeader } from "./EventHeader";
 export { default as CreatePostWizard } from "./CreatePostWizard";
+export { default as EventFeed } from "./EventFeed";
+export { default as Navbar } from "./Navbar";
+export { default as Footer } from "./Footer";
+export { default as Layout } from "./Layout";

@@ -28,9 +28,9 @@ const Navbar: React.FC<NavbarProps> = ({ isEventFeed }) => {
           <SignedIn>
             <UserButton />
           </SignedIn>
-          <button className="sm:hidden">
+          {/* <button className="sm:hidden">
             <Bars3Icon className="h-8 w-8 stroke-pink-500 stroke-2" />
-          </button>
+          </button> */}
         </div>
       </div>
     </nav>

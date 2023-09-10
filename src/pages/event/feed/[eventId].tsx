@@ -1,4 +1,4 @@
-import { EventHeader, CreatePostWizard, EventFeed } from "~/components";
+import { EventHeader, EventFeed } from "~/components";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
@@ -18,7 +18,6 @@ const EventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
       <main>
         <section>
           <EventHeader eventData={eventDetails} />
-          {/* <CreatePostWizard eventId={eventId} /> */}
           <EventFeed posts={postData!} />
         </section>
       </main>

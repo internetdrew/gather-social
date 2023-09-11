@@ -130,7 +130,6 @@ const CreatePostWizard: ForwardRefRenderFunction<
       });
 
       if (!post?.id) return;
-      console.log(fileNames);
 
       const presignedUrls = await createPresignedUrl({
         eventId,

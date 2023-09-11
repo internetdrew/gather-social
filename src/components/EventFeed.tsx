@@ -10,7 +10,6 @@ type PostsData = RouterOutputs["posts"]["getAllForEvent"];
 type PostData = RouterOutputs["posts"]["getAllForEvent"][number];
 
 const Post: React.FC<{ post: PostData }> = ({ post }) => {
-  console.log(post);
   return (
     <div className="w-full rounded-2xl bg-slate-100 px-6 py-3 ring-1 ring-black">
       <div>
@@ -34,15 +33,15 @@ const Post: React.FC<{ post: PostData }> = ({ post }) => {
             <EllipsisHorizontalIcon className="h-6 w-6" />
           </button>
         </div>
-        <div className="2xl mt-4 h-96 w-full rounded ring-1 ring-black">
+        <div className="2xl mt-4 h-min w-full  ring-1 ring-black">
           {post ? (
             <div>
               {post.images.map((image) => (
                 <Image
                   key={image.id}
                   src={image.signedUrl}
-                  width={500}
-                  height={500}
+                  height={1200}
+                  width={1028}
                   alt="images"
                 />
               ))}

@@ -53,7 +53,19 @@ const CreatePostWizard: ForwardRefRenderFunction<
   const ctx = api.useContext();
 
   const { mutateAsync: addImageToDatabase } =
-    api.images.addToDatabase.useMutation({});
+    api.images.addToDatabase.useMutation({
+      onSuccess: async () => {
+        if (modalRef.current) modalRef.current.close();
+        await ctx.posts.getAllForEvent.invalidate();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        compressedImagesForUI.forEach((url) => {
+          URL.revokeObjectURL(url);
+        });
+        setCaption("");
+        setImageFiles([]);
+        setCompressedImagesForUI([]);
+      },
+    });
 
   const { mutateAsync: createPost, isLoading: isPosting } =
     api.posts.create.useMutation({});
@@ -128,7 +140,7 @@ const CreatePostWizard: ForwardRefRenderFunction<
     try {
       const post = await createPost({
         eventId,
-        caption: caption.length > 0 ? caption : null,
+        caption: caption.trim().length > 0 ? caption : null,
         userId: user.id,
       });
 
@@ -153,16 +165,6 @@ const CreatePostWizard: ForwardRefRenderFunction<
           postId: post.id,
         });
       }
-
-      if (modalRef.current) modalRef.current.close();
-      await ctx.posts.getAllForEvent.invalidate();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      compressedImagesForUI.forEach((url) => {
-        URL.revokeObjectURL(url);
-      });
-      setCaption("");
-      setImageFiles([]);
-      setCompressedImagesForUI([]);
     } catch (error) {
       console.error(error);
     }
@@ -282,7 +284,7 @@ const CreatePostWizard: ForwardRefRenderFunction<
               }
               onClick={() => void handleSubmit()}
             >
-              Post
+              {isPosting ? "Posting..." : "Post"}
             </button>
           </div>
         </div>

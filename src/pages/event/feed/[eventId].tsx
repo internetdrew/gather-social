@@ -18,7 +18,7 @@ const EventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
       <main>
         <section>
           <EventHeader eventData={eventDetails} />
-          <EventFeed posts={postData!} />
+          <EventFeed posts={postData ?? []} />
         </section>
       </main>
     </>

@@ -65,6 +65,7 @@ const CreatePostWizard: ForwardRefRenderFunction<
         setImageFiles([]);
         setCompressedImagesForUI([]);
       },
+      onError: (err) => console.log(err),
     });
 
   const { mutateAsync: createPost, isLoading: isPosting } =

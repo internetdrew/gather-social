@@ -36,6 +36,7 @@ export const imagesRouter = createTRPCRouter({
           });
         })
       );
+      console.log(signedUrls);
       return signedUrls;
     }),
   addToDatabase: privateProcedure
@@ -50,13 +51,14 @@ export const imagesRouter = createTRPCRouter({
       try {
         const image = await ctx.prisma.image.create({
           data: {
-            url: input.imageUrl,
+            s3key: input.imageUrl,
             postId: input.postId,
             eventId: input.eventId,
           },
         });
         return image;
       } catch (error) {
+        console.log(error);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to create new image in db.",

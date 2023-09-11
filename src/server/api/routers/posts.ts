@@ -19,7 +19,7 @@ export const postsRouter = createTRPCRouter({
         include: {
           images: {
             select: {
-              url: true,
+              s3key: true,
               id: true,
             },
           },
@@ -28,6 +28,7 @@ export const postsRouter = createTRPCRouter({
         },
         orderBy: [{ createdAt: "desc" }],
       });
+      console.log(posts);
 
       const users = await clerkClient.users.getUserList({
         userId: posts.map((post) => post.authorId),

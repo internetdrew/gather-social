@@ -7,7 +7,7 @@ import { randomUUID } from "crypto";
 import { TRPCError } from "@trpc/server";
 
 export const imagesRouter = createTRPCRouter({
-  createPresignedUrl: privateProcedure
+  createPresignedUrlAndSaveImagesToDB: privateProcedure
     .input(
       z.object({
         eventId: z.string(),
@@ -20,23 +20,29 @@ export const imagesRouter = createTRPCRouter({
 
       const fileNames = input.fileNames;
       const signedUrls = Promise.all(
-        fileNames.map((fileName) => {
+        fileNames.map(async (fileName) => {
           const ext = fileName.split(".")[1];
-          const Key = `images/event-${input.eventId}/${ctx.userId}/post-${
+          const key = `images/event-${input.eventId}/${ctx.userId}/post-${
             input.postId
           }/${randomUUID()}.${ext}`;
 
           const command = new PutObjectCommand({
             Bucket: process.env.S3_BUCKET_NAME,
-            Key,
+            Key: key,
           });
 
+          await ctx.prisma.image.create({
+            data: {
+              postId: input.postId,
+              eventId: input.eventId,
+              s3Key: key,
+            },
+          });
           return getSignedUrl(s3, command, {
             expiresIn: 3600,
           });
         })
       );
-      console.log(signedUrls);
       return signedUrls;
     }),
   addToDatabase: privateProcedure
@@ -51,7 +57,7 @@ export const imagesRouter = createTRPCRouter({
       try {
         const image = await ctx.prisma.image.create({
           data: {
-            s3key: input.imageUrl,
+            s3Key: input.imageUrl,
             postId: input.postId,
             eventId: input.eventId,
           },

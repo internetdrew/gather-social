@@ -11,14 +11,15 @@ const EventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
     eventId,
   });
   const { data: postData } = api.posts.getAllForEvent.useQuery({ eventId });
-  if (!eventDetails) return <h1>No data</h1>;
+
+  if (!eventDetails || !postData) return <h1>No for this event. Sorry!</h1>;
 
   return (
     <>
       <main>
         <section>
           <EventHeader eventData={eventDetails} />
-          <EventFeed posts={postData ?? []} />
+          <EventFeed posts={postData} />
         </section>
       </main>
     </>

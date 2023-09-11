@@ -2,6 +2,9 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs";
+import { useS3 } from "~/hooks/useS3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
 
 export const postsRouter = createTRPCRouter({
   getAllForEvent: privateProcedure
@@ -11,6 +14,8 @@ export const postsRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
+      const s3 = useS3();
+
       const posts = await ctx.prisma.post.findMany({
         take: 100,
         where: {
@@ -19,8 +24,8 @@ export const postsRouter = createTRPCRouter({
         include: {
           images: {
             select: {
-              s3key: true,
               id: true,
+              s3Key: true,
             },
           },
           comments: true,
@@ -28,14 +33,13 @@ export const postsRouter = createTRPCRouter({
         },
         orderBy: [{ createdAt: "desc" }],
       });
-      console.log(posts);
 
       const users = await clerkClient.users.getUserList({
         userId: posts.map((post) => post.authorId),
         limit: 100,
       });
 
-      return posts.map((post) => {
+      const postsWithAuthors = posts.map((post) => {
         const postAuthor = users.find((user) => user.id === post.authorId);
         if (postAuthor) {
           const { authorId, ...postDetails } = post;
@@ -50,6 +54,33 @@ export const postsRouter = createTRPCRouter({
           };
         }
       });
+      const finalizedPostData = await Promise.all(
+        postsWithAuthors.map(async (post) => {
+          if (post) {
+            const signedUrls = Promise.all(
+              post.images.map(async (image) => {
+                const command = new GetObjectCommand({
+                  Bucket: process.env.S3_BUCKET_NAME,
+                  Key: image.s3Key,
+                });
+
+                const signedUrl = await getSignedUrl(s3, command, {
+                  expiresIn: 3600,
+                });
+                return { id: image.id, signedUrl };
+              })
+            );
+
+            const freshImageData = await signedUrls;
+            return {
+              ...post,
+              images: freshImageData,
+            };
+          }
+        })
+      );
+
+      return finalizedPostData;
     }),
   create: privateProcedure
     .input(

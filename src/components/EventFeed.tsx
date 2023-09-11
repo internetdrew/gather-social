@@ -1,15 +1,16 @@
 import Image from "next/image";
 import React from "react";
-import { type RouterOutputs } from "~/utils/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import { type RouterOutputs } from "~/utils/api";
 
 type PostsData = RouterOutputs["posts"]["getAllForEvent"];
 type PostData = RouterOutputs["posts"]["getAllForEvent"][number];
 
 const Post: React.FC<{ post: PostData }> = ({ post }) => {
+  console.log(post);
   return (
     <div className="w-full rounded-2xl bg-slate-100 px-6 py-3 ring-1 ring-black">
       <div>
@@ -36,15 +37,15 @@ const Post: React.FC<{ post: PostData }> = ({ post }) => {
         <div className="2xl mt-4 h-96 w-full rounded ring-1 ring-black">
           {post ? (
             <div>
-              {/* {post.images.map((image) => (
+              {post.images.map((image) => (
                 <Image
                   key={image.id}
-                  src={image.url}
+                  src={image.signedUrl}
                   width={500}
                   height={500}
                   alt="images"
                 />
-              ))} */}
+              ))}
             </div>
           ) : null}
         </div>
@@ -59,9 +60,9 @@ const Post: React.FC<{ post: PostData }> = ({ post }) => {
 const EventFeed: React.FC<{ posts: PostsData }> = ({ posts }) => {
   return (
     <div className="mx-auto mt-10 flex w-[95%] flex-col gap-6 rounded-2xl sm:w-1/2 xl:w-1/3">
-      {posts.map((post) => (
-        <Post key={post!.id} post={post} />
-      ))}
+      {posts.map((post) => {
+        if (post) return <Post key={post.id} post={post} />;
+      })}
     </div>
   );
 };

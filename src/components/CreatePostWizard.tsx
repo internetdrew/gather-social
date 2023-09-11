@@ -52,29 +52,13 @@ const CreatePostWizard: ForwardRefRenderFunction<
 
   const ctx = api.useContext();
 
-  const { mutateAsync: addImageToDatabase } =
-    api.images.addToDatabase.useMutation({
-      onSuccess: async () => {
-        if (modalRef.current) modalRef.current.close();
-        await ctx.posts.getAllForEvent.invalidate();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        compressedImagesForUI.forEach((url) => {
-          URL.revokeObjectURL(url);
-        });
-        setCaption("");
-        setImageFiles([]);
-        setCompressedImagesForUI([]);
-      },
-      onError: (err) => console.log(err),
-    });
-
   const { mutateAsync: createPost, isLoading: isPosting } =
     api.posts.create.useMutation({});
 
   const { user } = useUser();
 
   const { mutateAsync: createPresignedUrl } =
-    api.images.createPresignedUrl.useMutation({});
+    api.images.createPresignedUrlAndSaveImagesToDB.useMutation({});
 
   const MAX_IMAGE_COUNT = 6;
 
@@ -146,6 +130,7 @@ const CreatePostWizard: ForwardRefRenderFunction<
       });
 
       if (!post?.id) return;
+      console.log(fileNames);
 
       const presignedUrls = await createPresignedUrl({
         eventId,
@@ -159,13 +144,15 @@ const CreatePostWizard: ForwardRefRenderFunction<
         });
       }
 
-      for (const url of presignedUrls) {
-        await addImageToDatabase({
-          imageUrl: url,
-          eventId,
-          postId: post.id,
-        });
-      }
+      if (modalRef.current) modalRef.current.close();
+      await ctx.posts.getAllForEvent.invalidate();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      compressedImagesForUI.forEach((url) => {
+        URL.revokeObjectURL(url);
+      });
+      setCaption("");
+      setImageFiles([]);
+      setCompressedImagesForUI([]);
     } catch (error) {
       console.error(error);
     }

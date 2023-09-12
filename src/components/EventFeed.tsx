@@ -51,7 +51,7 @@ const Post: React.FC<{ post: PostData }> = ({ post }) => {
               <EllipsisHorizontalIcon className="h-6 w-6" />
             </button>
           </div>
-          <div className="relative mt-4 h-[40rem] overflow-hidden ring-1 ring-black">
+          <div className="relative mt-4 min-h-min overflow-hidden ring-1 ring-black">
             <div className="relative flex h-full w-full items-center bg-black">
               {post?.images.map((image) => (
                 <div

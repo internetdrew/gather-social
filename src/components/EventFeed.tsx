@@ -51,19 +51,18 @@ const Post: React.FC<{ post: PostData }> = ({ post }) => {
               <EllipsisHorizontalIcon className="h-6 w-6" />
             </button>
           </div>
-          <div className="relative mt-4 min-h-min overflow-hidden ring-1 ring-black">
-            <div className="relative flex h-full w-full items-center bg-black">
+          <div className="relative mt-4 overflow-hidden ring-1 ring-black">
+            <div className="relative flex h-96 w-full items-center">
               {post?.images.map((image) => (
                 <div
                   key={image.id}
-                  className="relative flex h-full w-full flex-shrink-0 duration-300 ease-out"
+                  className="flex h-full w-full flex-shrink-0 duration-300 ease-out"
                   style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                 >
                   <Image
                     src={image.signedUrl}
-                    height={500}
-                    width={500}
                     alt="images"
+                    fill
                     loading="lazy"
                     className="mx-auto my-auto h-full w-full object-cover"
                     style={{ objectFit: "cover" }}
@@ -88,6 +87,7 @@ const Post: React.FC<{ post: PostData }> = ({ post }) => {
               <button
                 className="h-7 w-7 rounded-full bg-slate-100 p-1 duration-300 hover:scale-105 disabled:opacity-0"
                 disabled={currentSlide === 0}
+                aria-label="previous-slide"
                 onClick={prevSlide}
               >
                 <ChevronLeftIcon className="h-full w-full stroke-2" />
@@ -95,6 +95,7 @@ const Post: React.FC<{ post: PostData }> = ({ post }) => {
               <button
                 className="h-7 w-7 rounded-full bg-slate-100 p-1 duration-300 hover:scale-105 disabled:opacity-0"
                 disabled={currentSlide === post.images.length - 1}
+                aria-label="next-slide"
                 onClick={nextSlide}
               >
                 <ChevronRightIcon className="h-full w-full stroke-2" />

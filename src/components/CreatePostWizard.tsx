@@ -64,12 +64,11 @@ const CreatePostWizard: ForwardRefRenderFunction<
 
   const onFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    setImageFiles(Array.from(e.target.files));
 
     const compressAndSetImages = async (files: FileList) => {
       const options = {
         maxSizeMB: 1,
-        maxWidthOrHeight: 800,
+        maxWidthOrHeight: 1920,
       };
 
       try {
@@ -77,6 +76,8 @@ const CreatePostWizard: ForwardRefRenderFunction<
           Array.from(files).map(async (file) => {
             try {
               const compressedFile = await imageCompression(file, options);
+              setImageFiles((prevFiles) => [...prevFiles, compressedFile]);
+              console.log(compressedFile);
               const compressedImageUrl = URL.createObjectURL(compressedFile);
 
               setImageFileMapping((prevMapping) => ({

@@ -20,7 +20,7 @@ const Navbar: React.FC<NavbarProps> = ({ isEventFeed, postWizardRef }) => {
   };
 
   return (
-    <nav className="sticky top-0 bg-[#3b82f6]">
+    <nav className="fixed z-10 w-full bg-[#3b82f6]">
       <div className="mx-auto flex max-w-screen-lg items-center justify-between bg-transparent p-4">
         <div
           className={`${modak.className} text-3xl text-pink-500  sm:text-4xl`}

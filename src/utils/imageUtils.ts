@@ -1,34 +1,24 @@
-// export function convertBlobToBase64(blob: Blob): Promise<string> {
-//   return new Promise((resolve, reject) => {
-//     try {
-//       const reader = new FileReader();
+import imageCompression from "browser-image-compression";
 
-//       reader.onloadend = () => {
-//         if (typeof reader.result === "string") {
-//           resolve(reader.result);
-//         } else {
-//           reject(new Error("Failed to read blob as Base64."));
-//         }
-//       };
+export const compressImages = async (files: FileList) => {
+  const options = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1920,
+  };
 
-//       reader.onerror = () => {
-//         reject(new Error("Failed to read blob as Base64."));
-//       };
-
-//       reader.readAsDataURL(blob);
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   });
-// }
-
-// export function base64ToBinary(base64String: string) {
-//   const binaryString = atob(base64String);
-//   const bytes = new Uint8Array(binaryString.length);
-
-//   for (let i = 0; i < binaryString.length; i++) {
-//     bytes[i] = binaryString.charCodeAt(i);
-//   }
-
-//   return bytes;
-// }
+  try {
+    return await Promise.all(
+      Array.from(files).map(async (file) => {
+        try {
+          const compressedFile = await imageCompression(file, options);
+          return compressedFile;
+        } catch (error) {
+          console.error("Image compression error:", error);
+          throw error;
+        }
+      })
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};

@@ -64,7 +64,7 @@ const Post: React.FC<{ post: PostData }> = ({ post }) => {
                     height={500}
                     width={500}
                     alt="images"
-                    priority
+                    loading="lazy"
                     className="mx-auto my-auto h-full w-full object-cover"
                     style={{ objectFit: "cover" }}
                   />

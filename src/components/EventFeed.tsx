@@ -3,7 +3,11 @@ import React from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  EllipsisHorizontalIcon,
+} from "@heroicons/react/24/outline";
 import { type RouterOutputs } from "~/utils/api";
 
 type PostsData = RouterOutputs["posts"]["getAllForEvent"];
@@ -33,20 +37,27 @@ const Post: React.FC<{ post: PostData }> = ({ post }) => {
             <EllipsisHorizontalIcon className="h-6 w-6" />
           </button>
         </div>
-        <div className="2xl mt-4 h-min w-full  ring-1 ring-black">
-          {post ? (
-            <div>
-              {post.images.map((image) => (
-                <Image
-                  key={image.id}
-                  src={image.signedUrl}
-                  height={1200}
-                  width={1028}
-                  alt="images"
-                />
-              ))}
+        <div className="relative mt-4 flex overflow-scroll ring-1 ring-black">
+          {post?.images.map((image) => (
+            <div key={image.id} className="w-full flex-shrink-0">
+              <Image
+                src={image.signedUrl}
+                height={200}
+                width={200}
+                alt="images"
+                priority
+                className="mx-auto h-auto w-full object-cover "
+              />
             </div>
-          ) : null}
+          ))}
+          <div className="absolute inset-0 flex items-center justify-between p-4">
+            <button className="h-7 w-7 rounded-full bg-slate-100 p-1 duration-300 hover:scale-105">
+              <ChevronLeftIcon className="h-full w-full stroke-2" />
+            </button>
+            <button className="h-7 w-7 rounded-full bg-slate-100 p-1 duration-300 hover:scale-105">
+              <ChevronRightIcon className="h-full w-full stroke-2" />
+            </button>
+          </div>
         </div>
         <div className="mt-2">
           <p>{post?.caption}</p>

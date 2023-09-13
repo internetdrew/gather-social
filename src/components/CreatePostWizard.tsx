@@ -77,7 +77,6 @@ const CreatePostWizard: ForwardRefRenderFunction<
             try {
               const compressedFile = await imageCompression(file, options);
               setImageFiles((prevFiles) => [...prevFiles, compressedFile]);
-              console.log(compressedFile);
               const compressedImageUrl = URL.createObjectURL(compressedFile);
 
               setImageFileMapping((prevMapping) => ({

@@ -2,9 +2,6 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs";
-import { useS3 } from "~/hooks/useS3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { GetObjectCommand } from "@aws-sdk/client-s3";
 
 export const postsRouter = createTRPCRouter({
   getAllForEvent: privateProcedure
@@ -14,8 +11,6 @@ export const postsRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      const s3 = useS3();
-
       const posts = await ctx.prisma.post.findMany({
         take: 100,
         where: {
@@ -39,7 +34,7 @@ export const postsRouter = createTRPCRouter({
         limit: 100,
       });
 
-      const postsWithAuthors = posts.map((post) => {
+      const finalizedPostData = posts.map((post) => {
         const postAuthor = users.find((user) => user.id === post.authorId);
         if (postAuthor) {
           const { authorId, ...postDetails } = post;
@@ -51,34 +46,19 @@ export const postsRouter = createTRPCRouter({
               firstName: postAuthor.firstName,
               lastName: postAuthor.lastName,
             },
+            images: post.images.map((image) => {
+              if (image) {
+                const { s3Key, ...rest } = image;
+                void s3Key;
+                return {
+                  ...rest,
+                  url: process.env.CLOUDFRONT_DIST_DOMAIN + image.s3Key,
+                };
+              }
+            }),
           };
         }
       });
-      const finalizedPostData = await Promise.all(
-        postsWithAuthors.map(async (post) => {
-          if (post) {
-            const signedUrls = Promise.all(
-              post.images.map(async (image) => {
-                const command = new GetObjectCommand({
-                  Bucket: process.env.S3_BUCKET_NAME,
-                  Key: image.s3Key,
-                });
-
-                const signedUrl = await getSignedUrl(s3, command, {
-                  expiresIn: 3600,
-                });
-                return { id: image.id, signedUrl };
-              })
-            );
-
-            const freshImageData = await signedUrls;
-            return {
-              ...post,
-              images: freshImageData,
-            };
-          }
-        })
-      );
 
       return finalizedPostData;
     }),

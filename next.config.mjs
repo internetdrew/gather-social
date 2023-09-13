@@ -28,6 +28,10 @@ const config = {
         protocol: "https",
         hostname: "gather-social.s3.us-east-1.amazonaws.com",
       },
+      {
+        protocol: "https",
+        hostname: "d2cl6yr7yl0xjp.cloudfront.net",
+      },
     ],
   },
   // async rewrites() {

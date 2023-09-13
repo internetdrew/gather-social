@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useDetectClickOutside } from "react-detect-click-outside";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 
 interface MenuOption {
   id: number;
@@ -29,7 +29,7 @@ const OptionsMenu = (props: OptionsMenuProps) => {
   return (
     <div className="relative z-10 mt-1 h-6 w-6 flex-shrink-0" ref={ref}>
       <button onClick={() => setShowMenu(!showMenu)}>
-        <EllipsisVerticalIcon className="h-full w-full" />
+        <EllipsisHorizontalIcon className="h-full w-full" />
       </button>
 
       <div

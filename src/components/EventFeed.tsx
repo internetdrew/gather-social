@@ -57,78 +57,72 @@ const Post: React.FC<{ post: PostData; postIndex: number }> = ({
               <EllipsisHorizontalIcon className="h-6 w-6" />
             </button>
           </div>
-          <div className="relative mt-4 overflow-hidden ring-1 ring-black">
-            <div className="relative flex h-96 w-full items-center">
-              {post?.images.map((image, imageIdx) => {
-                if (image) {
-                  return (
-                    <div
-                      key={image.id}
-                      className="relative flex h-full w-full flex-shrink-0 duration-300 ease-out"
-                      style={{
-                        transform: `translateX(-${currentSlide * 100}%)`,
-                      }}
-                    >
-                      {postIndex === 0 && imageIdx === 0 ? (
-                        <Image
-                          src={image.url}
-                          alt="images"
-                          fill
-                          priority
-                          className="mx-auto my-auto h-full w-full object-cover"
-                          style={{ objectFit: "cover" }}
-                          sizes="(min-width: 808px) 50vw, 100vw"
-                        />
-                      ) : (
-                        <Image
-                          src={image.url}
-                          alt="images"
-                          fill
-                          loading="lazy"
-                          className="mx-auto my-auto h-full w-full object-cover"
-                          style={{ objectFit: "cover" }}
-                          sizes="(min-width: 808px) 50vw, 100vw"
-                        />
-                      )}
-                    </div>
-                  );
-                }
+          <div className="relative mt-4 flex h-96 overflow-hidden ring-1 ring-black">
+            {post?.images.map((image, imageIdx) => {
+              if (image) {
+                return (
+                  <div
+                    key={image.id}
+                    className="relative flex h-full w-full flex-shrink-0 bg-slate-950 duration-300 ease-out"
+                    style={{
+                      transform: `translateX(-${currentSlide * 100}%)`,
+                    }}
+                  >
+                    {postIndex === 0 && imageIdx === 0 ? (
+                      <Image
+                        src={image.url}
+                        alt="images"
+                        fill
+                        priority
+                        className="object-contain"
+                      />
+                    ) : (
+                      <Image
+                        src={image.url}
+                        alt="images"
+                        fill
+                        loading="lazy"
+                        className="object-contain"
+                      />
+                    )}
+                  </div>
+                );
+              }
+            })}
+            <div className="absolute bottom-4 flex w-full items-center justify-center gap-2">
+              {post.images.map((_, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className={`${
+                      currentSlide === idx ? "h-3 w-3" : "h-2 w-2"
+                    } rounded-full bg-white transition-all`}
+                  ></div>
+                );
               })}
-              <div className="absolute bottom-4 flex w-full items-center justify-center gap-2">
-                {post.images.map((_, idx) => {
-                  return (
-                    <div
-                      key={idx}
-                      className={`${
-                        currentSlide === idx ? "h-3 w-3" : "h-2 w-2"
-                      } rounded-full bg-white transition-all`}
-                    ></div>
-                  );
-                })}
-              </div>
+            </div>
 
-              <div className="absolute inset-0 flex items-center justify-between p-4">
-                <button
-                  className="h-7 w-7 rounded-full bg-slate-100 p-1 duration-300 hover:scale-105 disabled:opacity-0"
-                  disabled={currentSlide === 0}
-                  aria-label="previous-slide"
-                  onClick={prevSlide}
-                >
-                  <ChevronLeftIcon className="h-full w-full stroke-2" />
-                </button>
-                <button
-                  className="h-7 w-7 rounded-full bg-slate-100 p-1 duration-300 hover:scale-105 disabled:opacity-0"
-                  disabled={currentSlide === post.images.length - 1}
-                  aria-label="next-slide"
-                  onClick={nextSlide}
-                >
-                  <ChevronRightIcon className="h-full w-full stroke-2" />
-                </button>
-              </div>
+            <div className="absolute inset-0 flex items-center justify-between p-4">
+              <button
+                className="h-7 w-7 rounded-full bg-slate-100 p-1 duration-300 hover:scale-105 disabled:opacity-0"
+                disabled={currentSlide === 0}
+                aria-label="previous-slide"
+                onClick={prevSlide}
+              >
+                <ChevronLeftIcon className="h-full w-full stroke-2" />
+              </button>
+              <button
+                className="h-7 w-7 rounded-full bg-slate-100 p-1 duration-300 hover:scale-105 disabled:opacity-0"
+                disabled={currentSlide === post.images.length - 1}
+                aria-label="next-slide"
+                onClick={nextSlide}
+              >
+                <ChevronRightIcon className="h-full w-full stroke-2" />
+              </button>
             </div>
-            <div className="mt-2">
-              <p>{post?.caption}</p>
-            </div>
+          </div>
+          <div className="mt-2">
+            <p>{post?.caption}</p>
           </div>
         </div>
       </div>
@@ -138,7 +132,7 @@ const Post: React.FC<{ post: PostData; postIndex: number }> = ({
 
 const EventFeed: React.FC<{ posts: PostsData }> = ({ posts }) => {
   return (
-    <div className="mx-auto mt-10 flex w-[95%] flex-col gap-6 rounded-2xl sm:w-3/4 xl:w-1/3">
+    <div className="mx-auto mt-10 flex w-[95%] flex-col gap-6 rounded-2xl sm:w-3/4 xl:w-1/3 2xl:w-1/4">
       {posts.map((post, idx) => {
         if (post) return <Post key={post.id} post={post} postIndex={idx} />;
       })}

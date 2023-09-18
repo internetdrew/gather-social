@@ -68,7 +68,7 @@ const CreatePostWizard: ForwardRefRenderFunction<
     const compressAndSetImages = async (files: FileList) => {
       const options = {
         maxSizeMB: 1,
-        maxWidthOrHeight: 1920,
+        maxWidthOrHeight: 800,
       };
 
       try {

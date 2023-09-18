@@ -20,12 +20,12 @@ const Post: React.FC<{ post: PostData; postIndex: number }> = ({
   const [currentSlide, setCurrentSlide] = useState<number>(0);
 
   if (post) {
-    const prevSlide = () => {
+    const goToPrevSlide = () => {
       setCurrentSlide((prev) => {
         return prev === 0 ? 0 : prev - 1;
       });
     };
-    const nextSlide = () => {
+    const goToNextSlide = () => {
       setCurrentSlide((prevValue) => {
         return prevValue === post.images.length - 1 ? prevValue : prevValue + 1;
       });
@@ -107,7 +107,7 @@ const Post: React.FC<{ post: PostData; postIndex: number }> = ({
                 className="h-7 w-7 rounded-full bg-slate-100 p-1 duration-300 hover:scale-105 disabled:opacity-0"
                 disabled={currentSlide === 0}
                 aria-label="previous-slide"
-                onClick={prevSlide}
+                onClick={goToPrevSlide}
               >
                 <ChevronLeftIcon className="h-full w-full stroke-2" />
               </button>
@@ -115,7 +115,7 @@ const Post: React.FC<{ post: PostData; postIndex: number }> = ({
                 className="h-7 w-7 rounded-full bg-slate-100 p-1 duration-300 hover:scale-105 disabled:opacity-0"
                 disabled={currentSlide === post.images.length - 1}
                 aria-label="next-slide"
-                onClick={nextSlide}
+                onClick={goToNextSlide}
               >
                 <ChevronRightIcon className="h-full w-full stroke-2" />
               </button>

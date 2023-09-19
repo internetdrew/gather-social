@@ -6,6 +6,7 @@ import type { AppProps } from "next/app";
 import { RecoilRoot } from "recoil";
 import Head from "next/head";
 import { Layout } from "~/components";
+import { Toaster } from "react-hot-toast";
 
 const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
   return (
@@ -20,6 +21,7 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
       </Head>
       <RecoilRoot>
         <Layout>
+          <Toaster />
           <Component {...pageProps} />
         </Layout>
       </RecoilRoot>

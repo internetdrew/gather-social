@@ -74,6 +74,7 @@ const Post: React.FC<{ post: PostData; postIndex: number }> = ({
                         alt="images"
                         fill
                         priority
+                        sizes="(max-width: 640px) 100vw, (max-width: 1280px) 33vw, (max-width: 1536px) 25vw"
                         className="object-contain"
                       />
                     ) : (
@@ -82,6 +83,7 @@ const Post: React.FC<{ post: PostData; postIndex: number }> = ({
                         alt="images"
                         fill
                         loading="lazy"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1280px) 33vw, (max-width: 1536px) 25vw"
                         className="object-contain"
                       />
                     )}
@@ -89,20 +91,21 @@ const Post: React.FC<{ post: PostData; postIndex: number }> = ({
                 );
               }
             })}
-            <div className="absolute bottom-4 flex w-full items-center justify-center gap-2">
+            <div className="absolute bottom-4 flex w-full items-center justify-center gap-2 opacity-75">
               {post.images.map((_, idx) => {
-                return (
-                  <div
-                    key={idx}
-                    className={`${
-                      currentSlide === idx ? "h-3 w-3" : "h-2 w-2"
-                    } rounded-full bg-white transition-all`}
-                  ></div>
-                );
+                if (post.images.length > 1)
+                  return (
+                    <span
+                      key={idx}
+                      className={`${
+                        currentSlide === idx ? "h-3 w-3" : "h-2 w-2"
+                      } rounded-full bg-white transition-all`}
+                    ></span>
+                  );
               })}
             </div>
 
-            <div className="absolute inset-0 flex items-center justify-between p-4">
+            <div className="absolute inset-0 flex items-center justify-between p-4 opacity-75">
               <button
                 className="h-7 w-7 rounded-full bg-slate-100 p-1 duration-300 hover:scale-105 disabled:opacity-0"
                 disabled={currentSlide === 0}

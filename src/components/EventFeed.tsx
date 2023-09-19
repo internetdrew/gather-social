@@ -74,7 +74,7 @@ const Post: React.FC<{ post: PostData; postIndex: number }> = ({
                         alt="images"
                         fill
                         priority
-                        sizes="(max-width: 640px) 100vw, (max-width: 1280px) 33vw, (max-width: 1536px) 25vw"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-contain"
                       />
                     ) : (
@@ -83,7 +83,7 @@ const Post: React.FC<{ post: PostData; postIndex: number }> = ({
                         alt="images"
                         fill
                         loading="lazy"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1280px) 33vw, (max-width: 1536px) 25vw"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-contain"
                       />
                     )}

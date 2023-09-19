@@ -53,12 +53,15 @@ const CreatePostWizard: ForwardRefRenderFunction<
 
   const ctx = api.useContext();
 
-  const { mutateAsync: createPost, isLoading: isPosting } =
-    api.posts.create.useMutation({
-      onError: () => {
-        toast.error("Error creating post. Please try again later.");
-      },
-    });
+  const {
+    mutateAsync: createPost,
+    isLoading: isPosting,
+    isSuccess: isPosted,
+  } = api.posts.create.useMutation({
+    onError: () => {
+      toast.error("Error creating post. Please try again later.");
+    },
+  });
 
   const { user } = useUser();
 
@@ -272,11 +275,12 @@ const CreatePostWizard: ForwardRefRenderFunction<
               disabled={
                 !compressedImagesForUI.length ||
                 compressedImagesForUI.length > MAX_IMAGE_COUNT ||
-                isPosting
+                isPosting ||
+                isPosted
               }
               onClick={() => void handleSubmit()}
             >
-              {isPosting ? "Posting..." : "Post"}
+              {isPosting ? "Posting..." : isPosted ? "Posted" : "Post"}
             </button>
           </div>
         </div>

@@ -6,7 +6,7 @@ type EventData = RouterOutputs["events"]["getEventDetails"];
 
 const EventHeader: React.FC<{ eventData: EventData }> = ({ eventData }) => {
   return (
-    <div className="mx-auto mt-20 flex w-[95%] flex-col rounded-3xl bg-slate-100 p-6 text-center ring-1 ring-black sm:w-3/4 xl:w-1/3">
+    <div className="mx-auto mt-20 flex w-[95%] flex-col rounded-3xl bg-slate-100 p-6 text-center ring-1 ring-black sm:w-3/4 xl:w-1/3 2xl:w-1/4">
       <h1 className="mb-2 text-xl font-semibold lg:text-3xl">
         {eventData?.title}
       </h1>

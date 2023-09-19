@@ -7,8 +7,7 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start",
-    "install-python-deps": "python3 -m pip install -r requirements.txt"
+    "start": "next start"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.395.0",

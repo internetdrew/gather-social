@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { Modak } from "next/font/google";
 import Link from "next/link";

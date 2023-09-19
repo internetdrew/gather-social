@@ -6,6 +6,7 @@ import {
 } from "react";
 import { type Event } from "./EventCard";
 import { api } from "~/utils/api";
+import toast from "react-hot-toast";
 
 interface EventModalProps {
   event: Event | null;
@@ -42,7 +43,9 @@ const EventModal: ForwardRefRenderFunction<EventModalRef, EventModalProps> = (
       closeModal();
       await ctx.events.getCurrentUserEvents.invalidate();
     },
-    onError: (error) => console.error(error),
+    onError: () => {
+      toast.error("Error creating your event. Please try again later.");
+    },
   });
 
   return (

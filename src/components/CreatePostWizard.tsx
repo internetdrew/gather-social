@@ -11,6 +11,7 @@ import Image from "next/image";
 import imageCompression from "browser-image-compression";
 import { useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
+import toast from "react-hot-toast";
 
 interface PostWizardProps {
   eventId: string;
@@ -53,7 +54,11 @@ const CreatePostWizard: ForwardRefRenderFunction<
   const ctx = api.useContext();
 
   const { mutateAsync: createPost, isLoading: isPosting } =
-    api.posts.create.useMutation({});
+    api.posts.create.useMutation({
+      onError: () => {
+        toast.error("Error creating post. Please try again later.");
+      },
+    });
 
   const { user } = useUser();
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
+import toast from "react-hot-toast";
 
 const Create = () => {
   const router = useRouter();
@@ -10,6 +11,9 @@ const Create = () => {
     api.events.create.useMutation({
       onSuccess: (data) => {
         if (data) void router.push("/home");
+      },
+      onError: () => {
+        toast.error("Failed to create new event. Please try again later.");
       },
     });
 

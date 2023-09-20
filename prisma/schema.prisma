@@ -10,6 +10,17 @@ datasource db {
     relationMode = "prisma"
 }
 
+model EventToken {
+    id            String   @id @default(cuid())
+    createdAt     DateTime @default(now())
+    transactionId String
+    userId        String
+    eventId       String   @unique
+    event         Event?   @relation(fields: [eventId], references: [id])
+
+    @@index([eventId])
+}
+
 model Event {
     id             String    @id @default(cuid())
     createdAt      DateTime  @default(now())
@@ -22,6 +33,7 @@ model Event {
     posts       Post[]
     eventGuests EventGuestCheckin[]
     gallery     Image[]
+    eventToken  EventToken?
 }
 
 model EventGuestCheckin {

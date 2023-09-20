@@ -9,6 +9,9 @@ const UserWelcome = () => {
   const { data } = api.events.getCurrentUserEvents.useQuery();
   const eventCount = data?.eventCount;
 
+  const { data: tokenCount, isLoading: tokensLoading } =
+    api.tokens.getUserTokenCount.useQuery();
+
   return (
     <article className="flex w-[95%] flex-col items-center justify-between space-y-10 rounded-3xl bg-slate-100 p-8 shadow-2xl ring-1 ring-black sm:w-3/4">
       <div className="flex w-full flex-col items-center justify-center">
@@ -27,19 +30,32 @@ const UserWelcome = () => {
             </p>
           </>
         )}
-        <p className="text-center text-slate-600">
+        <p className="text-slate-600">
           {eventCount
             ? `You have ${eventCount} active events right now.`
             : "You don't have any active events right now."}
         </p>
+        <small className="text-slate-600">
+          {tokensLoading
+            ? `Checking for your event tokens...`
+            : `You have ${tokenCount === 0 ? "no" : tokenCount} event ${
+                tokenCount === 1 ? "token" : "tokens"
+              }.`}
+        </small>
       </div>
       <div className="flex w-[90%] flex-col items-center justify-between gap-4 sm:flex-row ">
-        <Link
-          href={"/create"}
-          className="h-full w-full rounded-full bg-pink-500 px-4 py-2 text-center font-semibold ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl"
-        >
-          Create an event
-        </Link>
+        {tokensLoading || tokenCount === 0 ? (
+          <button className="h-full w-full rounded-full bg-pink-500 px-4 py-2 text-center font-semibold ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl">
+            Buy tokens
+          </button>
+        ) : (
+          <Link
+            href="/create"
+            className="h-full w-full rounded-full bg-pink-500 px-4 py-2 text-center font-semibold ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl"
+          >
+            Create an event
+          </Link>
+        )}
         <Link
           href={"/join"}
           className="h-full w-full rounded-full px-4 py-2 text-center font-semibold ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl"

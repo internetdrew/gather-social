@@ -48,8 +48,8 @@ export default async function handler(
       //   event?.type === "checkout.session.completed"
       // ) {
       // }
+      res.status(200).json({ message: "stripe success" });
     }
-    res.status(200).json({ message: "stripe success" });
   } catch (error) {
     console.log(error);
   }

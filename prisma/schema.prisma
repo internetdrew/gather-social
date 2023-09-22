@@ -11,12 +11,12 @@ datasource db {
 }
 
 model EventToken {
-    id            String   @id @default(cuid())
-    createdAt     DateTime @default(now())
-    transactionId String
-    userId        String
-    eventId       String   @unique
-    event         Event?   @relation(fields: [eventId], references: [id])
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    userId    String
+    sessionId String
+    eventId   String?  @unique
+    event     Event?   @relation(fields: [eventId], references: [id])
 
     @@index([eventId])
 }

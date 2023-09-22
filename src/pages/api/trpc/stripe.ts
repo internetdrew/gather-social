@@ -49,7 +49,7 @@ export default async function handler(
         (event.data.object as { payment_status: string }).payment_status ===
           "paid"
       ) {
-        res.status(200);
+        res.status(200).json({ message: "stripe success" });
       }
     }
   } catch (error) {

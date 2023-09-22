@@ -23,16 +23,11 @@ export default async function handler(
       typescript: true,
     });
 
-    console.log(req);
-
     const payload = await getRawBody(req);
-    console.log(payload);
 
     if (req.method === "POST") {
-      let event;
-
       try {
-        event = stripe.webhooks.constructEvent(
+        stripe.webhooks.constructEvent(
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           payload,
           sig,

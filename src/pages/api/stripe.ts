@@ -43,13 +43,13 @@ export default async function handler(
         }
       }
 
-      if (
-        // Be sure to mention how typescript believes payment status does not exist on the object.
-        event?.type === "checkout.session.completed"
-      ) {
-        res.send(200);
-      }
+      // if (
+      //   // Be sure to mention how typescript believes payment status does not exist on the object.
+      //   event?.type === "checkout.session.completed"
+      // ) {
+      // }
     }
+    res.status(200).json({ message: "stripe success" });
   } catch (error) {
     console.log(error);
   }

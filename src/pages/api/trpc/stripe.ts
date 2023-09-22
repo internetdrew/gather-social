@@ -45,9 +45,7 @@ export default async function handler(
 
       if (
         // Be sure to mention how typescript believes payment status does not exist on the object.
-        event?.type === "checkout.session.completed" &&
-        (event.data.object as { payment_status: string }).payment_status ===
-          "paid"
+        event?.type === "checkout.session.completed"
       ) {
         res.status(200).json({ message: "stripe success" });
       }

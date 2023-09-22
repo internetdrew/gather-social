@@ -16,17 +16,19 @@ export default async function handler(
     if (!process.env.STRIPE_SECRET_KEY) {
       throw new Error("Stripe secret key not available in this environment");
     }
+    const sig = req.headers["stripe-signature"] as string;
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: "2022-11-15",
+      typescript: true,
+    });
+
+    console.log(req);
+
+    const payload = await getRawBody(req);
+    console.log(payload);
 
     if (req.method === "POST") {
-      const sig = req.headers["stripe-signature"] as string;
-
-      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-        apiVersion: "2022-11-15",
-        typescript: true,
-      });
-
-      const payload = await getRawBody(req);
-
       let event;
 
       try {
@@ -43,12 +45,7 @@ export default async function handler(
         }
       }
 
-      if (
-        // Be sure to mention how typescript believes payment status does not exist on the object.
-        event?.type === "checkout.session.completed"
-      ) {
-      }
-      res.status(200).end();
+      res.json({ received: true });
     }
   } catch (error) {
     console.log(error);

@@ -14,7 +14,7 @@ model EventToken {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     userId    String
-    sessionId String
+    sessionId String   @db.VarChar(255)
     eventId   String?  @unique
     event     Event?   @relation(fields: [eventId], references: [id])
 

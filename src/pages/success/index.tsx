@@ -1,4 +1,5 @@
 import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 // import Link from "next/link";
 import { api } from "~/utils/api";
@@ -9,6 +10,7 @@ interface SuccessPageProps {
 
 const SuccessPage: React.FC<SuccessPageProps> = ({ sessionId }) => {
   const { user, isLoaded } = useUser();
+  const router = useRouter();
 
   const { data: tokens } = api.checkout.getTokenPurchaseQuantity.useQuery({
     sessionId: sessionId,
@@ -16,6 +18,9 @@ const SuccessPage: React.FC<SuccessPageProps> = ({ sessionId }) => {
 
   const { mutate: addTokensToDb } = api.tokens.addToDatabase.useMutation({
     onError: (err) => console.log(err),
+    onSuccess: () => {
+      void router.replace("/home");
+    },
   });
 
   useEffect(() => {

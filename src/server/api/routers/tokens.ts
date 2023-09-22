@@ -21,7 +21,7 @@ export const tokenRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.userId!;
       console.log(input.qty);
-      console.log(input.sessionId);
+      console.log(input.sessionId.length);
 
       const tokenCreationPromises = Array(input.qty)
         .fill(null)

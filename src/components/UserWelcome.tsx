@@ -47,9 +47,9 @@ const UserWelcome = () => {
         <small className="text-slate-600">
           {tokensLoading
             ? `Checking for your event tokens...`
-            : `You have ${tokenCount === 0 ? "no" : tokenCount} event ${
-                tokenCount === 1 ? "token" : "tokens"
-              }.`}
+            : `You have ${
+                tokenCount === 0 ? "no" : tokenCount
+              } available event ${tokenCount === 1 ? "token" : "tokens"}.`}
         </small>
       </div>
       <div className="flex w-[90%] flex-col items-center justify-between gap-4 sm:flex-row ">

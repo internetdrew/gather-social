@@ -47,8 +47,8 @@ export default async function handler(
         // Be sure to mention how typescript believes payment status does not exist on the object.
         event?.type === "checkout.session.completed"
       ) {
-        res.json({ received: true });
       }
+      res.status(200).end();
     }
   } catch (error) {
     console.log(error);

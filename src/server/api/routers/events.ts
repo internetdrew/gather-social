@@ -119,7 +119,7 @@ export const eventsRouter = createTRPCRouter({
 
       await ctx.prisma.eventToken.update({
         where: {
-          id: availableEventToken.id,
+          id: availableEventToken?.id,
         },
         data: {
           eventId: event.id,

@@ -12,7 +12,7 @@ const UserWelcome = () => {
   const eventCount = data?.eventCount;
 
   const { data: tokenCount, isLoading: tokensLoading } =
-    api.tokens.getUserTokenCount.useQuery();
+    api.tokens.getUserAvailableTokens.useQuery();
 
   const { mutate: createCheckoutSession } =
     api.checkout.createSession.useMutation({

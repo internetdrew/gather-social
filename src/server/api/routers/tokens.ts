@@ -2,11 +2,12 @@ import { z } from "zod";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 
 export const tokenRouter = createTRPCRouter({
-  getUserTokenCount: privateProcedure.query(async ({ ctx }) => {
+  getUserAvailableTokens: privateProcedure.query(async ({ ctx }) => {
     const tokens = await ctx.prisma.eventToken.count({
       take: 100,
       where: {
         userId: ctx.userId!,
+        eventId: null,
       },
     });
     return tokens;
@@ -20,8 +21,6 @@ export const tokenRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.userId!;
-      console.log(input.qty);
-      console.log(input.sessionId.length);
 
       const tokenCreationPromises = Array(input.qty)
         .fill(null)
@@ -34,8 +33,8 @@ export const tokenRouter = createTRPCRouter({
               },
             })
         );
+
       const tokens = await Promise.all(tokenCreationPromises);
-      console.log(tokens);
       return tokens;
     }),
 });

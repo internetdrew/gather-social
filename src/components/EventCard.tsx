@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { OptionsMenu } from "~/components";
+import { EventCardOptions } from "~/components";
 import { type SetStateAction } from "react";
 import type { EventModalRef } from "./EventModal";
 
@@ -21,23 +20,6 @@ interface EventCardProps {
   setEvent?: React.Dispatch<SetStateAction<Event | null>>;
   eventModalRef?: React.RefObject<EventModalRef | null>;
 }
-
-const menuOptions = [
-  {
-    id: 1,
-    intent: "edit",
-    caption: "Edit event",
-    url: "/",
-    icon: <PencilSquareIcon className="mr-2 h-5 w-5" />,
-  },
-  {
-    id: 2,
-    intent: "delete",
-    caption: "Delete event",
-    url: "/",
-    icon: <TrashIcon className="mr-2 h-5 w-5" />,
-  },
-];
 
 const EventCard: React.FC<EventCardProps> = ({
   event,
@@ -61,7 +43,7 @@ const EventCard: React.FC<EventCardProps> = ({
         <h4 className="max-w-xs flex-1 overflow-hidden break-words text-lg font-semibold sm:text-xl">
           {event?.title}
         </h4>
-        <OptionsMenu options={menuOptions} eventId={event.id} />
+        <EventCardOptions eventId={event.id} />
       </div>
       <div className="flex"></div>
 

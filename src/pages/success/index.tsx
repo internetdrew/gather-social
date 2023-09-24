@@ -1,7 +1,6 @@
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-// import Link from "next/link";
 import { api } from "~/utils/api";
 
 interface SuccessPageProps {
@@ -17,7 +16,7 @@ const SuccessPage: React.FC<SuccessPageProps> = ({ sessionId }) => {
   });
 
   const { mutate: addTokensToDb } = api.tokens.addToDatabase.useMutation({
-    onError: (err) => console.log(err),
+    onError: (err) => console.error(err),
     onSuccess: () => {
       void router.replace("/home");
     },
@@ -36,19 +35,13 @@ const SuccessPage: React.FC<SuccessPageProps> = ({ sessionId }) => {
         <h1 className="text-2xl font-semibold">
           {isLoaded ? `Thanks, ${user?.firstName}!` : null}
         </h1>
-        {/* <p className="mb-4 animate-pulse">
-          {tokenCount.count
-            ? `Now adding ${tokenCount} new ${
-                tokenCount === 1 ? "token" : "tokens"
+        <p className="mb-4 animate-pulse">
+          {tokens?.qty
+            ? `Now adding ${tokens.qty} new ${
+                tokens.qty === 1 ? "token" : "tokens"
               } to your account...`
             : null}
-        </p> */}
-        {/* <Link
-          href="/home"
-          className="rounded-2xl bg-pink-500 px-4 py-2 font-medium ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl active:scale-95"
-        >
-          Back to home
-        </Link> */}
+        </p>
       </div>
     </main>
   );

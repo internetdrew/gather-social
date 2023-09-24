@@ -43,6 +43,6 @@ export default async function handler(
       res.json({ received: true });
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }

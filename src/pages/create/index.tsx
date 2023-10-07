@@ -86,7 +86,9 @@ const Create = () => {
         eventPassword === password2 ? (
           <button
             className="w-full rounded-xl bg-pink-400 px-4 py-2 ring-1 ring-black duration-300 hover:shadow-2xl disabled:bg-slate-200 disabled:hover:shadow-none"
-            onClick={() => createEvent({ title: eventTitle.trim() })}
+            onClick={() =>
+              createEvent({ title: eventTitle.trim(), password: "" })
+            }
           >
             Create a private social network for{" "}
             <span className="font-semibold">{eventTitle}</span>

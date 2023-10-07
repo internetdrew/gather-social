@@ -88,6 +88,7 @@ export const eventsRouter = createTRPCRouter({
     .input(
       z.object({
         title: z.string().min(1).max(60),
+        password: z.string().min(1).max(20),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -97,6 +98,7 @@ export const eventsRouter = createTRPCRouter({
         data: {
           hostId,
           title: input.title,
+          password: "",
         },
       });
 

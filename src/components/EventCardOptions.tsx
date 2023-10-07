@@ -4,8 +4,8 @@ import { useDetectClickOutside } from "react-detect-click-outside";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import {
   PencilSquareIcon,
-  // TrashIcon,ß
   ArrowDownTrayIcon,
+  UserPlusIcon,
 } from "@heroicons/react/24/outline";
 import { api } from "~/utils/api";
 import JSZip from "jszip";
@@ -31,6 +31,7 @@ const OptionsMenu = (eventId: { eventId: string }) => {
   });
 
   const eventTitle = eventDetails?.title;
+  const eventIsActive = Boolean(eventDetails?.startDate);
 
   const zipName = hyphenateStr(eventTitle!);
 
@@ -73,15 +74,15 @@ const OptionsMenu = (eventId: { eventId: string }) => {
       <div
         className={`${
           showMenu ? "block" : "hidden"
-        } absolute right-0 top-8 w-44 overflow-hidden rounded-md bg-slate-100 font-medium ring-1 ring-black transition-all ease-in-out`}
+        } absolute right-0 top-8 w-44 overflow-hidden rounded-md bg-famous-white font-medium ring-1 ring-black transition-all ease-in-out`}
       >
         <ul>
           <li>
             <Link
               href={"/edit"}
               className={`flex h-full w-full items-center ${
-                eventDetails?.startDate ? "border-b border-slate-300" : ""
-              } p-2 duration-300 hover:bg-pink-500`}
+                eventDetails?.startDate ? "border-b border-famous-black" : ""
+              } border-opacity-30 p-2 duration-300 hover:bg-pink-400`}
             >
               <span>
                 <PencilSquareIcon className="mr-2 h-5 w-5" />
@@ -89,19 +90,29 @@ const OptionsMenu = (eventId: { eventId: string }) => {
               Edit event name
             </Link>
           </li>
-          {eventDetails?.startDate ? (
-            <li>
-              <button
-                className="flex h-full w-full items-center p-2 duration-300 hover:bg-pink-500"
-                onClick={() => downloadImagesFromEvent({ eventId: id })}
-                disabled={zippingImages}
-              >
-                <span>
-                  <ArrowDownTrayIcon className="mr-2 h-5 w-5" />
-                </span>
-                {zippingImages ? "Downloading..." : "Download images"}
-              </button>
-            </li>
+          {eventIsActive ? (
+            <>
+              <li>
+                <button className="flex h-full w-full items-center border-b border-famous-black border-opacity-30 p-2 duration-300 hover:bg-pink-400">
+                  <span>
+                    <UserPlusIcon className="mr-2 h-5 w-5" />
+                  </span>{" "}
+                  Invite guests
+                </button>
+              </li>
+              <li>
+                <button
+                  className="flex h-full w-full items-center p-2 duration-300 hover:bg-pink-400"
+                  onClick={() => downloadImagesFromEvent({ eventId: id })}
+                  disabled={zippingImages}
+                >
+                  <span>
+                    <ArrowDownTrayIcon className="mr-2 h-5 w-5" />
+                  </span>
+                  {zippingImages ? "Downloading..." : "Download images"}
+                </button>
+              </li>
+            </>
           ) : null}
         </ul>
       </div>

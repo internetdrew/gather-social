@@ -4,7 +4,7 @@ const Footer = () => {
   const user = useUser();
 
   return (
-    <footer className="w-full p-3">
+    <footer className="fixed bottom-0 w-full p-3">
       <div
         className={`mx-auto mt-auto flex w-full max-w-screen-lg items-center ${
           user.isSignedIn ? "justify-between" : "justify-center"
@@ -15,6 +15,7 @@ const Footer = () => {
           <a
             href="https://internetdrew.com"
             target="_blank"
+            rel="noreferrer noopener"
             className="text-pink-400 hover:shadow-md hover:shadow-pink-400/40"
           >
             Internet Drew

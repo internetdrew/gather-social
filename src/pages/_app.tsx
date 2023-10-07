@@ -20,8 +20,8 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <RecoilRoot>
+        <Toaster />
         <Layout>
-          <Toaster />
           <Component {...pageProps} />
         </Layout>
       </RecoilRoot>

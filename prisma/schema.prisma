@@ -29,6 +29,7 @@ model Event {
     hostId         String
     title          String
     qrCodeImageUrl String?
+    password       String
 
     posts       Post[]
     eventGuests EventGuestCheckin[]
@@ -90,4 +91,13 @@ model Like {
     userId    String
 
     @@index([postId])
+}
+
+// Model for feedback on app experiences.
+model Feedback {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    userId    String
+    email     String
+    message   String
 }

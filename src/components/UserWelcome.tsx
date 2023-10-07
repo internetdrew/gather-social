@@ -63,14 +63,14 @@ const UserWelcome = () => {
         ) : (
           <Link
             href="/create"
-            className="h-full w-full rounded-full bg-famous-pink px-4 py-2 text-center font-semibold ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl"
+            className="h-full w-full rounded-full bg-pink-400 px-4 py-2 text-center font-semibold ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl"
           >
             Create an event
           </Link>
         )}
         <Link
           href={"/join"}
-          className="w-full rounded-full bg-famous-white px-4 py-2 text-center font-semibold text-famous-black ring-1 ring-famous-black duration-300 hover:scale-105 hover:shadow-2xl"
+          className="w-full rounded-full px-4 py-2 text-center font-semibold text-famous-black ring-1 ring-famous-black duration-300 hover:scale-105 hover:shadow-2xl"
         >
           Join an event
         </Link>

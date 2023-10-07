@@ -11,7 +11,7 @@ const Footer = () => {
         } text-center text-lg font-semibold text-pink-400`}
       >
         <p className="text-famous-white">
-          Made with love by{" "}
+          Made by{" "}
           <a
             href="https://internetdrew.com"
             target="_blank"
@@ -19,7 +19,7 @@ const Footer = () => {
             className="text-pink-400 hover:underline hover:underline-offset-4"
           >
             Internet Drew
-          </a>
+          </a>{" "}
         </p>
 
         {user.isSignedIn && (

@@ -38,7 +38,7 @@ const EventCard: React.FC<EventCardProps> = ({
   };
 
   return (
-    <article className="mb-4 flex h-64 flex-col rounded-lg p-4 ring-1 ring-black">
+    <article className="mb-4 flex h-64 flex-col rounded-lg bg-famous-white p-4 ring-1 ring-black">
       <div className="flex items-start justify-between">
         <h4 className="max-w-xs flex-1 overflow-hidden break-words text-lg font-semibold sm:text-xl">
           {event?.title}
@@ -68,7 +68,7 @@ const EventCard: React.FC<EventCardProps> = ({
         </div>
         {!event.startDate ? (
           <button
-            className="ml-auto rounded-2xl bg-pink-500 px-6 py-1 text-sm font-medium ring-1 ring-black duration-300 hover:scale-105 hover:shadow-xl active:scale-95"
+            className="ml-auto rounded-2xl bg-pink-400 px-6 py-1 text-sm font-medium ring-1 ring-black duration-300 hover:scale-105 hover:shadow-xl active:scale-95"
             onClick={handleClick}
           >
             Activate
@@ -76,9 +76,9 @@ const EventCard: React.FC<EventCardProps> = ({
         ) : (
           <Link
             href={`/event/feed/${event?.id}`}
-            className="px6 ml-auto rounded-2xl bg-pink-500 px-6 py-1 text-sm font-medium ring-1 ring-black duration-300 hover:scale-105 hover:shadow-xl"
+            className="px6 ml-auto rounded-2xl bg-pink-400 px-6 py-1 text-sm font-medium ring-1 ring-black duration-300 hover:scale-105 hover:shadow-xl"
           >
-            Join
+            Enter
           </Link>
         )}
       </div>

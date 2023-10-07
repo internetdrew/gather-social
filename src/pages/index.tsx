@@ -10,7 +10,7 @@ export default function Home() {
 
   return (
     <>
-      <main className="flex h-screen flex-col items-center justify-center overflow-y-hidden bg-famous-black px-3">
+      <main className="flex h-screen flex-col items-center justify-center bg-famous-black px-3">
         <section>
           <p
             className={`${modak.className} text-center text-8xl text-pink-400`}

@@ -25,7 +25,7 @@ const EventsList = () => {
   const guestCheckins = data?.guestCheckins ?? [];
 
   return (
-    <article className="flex w-[95%] flex-col space-y-2 rounded-3xl bg-famous-white p-6 shadow-2xl ring-1 ring-black sm:w-3/4">
+    <article className="flex w-[95%] flex-col space-y-2 rounded-3xl bg-famous-white p-6 shadow-lg shadow-pink-400/40 ring-1 ring-black sm:w-3/4">
       <h2 className="text-2xl font-semibold">Your Events</h2>
       <div>
         <h3 className="mb-2 text-lg text-slate-500">Hosting</h3>

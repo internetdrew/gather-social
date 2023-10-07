@@ -16,14 +16,16 @@ const Footer = () => {
             href="https://internetdrew.com"
             target="_blank"
             rel="noreferrer noopener"
-            className="text-pink-400 hover:text-pink-500"
+            className="text-pink-400 hover:underline hover:underline-offset-4"
           >
             Internet Drew
           </a>
         </p>
 
         {user.isSignedIn && (
-          <button className="hover:text-pink-500">Leave Feedback</button>
+          <button className="hover:underline hover:underline-offset-4">
+            Leave Feedback
+          </button>
         )}
       </div>
     </footer>

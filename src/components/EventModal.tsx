@@ -66,7 +66,7 @@ const EventModal: ForwardRefRenderFunction<EventModalRef, EventModalProps> = (
           <p className="mt-1">{"You'll have 30 days to use the space."}</p>
           <div className="mx-auto mt-auto flex w-[90%] items-center justify-between gap-4">
             <button
-              className="w-full rounded-full bg-pink-500 px-4 py-2 ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl active:scale-95"
+              className="w-full rounded-full bg-pink-400 px-4 py-2 ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl active:scale-95"
               onClick={() => {
                 if (event) activateEvent({ id: event.id });
               }}

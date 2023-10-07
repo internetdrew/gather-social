@@ -207,7 +207,7 @@ const CreatePostWizard: ForwardRefRenderFunction<
                 </span>
               </div>
               <button
-                className="mt-auto w-full rounded-lg bg-pink-500 px-6 py-2 font-semibold text-black ring-1 ring-black duration-300 hover:bg-pink-600 active:scale-95"
+                className="mt-auto w-full rounded-lg bg-pink-400 px-6 py-2 font-semibold text-black ring-1 ring-black duration-300 hover:bg-pink-500 active:scale-95"
                 disabled={isPosting}
                 onClick={() => imageInputRef.current?.click()}
               >
@@ -244,7 +244,7 @@ const CreatePostWizard: ForwardRefRenderFunction<
                 id="caption"
                 name="caption"
                 rows={4}
-                className="rounded-lg p-3 text-lg outline outline-gray-400 focus:outline-2 focus:outline-pink-500 focus:ring-0"
+                className="rounded-lg p-3 text-lg outline outline-gray-400 focus:outline-2 focus:outline-pink-400 focus:ring-0"
                 placeholder="Caption your post here..."
                 value={caption}
                 onChange={(e) => setCaption(e.target.value)}
@@ -271,7 +271,7 @@ const CreatePostWizard: ForwardRefRenderFunction<
               Cancel
             </button>
             <button
-              className="w-full rounded-lg bg-pink-500 px-6 py-2 text-black ring-1 ring-black duration-300 hover:scale-105 hover:bg-pink-600 hover:shadow-2xl active:scale-95 disabled:cursor-not-allowed disabled:bg-slate-400 disabled:text-gray-700 disabled:ring-0 disabled:hover:scale-100"
+              className="w-full rounded-lg bg-pink-400 px-6 py-2 text-black ring-1 ring-black duration-300 hover:scale-105 hover:bg-pink-600 hover:shadow-2xl active:scale-95 disabled:cursor-not-allowed disabled:bg-slate-400 disabled:text-gray-700 disabled:ring-0 disabled:hover:scale-100"
               disabled={
                 !compressedImagesForUI.length ||
                 compressedImagesForUI.length > MAX_IMAGE_COUNT ||

@@ -22,7 +22,7 @@ const UserWelcome = () => {
     });
 
   return (
-    <article className="flex w-[95%] flex-col items-center justify-between space-y-10 rounded-3xl bg-slate-100 p-8 shadow-2xl ring-1 ring-black sm:w-3/4">
+    <article className="flex w-[95%] flex-col items-center justify-between space-y-10 rounded-3xl bg-famous-white p-8 shadow-lg shadow-pink-400/40 sm:w-3/4">
       <div className="flex w-full flex-col items-center justify-center">
         {user && (
           <>
@@ -55,7 +55,7 @@ const UserWelcome = () => {
       <div className="flex w-[90%] flex-col items-center justify-between gap-4 sm:flex-row ">
         {tokensLoading || tokenCount === 0 ? (
           <button
-            className="h-full w-full rounded-full bg-pink-500 px-4 py-2 text-center font-semibold ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl"
+            className="h-full w-full rounded-full bg-pink-400 px-4 py-2 text-center font-semibold ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl"
             onClick={() => createCheckoutSession()}
           >
             Get an event token
@@ -63,14 +63,14 @@ const UserWelcome = () => {
         ) : (
           <Link
             href="/create"
-            className="h-full w-full rounded-full bg-pink-500 px-4 py-2 text-center font-semibold ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl"
+            className="h-full w-full rounded-full bg-famous-pink px-4 py-2 text-center font-semibold ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl"
           >
             Create an event
           </Link>
         )}
         <Link
           href={"/join"}
-          className="h-full w-full rounded-full px-4 py-2 text-center font-semibold ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl"
+          className="w-full rounded-full bg-famous-white px-4 py-2 text-center font-semibold text-famous-black ring-1 ring-famous-black duration-300 hover:scale-105 hover:shadow-2xl"
         >
           Join an event
         </Link>

@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 body {
-  @apply bg-[#3b82f6];
+  @apply bg-famous-black;
+  @apply text-famous-black;
   box-sizing: border-box;
   margin: 0;
   padding: 0;

@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 const Create = () => {
   const router = useRouter();
   const [eventTitle, setEventTitle] = useState("");
+  const [eventPassword, setEventPassword] = useState("");
+  const [password2, setPassword2] = useState("");
 
   const { mutate: createEvent, isLoading: isCreating } =
     api.events.create.useMutation({
@@ -21,8 +23,8 @@ const Create = () => {
 
   return (
     <div className="flex h-screen items-center justify-center">
-      <article className="flex w-[90%] flex-col space-y-2 rounded-3xl bg-slate-100 p-8 shadow-2xl ring-1 ring-black sm:w-3/4 md:w-1/2 lg:w-1/3">
-        <div className="mb-3 flex flex-col space-y-2">
+      <form className="flex w-[90%] flex-col gap-4 rounded-3xl bg-slate-100 p-8 shadow-2xl ring-1 ring-black sm:w-3/4 md:w-1/2 lg:w-1/3">
+        <div className="flex flex-col space-y-1">
           <label htmlFor="event-name" className="font-semibold">
             Event Name
           </label>
@@ -33,7 +35,7 @@ const Create = () => {
             value={eventTitle}
             onChange={(e) => setEventTitle(e.target.value)}
             placeholder="Ex. Bob and Lisa's Wedding"
-            className="rounded-xl p-3 outline-pink-500"
+            className="rounded-xl p-3 outline-pink-400"
             maxLength={maxInputChars}
             disabled={isCreating}
           />
@@ -41,16 +43,56 @@ const Create = () => {
             maxInputChars - eventTitle.length
           }`}</small>
         </div>
-        {eventTitle !== "" && (
+        <div className="flex flex-col space-y-1">
+          <label htmlFor="password" className="font-semibold">
+            Event Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            value={eventPassword}
+            onChange={(e) => setEventPassword(e.target.value)}
+            className="rounded-xl p-3 outline-pink-400"
+            maxLength={maxInputChars}
+            disabled={isCreating}
+            placeholder="Enter a password"
+          />
+          <small>{`Characters remaining: ${
+            maxInputChars - eventPassword.length
+          }`}</small>
+        </div>
+        <div className="flex flex-col space-y-1">
+          <label htmlFor="event-name" className="font-semibold">
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            name="password2"
+            id="password2"
+            value={password2}
+            onChange={(e) => setPassword2(e.target.value)}
+            className="rounded-xl p-3 outline-pink-400"
+            maxLength={maxInputChars}
+            disabled={isCreating}
+            placeholder="Confirm your password"
+          />
+          <small>{`Characters remaining: ${
+            maxInputChars - eventPassword.length
+          }`}</small>
+        </div>
+        {eventTitle.length &&
+        eventPassword.length &&
+        eventPassword === password2 ? (
           <button
-            className="w-full rounded-xl bg-pink-500 px-4 py-2 ring-1 ring-black duration-300 hover:shadow-2xl"
+            className="w-full rounded-xl bg-pink-400 px-4 py-2 ring-1 ring-black duration-300 hover:shadow-2xl disabled:bg-slate-200 disabled:hover:shadow-none"
             onClick={() => createEvent({ title: eventTitle.trim() })}
           >
             Create a private social network for{" "}
             <span className="font-semibold">{eventTitle}</span>
           </button>
-        )}
-      </article>
+        ) : null}
+      </form>
     </div>
   );
 };

@@ -18,8 +18,7 @@ const EventsList = () => {
   const eventModalRef = useRef<EventModalRef | null>(null);
   const [eventToActivate, setEventToActivate] = useState<Event | null>(null);
 
-  const { data, isLoading, isError } =
-    api.events.getCurrentUserEvents.useQuery();
+  const { data } = api.events.getCurrentUserEvents.useQuery();
 
   const hostEvents = data?.hostEvents ?? [];
   const guestCheckins = data?.guestCheckins ?? [];

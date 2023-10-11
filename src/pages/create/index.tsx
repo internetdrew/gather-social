@@ -11,8 +11,14 @@ interface FormData {
   confirmPassword: string;
 }
 
+const CreditDialog = () => {
+  return <dialog>I am a dialog element.</dialog>;
+};
+
 const Create = () => {
   const router = useRouter();
+
+  const { data: tokenCount } = api.tokens.getUserAvailableTokens.useQuery();
 
   const createEventSchema = z
     .object({
@@ -34,7 +40,6 @@ const Create = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
     reset,
   } = useForm<FormData>({
@@ -124,6 +129,7 @@ const Create = () => {
           {isCreatingEvent ? "Creating..." : "Create this event"}
         </button>
       </form>
+      {!tokenCount && <CreditDialog />}
     </main>
   );
 };

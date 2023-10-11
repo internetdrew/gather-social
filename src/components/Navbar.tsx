@@ -30,7 +30,7 @@ const Navbar: React.FC<NavbarProps> = ({ isEventFeed, postWizardRef }) => {
         <div className="flex items-center gap-4">
           {isEventFeed ? (
             <button
-              className="rounded-xl bg-famous-pink px-4 py-2 text-sm font-semibold duration-300 hover:shadow-2xl active:scale-95"
+              className="rounded-xl bg-pink-400 px-4 py-2 text-sm font-semibold duration-300 hover:shadow-2xl active:scale-95"
               onClick={handleClick}
             >
               New Post

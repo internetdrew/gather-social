@@ -25,6 +25,7 @@
     "@trpc/server": "^10.26.0",
     "@upstash/ratelimit": "^0.4.4",
     "@upstash/redis": "^1.22.0",
+    "argon2": "^0.31.1",
     "browser-image-compression": "^2.0.2",
     "dayjs": "^1.11.9",
     "file-saver": "^2.0.5",

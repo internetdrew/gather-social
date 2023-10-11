@@ -53,27 +53,28 @@ const UserWelcome = () => {
         </small>
       </div>
       <div className="flex w-[90%] flex-col items-center justify-between gap-4 sm:flex-row ">
-        {tokensLoading || tokenCount === 0 ? (
-          <button
-            className="h-full w-full rounded-full bg-pink-400 px-4 py-2 text-center font-semibold ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl"
-            onClick={() => createCheckoutSession()}
-          >
-            Get an event token
-          </button>
-        ) : (
+        <button
+          className="h-full w-full rounded-full bg-pink-400 px-4 py-2 text-center font-semibold ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl"
+          onClick={() => createCheckoutSession()}
+        >
+          Get an event token
+        </button>
+
+        {tokenCount ? (
           <Link
             href="/create"
-            className="h-full w-full rounded-full bg-pink-400 px-4 py-2 text-center font-semibold ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl"
+            className="h-full w-full rounded-full bg-famous-black px-4 py-2 text-center font-semibold text-pink-400 ring-1 ring-pink-400 duration-300 hover:scale-105 hover:shadow-2xl"
           >
             Create an event
           </Link>
+        ) : (
+          <button
+            className="h-full w-full rounded-full bg-famous-black px-4 py-2 text-center font-semibold text-pink-400 ring-1 ring-pink-400 duration-300 hover:scale-105 hover:shadow-2xl disabled:bg-gray-400 disabled:text-famous-black disabled:ring-0 disabled:hover:scale-100 disabled:hover:shadow-none"
+            disabled={!tokenCount}
+          >
+            Create an event
+          </button>
         )}
-        <Link
-          href={"/join"}
-          className="w-full rounded-full px-4 py-2 text-center font-semibold text-famous-black ring-1 ring-famous-black duration-300 hover:scale-105 hover:shadow-2xl"
-        >
-          Join an event
-        </Link>
       </div>
     </article>
   );

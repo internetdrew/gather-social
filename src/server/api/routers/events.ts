@@ -6,6 +6,7 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { generateQRCode } from "~/utils/qrCodeUtils";
 import { Buffer } from "buffer";
 import { useS3 } from "~/hooks/useS3";
+import * as argon2 from "argon2";
 
 export const eventsRouter = createTRPCRouter({
   getCurrentUserEvents: privateProcedure.query(async ({ ctx }) => {
@@ -88,17 +89,19 @@ export const eventsRouter = createTRPCRouter({
     .input(
       z.object({
         title: z.string().min(1).max(60),
-        password: z.string().min(1).max(20),
+        password: z.string().min(14).max(60),
       })
     )
     .mutation(async ({ ctx, input }) => {
       const hostId = ctx.userId!;
 
+      const hash = await argon2.hash(input.password);
+
       const event = await ctx.prisma.event.create({
         data: {
           hostId,
           title: input.title,
-          password: "",
+          password: hash,
         },
       });
 

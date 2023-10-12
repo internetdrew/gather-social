@@ -69,7 +69,7 @@ const UserWelcome = () => {
           </Link>
         ) : (
           <button
-            className="h-full w-full rounded-full bg-famous-black px-4 py-2 text-center font-semibold text-pink-400 ring-1 ring-pink-400 duration-300 hover:scale-105 hover:shadow-2xl disabled:bg-gray-400 disabled:text-famous-black disabled:ring-0 disabled:hover:scale-100 disabled:hover:shadow-none"
+            className="h-full w-full rounded-full bg-famous-black px-4 py-2 text-center font-semibold text-pink-400 ring-1 ring-pink-400 duration-300 hover:scale-105 hover:shadow-2xl disabled:bg-gray-400 disabled:text-slate-700 disabled:ring-0 disabled:hover:scale-100 disabled:hover:shadow-none"
             disabled={!tokenCount}
           >
             Create an event

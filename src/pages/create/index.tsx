@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 interface FormData {
   title: string;
@@ -11,14 +12,14 @@ interface FormData {
   confirmPassword: string;
 }
 
-const CreditDialog = () => {
-  return <dialog>I am a dialog element.</dialog>;
-};
-
 const Create = () => {
   const router = useRouter();
+  const { data: tokenCount, isFetching } =
+    api.tokens.getUserAvailableTokens.useQuery();
 
-  const { data: tokenCount } = api.tokens.getUserAvailableTokens.useQuery();
+  useEffect(() => {
+    if (tokenCount === 0) void router.push("/home");
+  }, [tokenCount, router]);
 
   const createEventSchema = z
     .object({
@@ -68,70 +69,76 @@ const Create = () => {
   const inputClasses =
     "rounded-xl p-3 outline-pink-400 ring-1 ring-famous-black";
 
-  return (
-    <main className="flex h-screen items-center justify-center">
-      <form
-        className="flex w-[90%] flex-col space-y-4 rounded-3xl bg-slate-100 p-8 shadow-2xl ring-1 ring-black sm:w-3/4 md:w-1/2 lg:w-1/3"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <h1 className="text-center text-xl font-semibold">Create your event</h1>
-        <div className="flex flex-col space-y-1">
-          <label htmlFor="title" className="font-semibold">
-            Event Name
-          </label>
-          <input
-            type="text"
-            id="title"
-            className={inputClasses}
-            placeholder="Ex. Bob and Lisa's Wedding"
-            {...register("title")}
-          />
-          {errors.title && (
-            <small className="text-red-600">{errors?.title?.message}</small>
-          )}
-        </div>
-        <div className="flex flex-col space-y-1">
-          <label htmlFor="password" className="font-semibold">
-            Event Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            className={inputClasses}
-            placeholder="Enter a password"
-            {...register("password")}
-          />
-          {errors.password && (
-            <small className="text-red-600">{errors?.password?.message}</small>
-          )}
-        </div>
-        <div className="flex flex-col space-y-1">
-          <label htmlFor="confirmPassword" className="font-semibold">
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            id="confirmPassword"
-            className={inputClasses}
-            placeholder="Confirm your password"
-            {...register("confirmPassword")}
-          />
-          {errors.confirmPassword && (
-            <small className="text-red-600">
-              {errors?.confirmPassword?.message}
-            </small>
-          )}
-        </div>
-        <button
-          className="w-full rounded-xl bg-pink-400 px-4 py-2 font-semibold ring-1 ring-famous-black duration-300 hover:shadow-2xl disabled:bg-slate-200 disabled:hover:shadow-none"
-          disabled={isCreatingEvent}
+  if (isFetching) return <div>Checking for available tokens...</div>;
+
+  if (tokenCount)
+    return (
+      <main className="flex h-screen items-center justify-center">
+        <form
+          className="flex w-[90%] flex-col space-y-4 rounded-3xl bg-slate-100 p-8 shadow-2xl ring-1 ring-black sm:w-3/4 md:w-1/2 lg:w-1/3"
+          onSubmit={handleSubmit(onSubmit)}
         >
-          {isCreatingEvent ? "Creating..." : "Create this event"}
-        </button>
-      </form>
-      {!tokenCount && <CreditDialog />}
-    </main>
-  );
+          <h1 className="text-center text-xl font-semibold">
+            Create your event
+          </h1>
+          <div className="flex flex-col space-y-1">
+            <label htmlFor="title" className="font-semibold">
+              Event Name
+            </label>
+            <input
+              type="text"
+              id="title"
+              className={inputClasses}
+              placeholder="Ex. Bob and Lisa's Wedding"
+              {...register("title")}
+            />
+            {errors.title && (
+              <small className="text-red-600">{errors?.title?.message}</small>
+            )}
+          </div>
+          <div className="flex flex-col space-y-1">
+            <label htmlFor="password" className="font-semibold">
+              Event Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              className={inputClasses}
+              placeholder="Enter a password"
+              {...register("password")}
+            />
+            {errors.password && (
+              <small className="text-red-600">
+                {errors?.password?.message}
+              </small>
+            )}
+          </div>
+          <div className="flex flex-col space-y-1">
+            <label htmlFor="confirmPassword" className="font-semibold">
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              className={inputClasses}
+              placeholder="Confirm your password"
+              {...register("confirmPassword")}
+            />
+            {errors.confirmPassword && (
+              <small className="text-red-600">
+                {errors?.confirmPassword?.message}
+              </small>
+            )}
+          </div>
+          <button
+            className="w-full rounded-xl bg-pink-400 px-4 py-2 font-semibold ring-1 ring-famous-black duration-300 hover:shadow-2xl disabled:bg-slate-200 disabled:hover:shadow-none"
+            disabled={isCreatingEvent}
+          >
+            {isCreatingEvent ? "Creating..." : "Create this event"}
+          </button>
+        </form>
+      </main>
+    );
 };
 
 export default Create;

@@ -10,6 +10,10 @@ body {
   padding: 0;
 }
 
+.btn-primary {
+  @apply bg-pink-400 px-4 py-2 ring-1 ring-famous-black;
+}
+
 textarea {
   resize: none;
 }

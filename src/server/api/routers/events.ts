@@ -208,10 +208,18 @@ export const eventsRouter = createTRPCRouter({
           id: input.eventId,
         },
       });
+
+      if (!eventDetails) {
+        throw new TRPCError({
+          message: "No event matching this id.",
+          code: "NOT_FOUND",
+        });
+      }
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { hostId, password, ...cleanEventDetails } = eventDetails ?? {};
 
-      const hostDetails = await clerkClient.users.getUser(hostId!);
+      const hostDetails = await clerkClient.users.getUser(hostId);
       const {
         firstName,
         lastName,

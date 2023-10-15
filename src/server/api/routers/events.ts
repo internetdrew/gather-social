@@ -208,7 +208,8 @@ export const eventsRouter = createTRPCRouter({
           id: input.eventId,
         },
       });
-      const { hostId, ...cleanEventDetails } = eventDetails ?? {};
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { hostId, password, ...cleanEventDetails } = eventDetails ?? {};
 
       const hostDetails = await clerkClient.users.getUser(hostId!);
       const {
@@ -225,5 +226,43 @@ export const eventsRouter = createTRPCRouter({
           avatar,
         },
       };
+    }),
+  addNewGuest: privateProcedure
+    .input(
+      z.object({
+        eventId: z.string().min(1),
+        password: z.string().min(1),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { userId } = ctx;
+
+      const event = await ctx.prisma.event.findUnique({
+        where: {
+          id: input.eventId,
+        },
+      });
+
+      const eventPassword = event?.password;
+
+      const passwordsMatch = await argon2.verify(
+        eventPassword!,
+        input.password
+      );
+
+      if (!passwordsMatch) {
+        throw new TRPCError({
+          message: "Trouble adding user to event",
+          code: "FORBIDDEN",
+        });
+      }
+
+      const eventGuestCheckin = await ctx.prisma.eventGuestCheckin.create({
+        data: {
+          guestId: userId!,
+          eventId: input.eventId,
+        },
+      });
+      return eventGuestCheckin;
     }),
 });

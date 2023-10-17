@@ -31,8 +31,6 @@ const EventCard: React.FC<EventCardProps> = ({
 }) => {
   if (!event) return;
 
-  console.log(inviteModalRef);
-
   const openActivateEventModal = () => {
     if (eventModalRef?.current) {
       eventModalRef.current.openModal();
@@ -51,6 +49,8 @@ const EventCard: React.FC<EventCardProps> = ({
         {inviteModalRef && (
           <EventCardOptions
             inviteModalRef={inviteModalRef}
+            event={event}
+            setEvent={setEvent}
             eventId={event.id}
           />
         )}

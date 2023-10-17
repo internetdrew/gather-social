@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { type SetStateAction, useState } from "react";
 import Link from "next/link";
 import { useDetectClickOutside } from "react-detect-click-outside";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
@@ -11,6 +11,7 @@ import { api } from "~/utils/api";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import type { InviteModalRef } from "./InviteModal";
+import type { Event } from "./EventCard";
 
 const hyphenateStr = (str: string) => {
   if (str)
@@ -24,11 +25,15 @@ const hyphenateStr = (str: string) => {
 
 interface OptionsMenuProps {
   eventId: string;
+  event: Event | null;
   inviteModalRef: React.RefObject<InviteModalRef | null>;
+  setEvent?: React.Dispatch<SetStateAction<Event | null>>;
 }
 
 const OptionsMenu: React.FC<OptionsMenuProps> = ({
   inviteModalRef,
+  event,
+  setEvent,
   eventId,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -38,6 +43,8 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
   const { data: eventDetails } = api.events.getEventDetails.useQuery({
     eventId: eventId,
   });
+
+  console.log(inviteModalRef.current);
 
   const eventTitle = eventDetails?.title;
   const eventIsActive = Boolean(eventDetails?.startDate);
@@ -105,7 +112,9 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
                 <button
                   className="flex h-full w-full items-center border-b border-famous-black border-opacity-30 p-2 duration-300 hover:bg-pink-400"
                   onClick={() => {
-                    if (inviteModalRef.current) {
+                    if (inviteModalRef.current && setEvent) {
+                      console.log(event);
+                      setEvent(event);
                       inviteModalRef.current.openModal();
                     }
                   }}

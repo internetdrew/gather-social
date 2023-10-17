@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
-import { EventCard, EventModal } from "~/components";
+import { EventCard, EventModal, InviteModal } from "~/components";
 import type { EventModalRef } from "./EventModal";
+import type { InviteModalRef } from "./InviteModal";
 import { api } from "~/utils/api";
 import { type Event } from "./EventCard";
 
@@ -16,7 +17,8 @@ const NoEventsMessage: React.FC<NoEventsMessageProps> = ({ message }) => {
 
 const EventsList = () => {
   const eventModalRef = useRef<EventModalRef | null>(null);
-  const [eventToActivate, setEventToActivate] = useState<Event | null>(null);
+  const inviteModalRef = useRef<InviteModalRef | null>(null);
+  const [modalEvent, setModalEvent] = useState<Event | null>(null);
 
   const { data } = api.events.getCurrentUserEvents.useQuery();
 
@@ -35,8 +37,9 @@ const EventsList = () => {
                 <EventCard
                   key={hostEvent.id}
                   event={hostEvent}
-                  setEvent={setEventToActivate}
+                  setEvent={setModalEvent}
                   eventModalRef={eventModalRef}
+                  inviteModalRef={inviteModalRef}
                 />
               );
           })
@@ -55,7 +58,8 @@ const EventsList = () => {
           />
         )}
       </div>
-      <EventModal event={eventToActivate} ref={eventModalRef} />
+      <EventModal event={modalEvent} ref={eventModalRef} />
+      <InviteModal event={modalEvent} ref={inviteModalRef} />
     </article>
   );
 };

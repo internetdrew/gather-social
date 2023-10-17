@@ -10,6 +10,7 @@ import {
 import { api } from "~/utils/api";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import type { InviteModalRef } from "./InviteModal";
 
 const hyphenateStr = (str: string) => {
   if (str)
@@ -21,13 +22,21 @@ const hyphenateStr = (str: string) => {
       .join("-");
 };
 
-const OptionsMenu = (eventId: { eventId: string }) => {
+interface OptionsMenuProps {
+  eventId: string;
+  inviteModalRef: React.RefObject<InviteModalRef | null>;
+}
+
+const OptionsMenu: React.FC<OptionsMenuProps> = ({
+  inviteModalRef,
+  eventId,
+}) => {
   const [showMenu, setShowMenu] = useState(false);
   const ref = useDetectClickOutside({ onTriggered: closeMenu });
-  const id = eventId.eventId;
+  const id = eventId;
 
   const { data: eventDetails } = api.events.getEventDetails.useQuery({
-    eventId: eventId.eventId,
+    eventId: eventId,
   });
 
   const eventTitle = eventDetails?.title;
@@ -93,7 +102,14 @@ const OptionsMenu = (eventId: { eventId: string }) => {
           {eventIsActive ? (
             <>
               <li>
-                <button className="flex h-full w-full items-center border-b border-famous-black border-opacity-30 p-2 duration-300 hover:bg-pink-400">
+                <button
+                  className="flex h-full w-full items-center border-b border-famous-black border-opacity-30 p-2 duration-300 hover:bg-pink-400"
+                  onClick={() => {
+                    if (inviteModalRef.current) {
+                      inviteModalRef.current.openModal();
+                    }
+                  }}
+                >
                   <span>
                     <UserPlusIcon className="mr-2 h-5 w-5" />
                   </span>{" "}

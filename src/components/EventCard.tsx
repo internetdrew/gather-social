@@ -3,6 +3,7 @@ import Link from "next/link";
 import { EventCardOptions } from "~/components";
 import { type SetStateAction } from "react";
 import type { EventModalRef } from "./EventModal";
+import type { InviteModalRef } from "./InviteModal";
 
 export interface Event {
   id: string;
@@ -19,21 +20,25 @@ interface EventCardProps {
   event: Event | null;
   setEvent?: React.Dispatch<SetStateAction<Event | null>>;
   eventModalRef?: React.RefObject<EventModalRef | null>;
+  inviteModalRef?: React.RefObject<InviteModalRef | null>;
 }
 
 const EventCard: React.FC<EventCardProps> = ({
   event,
   setEvent,
   eventModalRef,
+  inviteModalRef,
 }) => {
   if (!event) return;
 
-  const handleClick = () => {
+  console.log(inviteModalRef);
+
+  const openActivateEventModal = () => {
     if (eventModalRef?.current) {
       eventModalRef.current.openModal();
     }
     if (setEvent) {
-      setEvent((prevEvent) => (prevEvent?.id === event.id ? prevEvent : event));
+      setEvent(event);
     }
   };
 
@@ -43,7 +48,12 @@ const EventCard: React.FC<EventCardProps> = ({
         <h4 className="max-w-xs flex-1 overflow-hidden break-words text-lg font-semibold sm:text-xl">
           {event?.title}
         </h4>
-        <EventCardOptions eventId={event.id} />
+        {inviteModalRef && (
+          <EventCardOptions
+            inviteModalRef={inviteModalRef}
+            eventId={event.id}
+          />
+        )}
       </div>
       <div className="flex"></div>
 
@@ -69,7 +79,7 @@ const EventCard: React.FC<EventCardProps> = ({
         {!event.startDate ? (
           <button
             className="ml-auto rounded-2xl bg-pink-400 px-6 py-1 text-sm font-medium ring-1 ring-black duration-300 hover:scale-105 hover:shadow-xl active:scale-95"
-            onClick={handleClick}
+            onClick={openActivateEventModal}
           >
             Activate
           </button>

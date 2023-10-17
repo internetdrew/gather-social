@@ -4,6 +4,7 @@ export { default as EventCard } from "./EventCard";
 export { default as LoadingSpinner } from "./LoadingSpinner";
 export { default as EventCardOptions } from "./EventCardOptions";
 export { default as EventModal } from "./EventModal";
+export { default as InviteModal } from "./InviteModal";
 export { default as EventHeader } from "./EventHeader";
 export { default as CreatePostWizard } from "./CreatePostWizard";
 export { default as EventFeed } from "./EventFeed";

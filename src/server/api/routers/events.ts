@@ -2,11 +2,12 @@ import { z } from "zod";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs";
 import { TRPCError } from "@trpc/server";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { generateQRCode } from "~/utils/qrCodeUtils";
 import { Buffer } from "buffer";
 import { useS3 } from "~/hooks/useS3";
 import * as argon2 from "argon2";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 export const eventsRouter = createTRPCRouter({
   getCurrentUserEvents: privateProcedure.query(async ({ ctx }) => {
@@ -154,12 +155,10 @@ export const eventsRouter = createTRPCRouter({
         const command = new PutObjectCommand(params);
         await s3.send(command);
 
-        const s3ImageUrl = `https://${bucketName}.s3.amazonaws.com/qr_codes/${qrImageKey}`;
-
         const updatedEvent = await ctx.prisma.event.update({
           where: { id: event.id },
           data: {
-            qrCodeImageUrl: s3ImageUrl,
+            qrCodeS3Key: qrImageKey,
           },
         });
 
@@ -234,6 +233,35 @@ export const eventsRouter = createTRPCRouter({
           avatar,
         },
       };
+    }),
+  getInviteAssets: privateProcedure
+    .input(
+      z.object({
+        eventId: z.string().min(1),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const event = await ctx.prisma.event.findUnique({
+        where: {
+          id: input.eventId,
+        },
+      });
+
+      const qrCodeKey = event?.qrCodeS3Key;
+
+      const bucketName = process.env.S3_BUCKET_NAME;
+      const s3 = useS3();
+
+      const getObjectCommand = new GetObjectCommand({
+        Bucket: bucketName,
+        Key: qrCodeKey!,
+      });
+
+      const qrCodeImageUrl = await getSignedUrl(s3, getObjectCommand, {
+        expiresIn: 3600,
+      });
+
+      return { qrCodeImageUrl, joinEventUrl: `/event/join/${input.eventId}` };
     }),
   addNewGuest: privateProcedure
     .input(

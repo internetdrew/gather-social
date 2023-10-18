@@ -41,7 +41,7 @@ const EventModal: ForwardRefRenderFunction<EventModalRef, EventModalProps> = (
   const { mutate: activateEvent, isLoading } = api.events.activate.useMutation({
     onSuccess: async () => {
       closeModal();
-      await ctx.events.getCurrentUserEvents.invalidate();
+      await ctx.events.invalidate();
     },
     onError: () => {
       toast.error("Error creating your event. Please try again later.");

@@ -21,7 +21,6 @@ const EventModal: ForwardRefRenderFunction<EventModalRef, EventModalProps> = (
   { event },
   ref
 ) => {
-  console.log(event);
   const modalRef = useRef<HTMLDialogElement>(null);
 
   const openModal = () => {

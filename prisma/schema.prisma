@@ -22,14 +22,14 @@ model EventToken {
 }
 
 model Event {
-    id             String    @id @default(cuid())
-    createdAt      DateTime  @default(now())
-    startDate      DateTime?
-    endDate        DateTime?
-    hostId         String
-    title          String
-    qrCodeImageUrl String?
-    password       String
+    id          String    @id @default(cuid())
+    createdAt   DateTime  @default(now())
+    startDate   DateTime?
+    endDate     DateTime?
+    hostId      String
+    title       String
+    qrCodeS3Key String?
+    password    String
 
     posts       Post[]
     eventGuests EventGuestCheckin[]

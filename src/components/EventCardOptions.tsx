@@ -12,6 +12,7 @@ import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import type { InviteModalRef } from "./InviteModal";
 import type { Event } from "./EventCard";
+import { EventInviteAssets } from "./UserEventsList";
 
 const hyphenateStr = (str: string) => {
   if (str)
@@ -28,6 +29,9 @@ interface OptionsMenuProps {
   event: Event | null;
   inviteModalRef: React.RefObject<InviteModalRef | null>;
   setEvent?: React.Dispatch<SetStateAction<Event | null>>;
+  setEventInviteAssets?: React.Dispatch<
+    SetStateAction<EventInviteAssets | null>
+  >;
 }
 
 const OptionsMenu: React.FC<OptionsMenuProps> = ({
@@ -35,16 +39,14 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
   event,
   setEvent,
   eventId,
+  setEventInviteAssets,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const ref = useDetectClickOutside({ onTriggered: closeMenu });
-  const id = eventId;
 
   const { data: eventDetails } = api.events.getEventDetails.useQuery({
-    eventId: eventId,
+    eventId,
   });
-
-  console.log(inviteModalRef.current);
 
   const eventTitle = eventDetails?.title;
   const eventIsActive = Boolean(eventDetails?.startDate);
@@ -80,6 +82,14 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
   function closeMenu() {
     setShowMenu(false);
   }
+  const { mutate: getEventInviteAssets } =
+    api.events.getInviteAssets.useMutation({
+      onSuccess: (data) => {
+        console.log(data);
+        if (data && setEventInviteAssets) setEventInviteAssets(data);
+        inviteModalRef.current?.openModal();
+      },
+    });
 
   return (
     <div className="relative z-10 mt-1 h-6 w-6 flex-shrink-0" ref={ref}>
@@ -111,13 +121,7 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
               <li>
                 <button
                   className="flex h-full w-full items-center border-b border-famous-black border-opacity-30 p-2 duration-300 hover:bg-pink-400"
-                  onClick={() => {
-                    if (inviteModalRef.current && setEvent) {
-                      console.log(event);
-                      setEvent(event);
-                      inviteModalRef.current.openModal();
-                    }
-                  }}
+                  onClick={() => getEventInviteAssets({ eventId })}
                 >
                   <span>
                     <UserPlusIcon className="mr-2 h-5 w-5" />
@@ -128,7 +132,7 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
               <li>
                 <button
                   className="flex h-full w-full items-center p-2 duration-300 hover:bg-pink-400"
-                  onClick={() => downloadImagesFromEvent({ eventId: id })}
+                  onClick={() => downloadImagesFromEvent({ eventId })}
                   disabled={zippingImages}
                 >
                   <span>

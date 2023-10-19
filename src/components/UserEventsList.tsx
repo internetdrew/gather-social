@@ -9,6 +9,11 @@ interface NoEventsMessageProps {
   message: string;
 }
 
+export interface EventInviteAssets {
+  qrCodeImageUrl: string;
+  joinEventUrl: string;
+}
+
 const NoEventsMessage: React.FC<NoEventsMessageProps> = ({ message }) => {
   return (
     <div className="py-2 text-center text-lg font-semibold">{message}</div>
@@ -19,6 +24,8 @@ const EventsList = () => {
   const eventModalRef = useRef<EventModalRef | null>(null);
   const inviteModalRef = useRef<InviteModalRef | null>(null);
   const [modalEvent, setModalEvent] = useState<Event | null>(null);
+  const [eventInviteAssets, setEventInviteAssets] =
+    useState<EventInviteAssets | null>(null);
 
   const { data } = api.events.getCurrentUserEvents.useQuery();
 
@@ -40,6 +47,7 @@ const EventsList = () => {
                   setEvent={setModalEvent}
                   eventModalRef={eventModalRef}
                   inviteModalRef={inviteModalRef}
+                  setEventInviteAssets={setEventInviteAssets}
                 />
               );
           })
@@ -59,7 +67,7 @@ const EventsList = () => {
         )}
       </div>
       <EventModal event={modalEvent} ref={eventModalRef} />
-      <InviteModal event={modalEvent} ref={inviteModalRef} />
+      <InviteModal assets={eventInviteAssets} ref={inviteModalRef} />
     </article>
   );
 };

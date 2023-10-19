@@ -4,6 +4,7 @@ import { EventCardOptions } from "~/components";
 import { type SetStateAction } from "react";
 import type { EventModalRef } from "./EventModal";
 import type { InviteModalRef } from "./InviteModal";
+import type { EventInviteAssets } from "./UserEventsList";
 
 export interface Event {
   id: string;
@@ -21,6 +22,9 @@ interface EventCardProps {
   setEvent?: React.Dispatch<SetStateAction<Event | null>>;
   eventModalRef?: React.RefObject<EventModalRef | null>;
   inviteModalRef?: React.RefObject<InviteModalRef | null>;
+  setEventInviteAssets?: React.Dispatch<
+    SetStateAction<EventInviteAssets | null>
+  >;
 }
 
 const EventCard: React.FC<EventCardProps> = ({
@@ -28,6 +32,7 @@ const EventCard: React.FC<EventCardProps> = ({
   setEvent,
   eventModalRef,
   inviteModalRef,
+  setEventInviteAssets,
 }) => {
   if (!event) return;
 
@@ -52,6 +57,7 @@ const EventCard: React.FC<EventCardProps> = ({
             event={event}
             setEvent={setEvent}
             eventId={event.id}
+            setEventInviteAssets={setEventInviteAssets}
           />
         )}
       </div>

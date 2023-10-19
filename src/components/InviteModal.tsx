@@ -4,12 +4,13 @@ import {
   useImperativeHandle,
   type ForwardRefRenderFunction,
 } from "react";
-import { type Event } from "./EventCard";
+import { type EventInviteAssets } from "./UserEventsList";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 interface InviteModalProps {
-  event: Event | null;
+  assets: EventInviteAssets | null;
 }
 
 export interface InviteModalRef {
@@ -20,8 +21,10 @@ export interface InviteModalRef {
 const InviteModal: ForwardRefRenderFunction<
   InviteModalRef,
   InviteModalProps
-> = ({ event }, ref) => {
+> = ({ assets }, ref) => {
   const modalRef = useRef<HTMLDialogElement>(null);
+
+  console.log(assets);
 
   const openModal = () => {
     if (modalRef.current) modalRef.current.showModal();
@@ -38,7 +41,17 @@ const InviteModal: ForwardRefRenderFunction<
 
   return (
     <dialog ref={modalRef} className="top-1/2 -translate-y-1/2">
-      {event?.title}
+      {assets && (
+        <>
+          <Image
+            src={assets.qrCodeImageUrl}
+            alt="Event QR code image"
+            width={200}
+            height={200}
+          />
+          <p>{assets?.joinEventUrl}</p>
+        </>
+      )}
     </dialog>
   );
 };

@@ -11,7 +11,6 @@ import { api } from "~/utils/api";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import type { InviteModalRef } from "./InviteModal";
-import type { Event } from "./EventCard";
 import type { EventInviteAssets } from "./UserEventsList";
 
 const hyphenateStr = (str: string) => {

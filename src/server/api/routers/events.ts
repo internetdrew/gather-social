@@ -261,7 +261,13 @@ export const eventsRouter = createTRPCRouter({
         expiresIn: 3600,
       });
 
-      return { qrCodeImageUrl, joinEventUrl: `/event/join/${input.eventId}` };
+      const eventTitle = event?.title;
+
+      return {
+        qrCodeImageUrl,
+        joinEventUrl: `${process.env.SITE_URL}/event/join/${input.eventId}`,
+        eventTitle: eventTitle!,
+      };
     }),
   addNewGuest: privateProcedure
     .input(

@@ -29,7 +29,7 @@ const CreatePostWizard: ForwardRefRenderFunction<
   const modalRef = useRef<HTMLDialogElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-  const [caption, setCaption] = useState<string>("");
+  const [caption, setCaption] = useState("");
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [compressedImagesForUI, setCompressedImagesForUI] = useState<string[]>(
     []

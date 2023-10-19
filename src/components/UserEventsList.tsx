@@ -12,6 +12,7 @@ interface NoEventsMessageProps {
 export interface EventInviteAssets {
   qrCodeImageUrl: string;
   joinEventUrl: string;
+  eventTitle: string;
 }
 
 const NoEventsMessage: React.FC<NoEventsMessageProps> = ({ message }) => {
@@ -67,7 +68,7 @@ const EventsList = () => {
         )}
       </div>
       <EventModal event={modalEvent} ref={eventModalRef} />
-      <InviteModal assets={eventInviteAssets} ref={inviteModalRef} />
+      <InviteModal eventInvite={eventInviteAssets} ref={inviteModalRef} />
     </article>
   );
 };

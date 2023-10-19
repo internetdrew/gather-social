@@ -54,8 +54,6 @@ const EventCard: React.FC<EventCardProps> = ({
         {inviteModalRef && (
           <EventCardOptions
             inviteModalRef={inviteModalRef}
-            event={event}
-            setEvent={setEvent}
             eventId={event.id}
             setEventInviteAssets={setEventInviteAssets}
           />

@@ -12,7 +12,7 @@ import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import type { InviteModalRef } from "./InviteModal";
 import type { Event } from "./EventCard";
-import { EventInviteAssets } from "./UserEventsList";
+import type { EventInviteAssets } from "./UserEventsList";
 
 const hyphenateStr = (str: string) => {
   if (str)
@@ -26,9 +26,7 @@ const hyphenateStr = (str: string) => {
 
 interface OptionsMenuProps {
   eventId: string;
-  event: Event | null;
   inviteModalRef: React.RefObject<InviteModalRef | null>;
-  setEvent?: React.Dispatch<SetStateAction<Event | null>>;
   setEventInviteAssets?: React.Dispatch<
     SetStateAction<EventInviteAssets | null>
   >;
@@ -36,8 +34,6 @@ interface OptionsMenuProps {
 
 const OptionsMenu: React.FC<OptionsMenuProps> = ({
   inviteModalRef,
-  event,
-  setEvent,
   eventId,
   setEventInviteAssets,
 }) => {
@@ -85,7 +81,6 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
   const { mutate: getEventInviteAssets } =
     api.events.getInviteAssets.useMutation({
       onSuccess: (data) => {
-        console.log(data);
         if (data && setEventInviteAssets) setEventInviteAssets(data);
         inviteModalRef.current?.openModal();
       },
@@ -121,7 +116,10 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
               <li>
                 <button
                   className="flex h-full w-full items-center border-b border-famous-black border-opacity-30 p-2 duration-300 hover:bg-pink-400"
-                  onClick={() => getEventInviteAssets({ eventId })}
+                  onClick={() => {
+                    getEventInviteAssets({ eventId });
+                    setShowMenu(false);
+                  }}
                 >
                   <span>
                     <UserPlusIcon className="mr-2 h-5 w-5" />

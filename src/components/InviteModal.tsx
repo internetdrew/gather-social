@@ -47,7 +47,7 @@ const InviteModal: ForwardRefRenderFunction<
   return (
     <dialog
       ref={modalRef}
-      className="top-1/2 -translate-y-1/2 rounded-lg p-4 ring-1 ring-famous-black"
+      className="top-1/2 w-3/4 -translate-y-1/2 rounded-lg bg-famous-white p-4 ring-1 ring-famous-black sm:w-80"
     >
       <div className="flex w-full justify-end">
         <button

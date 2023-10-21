@@ -98,6 +98,6 @@ model Feedback {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     userId    String
-    email     String
+    userEmail String
     message   String
 }

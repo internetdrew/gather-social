@@ -31,6 +31,7 @@ export const eventsRouter = createTRPCRouter({
           select: {
             title: true,
             hostId: true,
+            startDate: true,
           },
         },
       },
@@ -71,6 +72,7 @@ export const eventsRouter = createTRPCRouter({
           return {
             id: guestCheckin.id,
             title: guestCheckin.event.title,
+            startDate: guestCheckin.event.startDate,
             hostInfo: {
               firstName: host.firstName,
               lastName: host.lastName,

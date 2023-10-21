@@ -4,7 +4,7 @@ const Footer = () => {
   const user = useUser();
 
   return (
-    <footer className="w-full bg-famous-black py-4">
+    <footer className="mt-auto w-full bg-famous-black py-4">
       <div
         className={`mx-auto mt-auto flex w-full max-w-screen-lg items-center ${
           user.isSignedIn ? "justify-between" : "justify-center"

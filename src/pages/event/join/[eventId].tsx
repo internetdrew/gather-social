@@ -1,7 +1,5 @@
 import { z } from "zod";
-import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import toast from "react-hot-toast";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
@@ -10,13 +8,13 @@ import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import superjson from "superjson";
 import Link from "next/link";
+import { useAddNewEventGuest } from "~/hooks/useAddNewEventGuest";
 
 interface FormData {
   password: string;
 }
 
 const JoinEventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
-  const router = useRouter();
   const inputClasses =
     "rounded-xl p-3 outline-pink-400 ring-1 ring-famous-black";
 
@@ -28,14 +26,7 @@ const JoinEventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
     eventId,
   });
 
-  const { mutate: addNewEventGuest } = api.events.addNewGuest.useMutation({
-    onSuccess: async () => {
-      await router.push(`/event/feed/${eventId}`);
-    },
-    onError: () => {
-      toast.error("Sorry, this password is invalid.");
-    },
-  });
+  const addNewEventGuest = useAddNewEventGuest(eventId);
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     addNewEventGuest({

@@ -70,7 +70,7 @@ export const eventsRouter = createTRPCRouter({
 
         if (host && guestCheckin)
           return {
-            id: guestCheckin.id,
+            id: guestCheckin.eventId,
             title: guestCheckin.event.title,
             startDate: guestCheckin.event.startDate,
             hostInfo: {

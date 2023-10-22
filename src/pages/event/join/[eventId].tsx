@@ -9,14 +9,28 @@ import { prisma } from "~/server/db";
 import superjson from "superjson";
 import Link from "next/link";
 import { useAddNewEventGuest } from "~/hooks/useAddNewEventGuest";
+import { useRouter } from "next/router";
 
 interface FormData {
   password: string;
 }
 
-const JoinEventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
+interface JoinEventPageProps {
+  eventId: string;
+}
+
+const JoinEventPage: NextPage<JoinEventPageProps> = ({ eventId }) => {
+  const router = useRouter();
   const inputClasses =
     "rounded-xl p-3 outline-pink-400 ring-1 ring-famous-black";
+
+  const { data: userIsAlreadyAttending } =
+    api.events.isUserAlreadyAttending.useQuery({
+      eventId,
+    });
+  if (userIsAlreadyAttending) {
+    void router.push(`/event/feed/${eventId}`);
+  }
 
   const {
     data: event,
@@ -108,6 +122,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   if (typeof eventId !== "string") throw new Error("no event id");
 
   await helpers.events.getEventDetails.prefetch({ eventId });
+  await helpers.events.isUserAlreadyAttending.prefetch({ eventId });
 
   return {
     props: {

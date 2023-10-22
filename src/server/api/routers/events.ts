@@ -309,4 +309,23 @@ export const eventsRouter = createTRPCRouter({
       });
       return eventGuestCheckin;
     }),
+  isUserAlreadyAttending: privateProcedure
+    .input(
+      z.object({
+        eventId: z.string().min(1),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { userId } = ctx;
+      const { eventId } = input;
+
+      const eventCheckIn = await ctx.prisma.eventGuestCheckin.findFirst({
+        where: {
+          eventId,
+          guestId: userId!,
+        },
+      });
+
+      return Boolean(eventCheckIn);
+    }),
 });

@@ -59,6 +59,7 @@ export const postsRouter = createTRPCRouter({
               avatar: postAuthor.profileImageUrl,
               firstName: postAuthor.firstName,
               lastName: postAuthor.lastName,
+              id: postAuthor.id,
             },
             images: post.images.map((image) => {
               if (image) {
@@ -105,4 +106,35 @@ export const postsRouter = createTRPCRouter({
         });
       }
     }),
+  delete: privateProcedure
+    .input(
+      z.object({
+        postId: z.string().min(1),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const currentUserId = ctx.userId!;
+      const { postId } = input;
+      const postData = await ctx.prisma.post.findFirst({
+        where: {
+          id: postId,
+        },
+      });
+
+      if (currentUserId !== postData?.authorId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "User not authorized for this action.",
+        });
+      }
+
+      console.log(postData);
+    }),
+  edit: privateProcedure
+    .input(
+      z.object({
+        postId: z.string().min(1),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {}),
 });

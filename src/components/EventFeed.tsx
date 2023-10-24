@@ -9,15 +9,21 @@ import {
   EllipsisHorizontalIcon,
 } from "@heroicons/react/24/outline";
 import { type RouterOutputs } from "~/utils/api";
+import PostOptions from "./PostOptions";
+import { useUser } from "@clerk/nextjs";
 
 type PostsData = RouterOutputs["posts"]["getAllForEvent"];
 type PostData = RouterOutputs["posts"]["getAllForEvent"][number];
 
-const Post: React.FC<{ post: PostData; postIndex: number }> = ({
-  post,
-  postIndex,
-}) => {
+interface PostProps {
+  post: PostData;
+  postIndex: number;
+}
+
+const Post: React.FC<PostProps> = ({ post, postIndex }) => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const { user } = useUser();
+  const userIsPostAuthor = user?.id === post?.author.id;
 
   if (post) {
     const goToPrevSlide = () => {
@@ -50,12 +56,9 @@ const Post: React.FC<{ post: PostData; postIndex: number }> = ({
                 {dayjs().to(dayjs(post?.createdAt))}
               </p>
             </div>
-            <button
-              className="ml-auto text-slate-700"
-              aria-label="options-menu-button"
-            >
-              <EllipsisHorizontalIcon className="h-6 w-6" />
-            </button>
+            {userIsPostAuthor && (
+              <PostOptions postId={post.id} authorId={post.author.id} />
+            )}
           </div>
           <div className="relative mt-4 flex h-96 overflow-hidden ring-1 ring-black">
             {post?.images.map((image, imageIdx) => {

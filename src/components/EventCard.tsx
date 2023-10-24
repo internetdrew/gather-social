@@ -59,8 +59,6 @@ const EventCard: React.FC<EventCardProps> = ({
           />
         )}
       </div>
-      <div className="flex"></div>
-
       <div className="mt-auto flex items-end justify-between">
         <div>
           <span className="text-sm">Hosted by</span>

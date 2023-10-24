@@ -28,9 +28,14 @@ const Navbar: React.FC<NavbarProps> = ({ isEventFeed, postWizardRef }) => {
           <Link href={"/home"}>Gather</Link>
         </div>
         <div className="flex items-center gap-4">
-          <Link href={"/#how"} className="text-lg font-semibold text-pink-400">
-            How it works
-          </Link>
+          {!isEventFeed && (
+            <Link
+              href={"/#how"}
+              className="text-lg font-semibold text-pink-400"
+            >
+              How it works
+            </Link>
+          )}
           {isEventFeed ? (
             <button
               className="rounded-xl bg-pink-400 px-4 py-2 text-sm font-semibold duration-300 hover:shadow-2xl active:scale-95"

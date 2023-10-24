@@ -7,6 +7,7 @@ export { default as EventModal } from "./EventModal";
 export { default as InviteModal } from "./InviteModal";
 export { default as EventHeader } from "./EventHeader";
 export { default as CreatePostWizard } from "./CreatePostWizard";
+export { default as HowItWorks } from "./HowItWorks";
 export { default as EventFeed } from "./EventFeed";
 export { default as Navbar } from "./Navbar";
 export { default as Footer } from "./Footer";

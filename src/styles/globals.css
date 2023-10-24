@@ -18,6 +18,12 @@ textarea {
   resize: none;
 }
 
+section::before {
+  content: "";
+  display: block;
+  height: 100px;
+}
+
 .prevent-select {
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */

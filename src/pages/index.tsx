@@ -2,6 +2,7 @@ import { SignInButton, useUser } from "@clerk/nextjs";
 import { Modak } from "next/font/google";
 import Link from "next/link";
 import { ArrowDownIcon } from "@heroicons/react/24/outline";
+import { HowItWorks } from "~/components";
 
 const modak = Modak({ weight: "400", subsets: ["latin"] });
 
@@ -9,8 +10,8 @@ export default function Home() {
   const user = useUser();
 
   return (
-    <main className="flex h-screen flex-col items-center justify-center bg-famous-black px-3">
-      <section>
+    <main className="flex flex-col items-center justify-center bg-famous-black px-3">
+      <section className="mt-44">
         <p className={`${modak.className} text-center text-8xl text-pink-400`}>
           Gather
         </p>
@@ -32,14 +33,16 @@ export default function Home() {
             </SignInButton>
           )}
           <Link
-            href={"/"}
+            href="#how"
             className="flex items-center justify-center rounded-full bg-famous-black px-9 py-2 text-lg font-semibold text-pink-400 ring-1 ring-pink-400 duration-300 hover:shadow-md hover:shadow-pink-400/40"
+            scroll={false}
           >
             How it works
             <ArrowDownIcon className="ml-1 h-4 w-4" />
           </Link>
         </div>
       </section>
+      <HowItWorks />
     </main>
   );
 }

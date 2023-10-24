@@ -9,7 +9,7 @@ import {
   EllipsisHorizontalIcon,
 } from "@heroicons/react/24/outline";
 import { type RouterOutputs } from "~/utils/api";
-import PostOptions from "./PostOptions";
+import { PostOptions } from "./";
 import { useUser } from "@clerk/nextjs";
 
 type PostsData = RouterOutputs["posts"]["getAllForEvent"];

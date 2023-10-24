@@ -136,5 +136,8 @@ export const postsRouter = createTRPCRouter({
         postId: z.string().min(1),
       })
     )
-    .mutation(async ({ ctx, input }) => {}),
+    .mutation(({ ctx, input }) => {
+      const userId = ctx.userId!;
+      console.log(input.postId);
+    }),
 });

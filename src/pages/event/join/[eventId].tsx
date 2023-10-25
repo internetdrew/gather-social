@@ -24,11 +24,10 @@ const JoinEventPage: NextPage<JoinEventPageProps> = ({ eventId }) => {
   const inputClasses =
     "rounded-xl p-3 outline-pink-400 ring-1 ring-famous-black";
 
-  const { data: userIsAlreadyAttending } =
-    api.events.isUserAlreadyAttending.useQuery({
-      eventId,
-    });
-  if (userIsAlreadyAttending) {
+  const { data: userIsAGuest } = api.events.isUserAGuest.useQuery({
+    eventId,
+  });
+  if (userIsAGuest) {
     void router.push(`/event/feed/${eventId}`);
   }
 
@@ -122,7 +121,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   if (typeof eventId !== "string") throw new Error("no event id");
 
   await helpers.events.getEventDetails.prefetch({ eventId });
-  await helpers.events.isUserAlreadyAttending.prefetch({ eventId });
+  await helpers.events.isUserAGuest.prefetch({ eventId });
 
   return {
     props: {

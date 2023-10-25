@@ -6,15 +6,14 @@ import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 const EventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
   const router = useRouter();
 
   const { data: isGuest } = api.events.isUserAGuest.useQuery({ eventId });
-  useEffect(() => {
-    if (!isGuest) void router.push("/home");
-  }, [isGuest, router]);
+  if (!isGuest) {
+    void router.push("/home");
+  }
 
   const { data: eventDetails } = api.events.getEventDetails.useQuery({
     eventId,
@@ -48,6 +47,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   if (typeof eventId !== "string") throw new Error("no event id");
 
   await helpers.events.getEventDetails.prefetch({ eventId });
+  await helpers.events.isUserAGuest.prefetch({ eventId });
 
   return {
     props: {

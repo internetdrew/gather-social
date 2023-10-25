@@ -25,7 +25,7 @@ const Navbar: React.FC<NavbarProps> = ({ isEventFeed, postWizardRef }) => {
         <div
           className={`${modak.className} text-3xl text-pink-400  sm:text-4xl`}
         >
-          <Link href={"/home"}>Gather</Link>
+          <Link href={"/"}>Gather</Link>
         </div>
         <div className="flex items-center gap-4">
           {!isEventFeed && (

@@ -11,13 +11,12 @@ import { useEffect } from "react";
 const EventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
   const router = useRouter();
 
-  const { data: isGuest } = api.events.isUserAGuest.useQuery({ eventId });
-
   useEffect(() => {
+    const { data: isGuest } = api.events.isUserAGuest.useQuery({ eventId });
     if (!isGuest) {
       void router.push("/home");
     }
-  }, [isGuest, router]);
+  }, [eventId, router]);
 
   const { data: eventDetails } = api.events.getEventDetails.useQuery({
     eventId,

@@ -25,14 +25,14 @@ const JoinEventPage: NextPage<JoinEventPageProps> = ({ eventId }) => {
   const inputClasses =
     "rounded-xl p-3 outline-pink-400 ring-1 ring-famous-black";
 
-  const { data: userIsAGuest } = api.events.isUserAGuest.useQuery({
-    eventId,
-  });
   useEffect(() => {
+    const { data: userIsAGuest } = api.events.isUserAGuest.useQuery({
+      eventId,
+    });
     if (userIsAGuest) {
       void router.push(`/event/feed/${eventId}`);
     }
-  }, [eventId, router, userIsAGuest]);
+  }, [eventId, router]);
 
   const {
     data: event,

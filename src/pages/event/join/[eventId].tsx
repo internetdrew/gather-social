@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { z } from "zod";
 import { api } from "~/utils/api";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -27,9 +28,11 @@ const JoinEventPage: NextPage<JoinEventPageProps> = ({ eventId }) => {
   const { data: userIsAGuest } = api.events.isUserAGuest.useQuery({
     eventId,
   });
-  if (userIsAGuest) {
-    void router.push(`/event/feed/${eventId}`);
-  }
+  useEffect(() => {
+    if (userIsAGuest) {
+      void router.push(`/event/feed/${eventId}`);
+    }
+  }, [eventId, router, userIsAGuest]);
 
   const {
     data: event,

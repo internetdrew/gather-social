@@ -309,7 +309,7 @@ export const eventsRouter = createTRPCRouter({
       });
       return eventGuestCheckin;
     }),
-  isUserAlreadyAttending: privateProcedure
+  isUserAGuest: privateProcedure
     .input(
       z.object({
         eventId: z.string().min(1),

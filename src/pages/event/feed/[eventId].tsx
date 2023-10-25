@@ -5,11 +5,21 @@ import superjson from "superjson";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const EventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
+  const router = useRouter();
+
+  const { data: isGuest } = api.events.isUserAGuest.useQuery({ eventId });
+  useEffect(() => {
+    if (!isGuest) void router.push("/home");
+  }, [isGuest, router]);
+
   const { data: eventDetails } = api.events.getEventDetails.useQuery({
     eventId,
   });
+
   const { data: postData } = api.posts.getAllForEvent.useQuery({ eventId });
 
   if (!eventDetails || !postData) return <h1>No for this event. Sorry!</h1>;

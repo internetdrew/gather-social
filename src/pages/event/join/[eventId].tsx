@@ -1,9 +1,8 @@
-import { useEffect } from "react";
 import { z } from "zod";
 import { api } from "~/utils/api";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import type { GetServerSidePropsContext, NextPage } from "next";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
@@ -11,6 +10,7 @@ import superjson from "superjson";
 import Link from "next/link";
 import { useAddNewEventGuest } from "~/hooks/useAddNewEventGuest";
 import { useRouter } from "next/router";
+import { getAuth } from "@clerk/nextjs/server";
 
 interface FormData {
   password: string;
@@ -21,18 +21,8 @@ interface JoinEventPageProps {
 }
 
 const JoinEventPage: NextPage<JoinEventPageProps> = ({ eventId }) => {
-  const router = useRouter();
   const inputClasses =
     "rounded-xl p-3 outline-pink-400 ring-1 ring-famous-black";
-
-  useEffect(() => {
-    const { data: userIsAGuest } = api.events.isUserAGuest.useQuery({
-      eventId,
-    });
-    if (userIsAGuest) {
-      void router.push(`/event/feed/${eventId}`);
-    }
-  }, [eventId, router]);
 
   const {
     data: event,
@@ -112,42 +102,40 @@ const JoinEventPage: NextPage<JoinEventPageProps> = ({ eventId }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext<{ eventId: string }>
+) => {
+  const auth = getAuth(context.req);
+
   const helpers = createServerSideHelpers({
     router: appRouter,
-    ctx: { prisma, userId: null },
+    ctx: { prisma, userId: auth.userId! },
     transformer: superjson,
   });
 
-  const eventId = context.params?.eventId as string;
+  const eventId = context.params?.eventId;
 
   if (typeof eventId !== "string") throw new Error("no event id");
 
+  const userIsAttendingThisEvent = await helpers.events.isUserAGuest.fetch({
+    eventId,
+  });
+  if (!userIsAttendingThisEvent) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   await helpers.events.getEventDetails.prefetch({ eventId });
-  await helpers.events.isUserAGuest.prefetch({ eventId });
 
   return {
     props: {
       trpcState: helpers.dehydrate(),
       eventId,
     },
-    revalidate: 1,
-  };
-};
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const events = await prisma.event.findMany({
-    select: {
-      id: true,
-    },
-  });
-  return {
-    paths: events.map((event) => ({
-      params: {
-        eventId: event.id,
-      },
-    })),
-    fallback: "blocking",
   };
 };
 

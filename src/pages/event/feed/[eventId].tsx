@@ -1,23 +1,13 @@
 import { EventHeader, EventFeed } from "~/components";
-import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import type { GetServerSidePropsContext, NextPage } from "next";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { getAuth } from "@clerk/nextjs/server";
 
 const EventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
-  const router = useRouter();
-
-  useEffect(() => {
-    const { data: isGuest } = api.events.isUserAGuest.useQuery({ eventId });
-    if (!isGuest) {
-      void router.push("/home");
-    }
-  }, [eventId, router]);
-
   const { data: eventDetails } = api.events.getEventDetails.useQuery({
     eventId,
   });
@@ -38,42 +28,41 @@ const EventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext<{ eventId: string }>
+) => {
+  const auth = getAuth(context.req);
+
   const helpers = createServerSideHelpers({
     router: appRouter,
-    ctx: { prisma, userId: null },
+    ctx: { prisma, userId: auth.userId! },
     transformer: superjson,
   });
 
-  const eventId = context.params?.eventId as string;
+  const eventId = context.params?.eventId;
 
   if (typeof eventId !== "string") throw new Error("no event id");
 
+  const userIsAttendingThisEvent = await helpers.events.isUserAGuest.fetch({
+    eventId,
+  });
+
+  if (!userIsAttendingThisEvent) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   await helpers.events.getEventDetails.prefetch({ eventId });
-  await helpers.events.isUserAGuest.prefetch({ eventId });
 
   return {
     props: {
       trpcState: helpers.dehydrate(),
       eventId,
     },
-    revalidate: 1,
-  };
-};
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const events = await prisma.event.findMany({
-    select: {
-      id: true,
-    },
-  });
-  return {
-    paths: events.map((event) => ({
-      params: {
-        eventId: event.id,
-      },
-    })),
-    fallback: "blocking",
   };
 };
 

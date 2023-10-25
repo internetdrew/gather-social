@@ -9,8 +9,6 @@ import { prisma } from "~/server/db";
 import superjson from "superjson";
 import Link from "next/link";
 import { useAddNewEventGuest } from "~/hooks/useAddNewEventGuest";
-import { useRouter } from "next/router";
-import { getAuth } from "@clerk/nextjs/server";
 
 interface FormData {
   password: string;
@@ -105,29 +103,15 @@ const JoinEventPage: NextPage<JoinEventPageProps> = ({ eventId }) => {
 export const getServerSideProps = async (
   context: GetServerSidePropsContext<{ eventId: string }>
 ) => {
-  const auth = getAuth(context.req);
-
   const helpers = createServerSideHelpers({
     router: appRouter,
-    ctx: { prisma, userId: auth.userId! },
+    ctx: { prisma, userId: null },
     transformer: superjson,
   });
 
   const eventId = context.params?.eventId;
 
   if (typeof eventId !== "string") throw new Error("no event id");
-
-  const userIsAttendingThisEvent = await helpers.events.isUserAGuest.fetch({
-    eventId,
-  });
-  if (!userIsAttendingThisEvent) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
 
   await helpers.events.getEventDetails.prefetch({ eventId });
 

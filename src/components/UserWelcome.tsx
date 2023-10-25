@@ -57,7 +57,7 @@ const UserWelcome = () => {
           className="h-full w-full rounded-full bg-pink-400 px-4 py-2 text-center font-semibold ring-1 ring-black duration-300 hover:scale-105 hover:shadow-2xl"
           onClick={() => createCheckoutSession()}
         >
-          Get an event token
+          Get event tokens
         </button>
 
         {tokenCount ? (

@@ -152,10 +152,21 @@ export const postsRouter = createTRPCRouter({
     .input(
       z.object({
         postId: z.string().min(1),
+        caption: z.string().nullable().optional(),
       })
     )
-    .mutation(({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const userId = ctx.userId!;
-      console.log(userId);
+      const { postId } = input;
+
+      const post = await ctx.prisma.post.findFirst({
+        where: {
+          id: postId,
+        },
+      });
+
+      if (post?.authorId !== userId) {
+        throw new TRPCError({ code: "FORBIDDEN", message: "" });
+      }
     }),
 });

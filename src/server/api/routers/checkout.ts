@@ -29,7 +29,7 @@ export const checkoutRouter = createTRPCRouter({
       ],
       mode: "payment",
       success_url: `${process.env.SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.SITE_URL}/?canceled=true`,
+      cancel_url: `${process.env.SITE_URL}/home?canceled=true`,
       metadata: {
         userId,
       },

@@ -3,11 +3,7 @@ import React, { useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  EllipsisHorizontalIcon,
-} from "@heroicons/react/24/outline";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { type RouterOutputs } from "~/utils/api";
 import { PostOptions } from "./";
 import { useUser } from "@clerk/nextjs";

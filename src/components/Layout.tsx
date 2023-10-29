@@ -14,7 +14,7 @@ const Layout = ({ children }: LayoutProps) => {
   const eventId = router.query.eventId as string;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex min-h-screen flex-col">
       <Navbar isEventFeed={isEventFeed} postWizardRef={postWizardRef} />
       {eventId && <CreatePostWizard eventId={eventId} ref={postWizardRef} />}
       {children}

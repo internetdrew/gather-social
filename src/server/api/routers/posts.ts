@@ -4,6 +4,8 @@ import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
+import { useS3 } from "~/hooks/useS3";
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
@@ -115,20 +117,36 @@ export const postsRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const currentUserId = ctx.userId!;
       const { postId } = input;
-      const postData = await ctx.prisma.post.findFirst({
+      const post = await ctx.prisma.post.findFirst({
         where: {
           id: postId,
         },
       });
 
-      if (currentUserId !== postData?.authorId) {
+      if (currentUserId !== post?.authorId) {
         throw new TRPCError({
           code: "FORBIDDEN",
           message: "User not authorized for this action.",
         });
       }
 
-      console.log(postData);
+      const deletedPost = await ctx.prisma.post.delete({
+        where: {
+          id: postId,
+        },
+      });
+
+      if (!deletedPost) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Trouble deleting post.",
+        });
+      }
+
+      return {
+        success: true,
+        deletedPostId: deletedPost.id,
+      };
     }),
   edit: privateProcedure
     .input(
@@ -138,6 +156,6 @@ export const postsRouter = createTRPCRouter({
     )
     .mutation(({ ctx, input }) => {
       const userId = ctx.userId!;
-      console.log(input.postId);
+      console.log(userId);
     }),
 });

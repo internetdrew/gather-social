@@ -6,22 +6,27 @@ import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
 import { getAuth } from "@clerk/nextjs/server";
+import { useRouter } from "next/router";
 
 const EventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
+  const router = useRouter();
+  const userIsAGuest = api.events.isUserAGuest.useQuery({ eventId });
+
   const { data: eventDetails } = api.events.getEventDetails.useQuery({
     eventId,
   });
+  if (!userIsAGuest || !eventDetails) {
+    void router.push("/");
+  }
 
-  const { data: postData } = api.posts.getAllForEvent.useQuery({ eventId });
-
-  if (!eventDetails || !postData) return <h1>No for this event. Sorry!</h1>;
+  const { data: posts } = api.posts.getAllForEvent.useQuery({ eventId });
 
   return (
     <>
       <main>
         <section>
-          <EventHeader eventData={eventDetails} />
-          <EventFeed posts={postData} />
+          <EventHeader eventData={eventDetails!} />
+          {posts && <EventFeed posts={posts} />}
         </section>
       </main>
     </>
@@ -43,20 +48,8 @@ export const getServerSideProps = async (
 
   if (typeof eventId !== "string") throw new Error("no event id");
 
-  const userIsAttendingThisEvent = await helpers.events.isUserAGuest.fetch({
-    eventId,
-  });
-
-  if (!userIsAttendingThisEvent) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
   await helpers.events.getEventDetails.prefetch({ eventId });
+  await helpers.events.isUserAGuest.prefetch({ eventId });
 
   return {
     props: {

@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center justify-center bg-famous-black px-3">
-      <section className="mt-44">
+      <section className="mt-32">
         <p className={`${modak.className} text-center text-8xl text-pink-400`}>
           Gather
         </p>

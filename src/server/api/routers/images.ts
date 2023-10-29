@@ -4,6 +4,7 @@ import {
   PutObjectCommand,
   ListObjectsV2Command,
   GetObjectCommand,
+  DeleteObjectsCommand,
 } from "@aws-sdk/client-s3";
 import { useS3 } from "~/hooks/useS3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -123,6 +124,45 @@ export const imagesRouter = createTRPCRouter({
         }
       } catch (error) {
         console.error(error);
+      }
+    }),
+  deleteFromPost: privateProcedure
+    .input(
+      z.object({
+        postId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { postId } = input;
+      const s3 = useS3();
+      const imageS3Keys = await ctx.prisma.image.findMany({
+        where: {
+          postId,
+        },
+        select: {
+          s3Key: true,
+        },
+      });
+
+      const command = new DeleteObjectsCommand({
+        Bucket: process.env.S3_BUCKET_NAME,
+        Delete: {
+          Objects: imageS3Keys.map((obj) => ({ Key: obj.s3Key })),
+        },
+      });
+
+      try {
+        const results = await s3.send(command);
+
+        if (results.Errors) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "There was an error while deleting images.",
+          });
+        }
+        return results.Deleted;
+      } catch (err) {
+        console.error(err);
       }
     }),
 });

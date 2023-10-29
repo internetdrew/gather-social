@@ -2,7 +2,7 @@ import React from "react";
 import { Modak } from "next/font/google";
 // import { Bars3Icon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
 import { type PostWizardRef } from "./CreatePostWizard";
 
 const modak = Modak({ weight: "400", subsets: ["latin"] });
@@ -13,6 +13,8 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ isEventFeed, postWizardRef }) => {
+  const user = useUser();
+
   const handleClick = () => {
     if (postWizardRef?.current) {
       postWizardRef.current.openModal();
@@ -25,7 +27,7 @@ const Navbar: React.FC<NavbarProps> = ({ isEventFeed, postWizardRef }) => {
         <div
           className={`${modak.className} text-3xl text-pink-400  sm:text-4xl`}
         >
-          <Link href={"/"}>Gather</Link>
+          <Link href={user.isSignedIn ? "/home" : "/"}>Gather</Link>
         </div>
         <div className="flex items-center gap-4">
           {!isEventFeed && (

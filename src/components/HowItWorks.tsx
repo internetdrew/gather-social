@@ -23,7 +23,8 @@ const howItWorksSteps = [
   },
   {
     count: "three",
-    description: "Post in a private timeline.",
+    description:
+      "Post on a private timeline where only invited guests are allowed.",
     screenshot: eventPostScreenshot,
   },
   {

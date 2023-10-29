@@ -4,8 +4,6 @@ import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
-import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
-import { useS3 } from "~/hooks/useS3";
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),

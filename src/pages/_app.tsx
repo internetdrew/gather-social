@@ -27,14 +27,20 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
           content="Create private social networks for your special events."
         />
         <meta property="og:url" content="https://www.gather-social.com/" />
-        <meta property="og:image" content="<generated>" />
+        <meta
+          property="og:image"
+          content="https://www.gather-social.com/opengraph-image.png"
+        />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Gather Social" />
         <meta
           name="twitter:description"
           content="Create private social networks for your special events."
         />
-        <meta name="twitter:image" content="<generated>" />
+        <meta
+          name="twitter:image"
+          content="https://www.gather-social.com/opengraph-image.png"
+        />
       </Head>
       <RecoilRoot>
         <Toaster />

@@ -31,6 +31,10 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
           property="og:image"
           content="https://www.gather-social.com/testing.jpg"
         />
+        <meta
+          property="og:image:secure_url"
+          content="https://www.gather-social.com/testing.jpg"
+        />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Gather Social" />
         <meta

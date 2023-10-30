@@ -15,6 +15,10 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
         <title>Gather Social</title>
 
         <meta property="og:url" content="https://www.gather-social.com/" />
+        <meta
+          property="og:image"
+          content="https://www.gather-social.com/testing.jpg"
+        />
 
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 

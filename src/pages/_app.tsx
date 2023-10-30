@@ -14,18 +14,26 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
       <Head>
         <title>Gather Social</title>
 
-        <meta property="og:url" content="https://www.gather-social.com/" />
-        <meta
-          property="og:image"
-          content="https://www.gather-social.com/testing.jpg"
-        />
-
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-
+        <meta property="og:title" content="Gather Social" />
+        <meta property="og:type" content="website" />
         <meta
           property="og:description"
           content="Create private social networks for your special events."
         />
+        <meta
+          property="og:image"
+          content="https://www.gather-social.com/testing.jpg"
+        />
+        <meta property="og:url" content="https://www.gather-social.com/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          property="og:description"
+          content="Offering tour packages for individuals or groups."
+        />
+        <meta property="og:site_name" content="Gather Social" />
+        <meta name="twitter:image:alt" content="Alt text for image" />
+
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
       </Head>
       <RecoilRoot>
         <Toaster />

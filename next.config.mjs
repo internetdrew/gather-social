@@ -30,6 +30,10 @@ const config = {
       },
       {
         protocol: "https",
+        hostname: "gather-social.com",
+      },
+      {
+        protocol: "https",
         hostname: "d2cl6yr7yl0xjp.cloudfront.net",
       },
     ],

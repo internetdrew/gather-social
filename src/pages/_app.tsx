@@ -13,37 +13,14 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
     <ClerkProvider {...pageProps}>
       <Head>
         <title>Gather Social</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta charSet="UTF-8" />
-        <meta name="robots" content="index,follow" />
+
         <meta property="og:url" content="https://www.gather-social.com/" />
 
-        <link rel="canonical" href="https://www.gather-social.com/" />
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Gather Social" />
         <meta
           property="og:description"
           content="Create private social networks for your special events."
-        />
-        <meta
-          property="og:image"
-          content="https://www.gather-social.com/testing.jpg"
-        />
-        <meta
-          property="og:image:secure_url"
-          content="https://www.gather-social.com/testing.jpg"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Gather Social" />
-        <meta
-          name="twitter:description"
-          content="Create private social networks for your special events."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.gather-social.com/testing.jpg"
         />
       </Head>
       <RecoilRoot>

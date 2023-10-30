@@ -29,7 +29,7 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
         <meta property="og:url" content="https://www.gather-social.com/" />
         <meta
           property="og:image"
-          content="https://www.gather-social.com/opengraph-image.png"
+          content="https://www.gather-social.com/testing.jpg"
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Gather Social" />
@@ -39,7 +39,7 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
         />
         <meta
           name="twitter:image"
-          content="https://www.gather-social.com/opengraph-image.png"
+          content="https://www.gather-social.com/testing.jpg"
         />
       </Head>
       <RecoilRoot>

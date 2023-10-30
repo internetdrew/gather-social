@@ -16,6 +16,7 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta charSet="UTF-8" />
         <meta name="robots" content="index,follow" />
+        <meta property="og:url" content="https://www.gather-social.com/" />
 
         <link rel="canonical" href="https://www.gather-social.com/" />
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
@@ -26,7 +27,6 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
           property="og:description"
           content="Create private social networks for your special events."
         />
-        <meta property="og:url" content="https://www.gather-social.com/" />
         <meta
           property="og:image"
           content="https://www.gather-social.com/testing.jpg"

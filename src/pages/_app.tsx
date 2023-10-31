@@ -10,7 +10,7 @@ import { Toaster } from "react-hot-toast";
 
 const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
   return (
-    <ClerkProvider {...pageProps}>
+    <>
       <Head>
         <title>Gather Social</title>
 
@@ -35,13 +35,15 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
 
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
       </Head>
-      <RecoilRoot>
-        <Toaster />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </RecoilRoot>
-    </ClerkProvider>
+      <ClerkProvider {...pageProps}>
+        <RecoilRoot>
+          <Toaster />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </RecoilRoot>
+      </ClerkProvider>
+    </>
   );
 };
 

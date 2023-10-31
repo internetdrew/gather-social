@@ -9,6 +9,7 @@ import { prisma } from "~/server/db";
 import superjson from "superjson";
 import Link from "next/link";
 import { useAddNewEventGuest } from "~/hooks/useAddNewEventGuest";
+import { useRouter } from "next/router";
 
 interface FormData {
   password: string;
@@ -19,6 +20,8 @@ interface JoinEventPageProps {
 }
 
 const JoinEventPage: NextPage<JoinEventPageProps> = ({ eventId }) => {
+  const router = useRouter();
+
   const inputClasses =
     "rounded-xl p-3 outline-pink-400 ring-1 ring-famous-black";
 
@@ -29,6 +32,13 @@ const JoinEventPage: NextPage<JoinEventPageProps> = ({ eventId }) => {
   } = api.events.getEventDetails.useQuery({
     eventId,
   });
+
+  const { data: userIsEventGuest } = api.events.checkIfUserIsGuest.useQuery({
+    eventId,
+  });
+  if (userIsEventGuest) {
+    void router.push(`/event/feed/${eventId}`);
+  }
 
   const addNewEventGuest = useAddNewEventGuest(eventId);
 

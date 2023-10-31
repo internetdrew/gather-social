@@ -8,7 +8,7 @@ export default authMiddleware({
     "/",
     "/api/stripe",
     "/event/join/(.*)",
-    "/api/trpc/events.getEventDetails",
+    "/api/trpc/events.getEventDetails,events.checkIfUserIsGuest",
   ],
   ignoredRoutes: ["/", "/api/stripe", "/%3Cno%20source%3E"],
 });

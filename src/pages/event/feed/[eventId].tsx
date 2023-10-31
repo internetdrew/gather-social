@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 
 const EventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
   const router = useRouter();
-  const userIsAGuest = api.events.isUserAGuest.useQuery({ eventId });
+  const userIsAGuest = api.events.checkIfUserIsGuest.useQuery({ eventId });
 
   const { data: eventDetails } = api.events.getEventDetails.useQuery({
     eventId,

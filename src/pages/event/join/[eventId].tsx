@@ -38,9 +38,9 @@ const JoinEventPage: NextPage<JoinEventPageProps> = ({ eventId }) => {
   const { data: userIsEventGuest } = api.events.checkIfUserIsGuest.useQuery({
     eventId,
   });
-  // if (userIsEventGuest) {
-  //   void router.push(`/event/feed/${eventId}`);
-  // }
+  if (userIsEventGuest) {
+    void router.push(`/event/feed/${eventId}`);
+  }
 
   const addNewEventGuest = useAddNewEventGuest(eventId);
 

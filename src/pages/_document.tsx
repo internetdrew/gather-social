@@ -10,8 +10,8 @@ const Document = () => {
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
         />
-
         <link rel="manifest" href="/manifest.json" />
+
         <link rel="apple-touch-icon" href="/apple-icon.png" />
         <link
           rel="apple-touch-icon"
@@ -82,7 +82,7 @@ const Document = () => {
           sizes="16x16"
           href="/favicon-16x16.png"
         />
-        <link rel="manifest" href="/manifest.json" />
+
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
       </Head>

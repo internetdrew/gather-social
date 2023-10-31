@@ -10,6 +10,7 @@ import superjson from "superjson";
 import Link from "next/link";
 import { useAddNewEventGuest } from "~/hooks/useAddNewEventGuest";
 import { useRouter } from "next/router";
+import { SignInButton, useUser } from "@clerk/nextjs";
 
 interface FormData {
   password: string;
@@ -21,9 +22,10 @@ interface JoinEventPageProps {
 
 const JoinEventPage: NextPage<JoinEventPageProps> = ({ eventId }) => {
   const router = useRouter();
+  const user = useUser();
 
   const inputClasses =
-    "rounded-xl p-3 outline-pink-400 ring-1 ring-famous-black";
+    "rounded-xl p-3 outline-pink-400 ring-1 ring-famous-black disabled:cursor-not-allowed";
 
   const {
     data: event,
@@ -36,9 +38,9 @@ const JoinEventPage: NextPage<JoinEventPageProps> = ({ eventId }) => {
   const { data: userIsEventGuest } = api.events.checkIfUserIsGuest.useQuery({
     eventId,
   });
-  if (userIsEventGuest) {
-    void router.push(`/event/feed/${eventId}`);
-  }
+  // if (userIsEventGuest) {
+  //   void router.push(`/event/feed/${eventId}`);
+  // }
 
   const addNewEventGuest = useAddNewEventGuest(eventId);
 
@@ -86,25 +88,43 @@ const JoinEventPage: NextPage<JoinEventPageProps> = ({ eventId }) => {
   }
 
   return (
-    <main className="flex h-screen items-center justify-center">
+    <main>
       <form
-        className="flex w-[90%] flex-col rounded-3xl bg-famous-white p-8 font-semibold shadow-2xl ring-1 ring-black sm:w-3/4 md:w-1/2 lg:w-1/3"
+        className="mx-auto mt-32 flex w-[90%] flex-col rounded-3xl bg-famous-white p-8 font-semibold shadow-2xl ring-1 ring-black sm:w-3/4 md:w-1/2 lg:w-1/3"
         onSubmit={handleSubmit(onSubmit)}
       >
         <h1 className="mb-0 text-center text-xl">{`You're invited to join ${event?.title}`}</h1>
-        <p className="mb-2 text-center">Now all you need is the password.</p>
-        <div className=" my-4 flex flex-col space-y-1">
-          <label htmlFor="password">Event Password</label>
-          <input
-            type="password"
-            className={inputClasses}
-            {...register("password")}
-          />
-          {errors.password && (
-            <small className="text-red-600">{errors.password.message}</small>
-          )}
-        </div>
-        <button className="btn-primary rounded-xl">{`Join ${event?.title}`}</button>
+        <p className="mb-2 text-center">
+          {user.isSignedIn
+            ? "Now all you need is the password."
+            : "You'll need to sign in to access the event."}
+        </p>
+        {user.isSignedIn && (
+          <div className=" my-4 flex flex-col space-y-1">
+            <label htmlFor="password">Event Password</label>
+            <input
+              type="password"
+              className={inputClasses}
+              disabled={!user.isSignedIn}
+              {...register("password")}
+            />
+            {errors.password && (
+              <small className="text-red-600">{errors.password.message}</small>
+            )}
+          </div>
+        )}
+        {!user.isSignedIn ? (
+          <SignInButton mode="modal" redirectUrl={router.asPath}>
+            <button className="prevent-select rounded-xl bg-pink-400 px-10 py-2 text-lg font-semibold transition-shadow duration-300 hover:shadow-md hover:shadow-pink-400/40">
+              Sign in to join this event
+            </button>
+          </SignInButton>
+        ) : (
+          <button
+            className="btn-primary rounded-xl disabled:cursor-not-allowed disabled:bg-gray-400"
+            disabled={!user.isSignedIn}
+          >{`Join ${event?.title}`}</button>
+        )}
       </form>
     </main>
   );

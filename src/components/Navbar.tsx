@@ -51,6 +51,7 @@ const Navbar: React.FC<NavbarProps> = ({ isEventFeed, postWizardRef }) => {
               <UserButton afterSignOutUrl="/" />
             </span>
           </SignedIn>
+
           {/* <button className="sm:hidden">
             <Bars3Icon className="h-8 w-8 stroke-pink-400 stroke-2" />
           </button> */}

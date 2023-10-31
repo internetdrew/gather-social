@@ -33,7 +33,7 @@ export default function Home() {
             </SignInButton>
           )}
           <Link
-            href="#how"
+            href="#how-it-works"
             className="flex items-center justify-center rounded-full bg-famous-black px-9 py-2 text-lg font-semibold text-pink-400 ring-1 ring-pink-400 duration-300 hover:shadow-md hover:shadow-pink-400/40"
             scroll={false}
           >

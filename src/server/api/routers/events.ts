@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  privateProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs";
 import { TRPCError } from "@trpc/server";
 import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
@@ -197,7 +201,7 @@ export const eventsRouter = createTRPCRouter({
         console.error(error);
       }
     }),
-  getEventDetails: privateProcedure
+  getEventDetails: publicProcedure
     .input(
       z.object({
         eventId: z.string().min(1),

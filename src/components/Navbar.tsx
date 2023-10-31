@@ -22,7 +22,7 @@ const Navbar: React.FC<NavbarProps> = ({ isEventFeed, postWizardRef }) => {
   };
 
   return (
-    <nav className="sticky top-0 z-10 w-full bg-famous-black px-8 py-3">
+    <nav className="sticky top-0 z-10 w-full bg-famous-black px-8 py-4">
       <div className="mx-auto flex max-w-screen-lg items-center justify-between">
         <div
           className={`${modak.className} text-3xl text-pink-400  sm:text-4xl`}
@@ -32,7 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({ isEventFeed, postWizardRef }) => {
         <div className="flex items-center gap-4">
           {!isEventFeed && (
             <Link
-              href={"/#how"}
+              href={"/#how-it-works"}
               className="text-lg font-semibold text-pink-400"
             >
               How it works

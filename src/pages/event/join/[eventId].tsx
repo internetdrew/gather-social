@@ -2,7 +2,7 @@ import { z } from "zod";
 import { api } from "~/utils/api";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { GetServerSidePropsContext, NextPage } from "next";
+import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
@@ -100,9 +100,7 @@ const JoinEventPage: NextPage<JoinEventPageProps> = ({ eventId }) => {
   );
 };
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext<{ eventId: string }>
-) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const helpers = createServerSideHelpers({
     router: appRouter,
     ctx: { prisma, userId: null },
@@ -120,6 +118,24 @@ export const getServerSideProps = async (
       trpcState: helpers.dehydrate(),
       eventId,
     },
+    revalidate: 10,
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const events = await prisma.event.findMany({
+    select: {
+      id: true,
+    },
+  });
+
+  return {
+    paths: events.map((event) => ({
+      params: {
+        eventId: event.id,
+      },
+    })),
+    fallback: "blocking",
   };
 };
 

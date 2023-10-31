@@ -1,11 +1,10 @@
 import { EventHeader, EventFeed } from "~/components";
-import type { GetServerSidePropsContext, NextPage } from "next";
+import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
-import { getAuth } from "@clerk/nextjs/server";
 import { useRouter } from "next/router";
 
 const EventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
@@ -33,14 +32,10 @@ const EventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
   );
 };
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext<{ eventId: string }>
-) => {
-  const auth = getAuth(context.req);
-
+export const getStaticProps: GetStaticProps = async (context) => {
   const helpers = createServerSideHelpers({
     router: appRouter,
-    ctx: { prisma, userId: auth.userId! },
+    ctx: { prisma, userId: null },
     transformer: superjson,
   });
 
@@ -49,13 +44,30 @@ export const getServerSideProps = async (
   if (typeof eventId !== "string") throw new Error("no event id");
 
   await helpers.events.getEventDetails.prefetch({ eventId });
-  await helpers.events.isUserAGuest.prefetch({ eventId });
 
   return {
     props: {
       trpcState: helpers.dehydrate(),
       eventId,
     },
+    revalidate: 10,
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const events = await prisma.event.findMany({
+    select: {
+      id: true,
+    },
+  });
+
+  return {
+    paths: events.map((event) => ({
+      params: {
+        eventId: event.id,
+      },
+    })),
+    fallback: "blocking",
   };
 };
 

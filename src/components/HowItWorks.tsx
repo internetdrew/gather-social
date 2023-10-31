@@ -64,7 +64,7 @@ const StepCard: React.FC<StepCardProps> = ({ step }) => {
 
 const HowItWorks = () => {
   return (
-    <section id="how" className="mb-24 mt-64 text-center">
+    <section id="how-it-works" className="mb-24 mt-64 text-center">
       <h2 className={`${modak.className} text-6xl text-pink-400`}>
         How It Works
       </h2>

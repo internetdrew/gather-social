@@ -86,7 +86,6 @@ const FeedbackModal: ForwardRefRenderFunction<FeedbackModalRef> = ({}, ref) => {
           className="rounded-sm p-2 outline-pink-400 ring-1 ring-famous-black"
           placeholder="Tell us how we can improve your experience."
           {...register("feedback")}
-          autoFocus
         />
         {errors.feedback && (
           <small className="text-red-600">{errors.feedback.message}</small>

@@ -7,7 +7,11 @@ const Footer = () => {
   const user = useUser();
   const feedbackModalRef = useRef<FeedbackModalRef | null>(null);
 
-  console.log(feedbackModalRef);
+  const openFeedbackModal = () => {
+    if (feedbackModalRef.current) {
+      feedbackModalRef.current.openModal();
+    }
+  };
 
   return (
     <footer className="mt-auto w-full py-4">
@@ -31,7 +35,7 @@ const Footer = () => {
         {user.isSignedIn && (
           <button
             className="rounded-xl bg-pink-400 px-4 py-2 text-sm font-semibold text-famous-black duration-300 hover:shadow-2xl active:scale-95"
-            onClick={() => console.log("feedback")}
+            onClick={openFeedbackModal}
           >
             Leave feedback
           </button>

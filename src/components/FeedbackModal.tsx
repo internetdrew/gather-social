@@ -48,12 +48,6 @@ const FeedbackModal: ForwardRefRenderFunction<FeedbackModalRef> = ({}, ref) => {
     closeModal,
   }));
 
-  useEffect(() => {
-    if (modalRef.current) {
-      modalRef.current.showModal();
-    }
-  }, []);
-
   const onSubmit: SubmitHandler<FormData> = (data) => {
     submitFeedback({ feedback: data.feedback });
   };

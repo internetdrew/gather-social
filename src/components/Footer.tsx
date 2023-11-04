@@ -1,7 +1,13 @@
+import { useRef } from "react";
 import { useUser } from "@clerk/nextjs";
+import FeedbackModal from "./FeedbackModal";
+import type { FeedbackModalRef } from "./FeedbackModal";
 
 const Footer = () => {
   const user = useUser();
+  const feedbackModalRef = useRef<FeedbackModalRef | null>(null);
+
+  console.log(feedbackModalRef);
 
   return (
     <footer className="mt-auto w-full py-4">
@@ -23,11 +29,15 @@ const Footer = () => {
         </p>
 
         {user.isSignedIn && (
-          <button className="hover:underline hover:underline-offset-4">
-            Leave Feedback
+          <button
+            className="rounded-xl bg-pink-400 px-4 py-2 text-sm font-semibold text-famous-black duration-300 hover:shadow-2xl active:scale-95"
+            onClick={() => console.log("feedback")}
+          >
+            Leave feedback
           </button>
         )}
       </div>
+      <FeedbackModal ref={feedbackModalRef} />
     </footer>
   );
 };

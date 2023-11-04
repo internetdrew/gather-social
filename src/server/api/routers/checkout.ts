@@ -18,7 +18,7 @@ export const checkoutRouter = createTRPCRouter({
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
-          price: "price_1NsGgdKhtZ63tY5pEKuQwdTM",
+          price: "price_1O7fBWKhtZ63tY5pBr6mMYGB",
           quantity: 1,
           adjustable_quantity: {
             enabled: true,
@@ -33,6 +33,7 @@ export const checkoutRouter = createTRPCRouter({
       metadata: {
         userId,
       },
+      automatic_tax: { enabled: true },
     });
 
     if (session.url) {

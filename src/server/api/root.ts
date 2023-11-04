@@ -4,6 +4,7 @@ import { eventsRouter } from "./routers/events";
 import { checkoutRouter } from "./routers/checkout";
 import { imagesRouter } from "./routers/images";
 import { tokenRouter } from "./routers/tokens";
+import { feedbackRouter } from "./routers/feedback";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   checkout: checkoutRouter,
   images: imagesRouter,
   tokens: tokenRouter,
+  feedback: feedbackRouter,
 });
 
 // export type definition of API

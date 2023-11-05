@@ -6,6 +6,7 @@ import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const EventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
   const router = useRouter();
@@ -14,9 +15,12 @@ const EventPage: NextPage<{ eventId: string }> = ({ eventId }) => {
   const { data: eventDetails } = api.events.getEventDetails.useQuery({
     eventId,
   });
-  if (!userIsAGuest || !eventDetails) {
-    void router.push("/");
-  }
+
+  useEffect(() => {
+    if (!userIsAGuest || !eventDetails) {
+      void router.push("/");
+    }
+  }, [eventDetails, router, userIsAGuest]);
 
   const { data: posts } = api.posts.getAllForEvent.useQuery({ eventId });
 

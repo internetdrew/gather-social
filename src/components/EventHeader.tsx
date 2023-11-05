@@ -16,12 +16,13 @@ const EventHeader: React.FC<{ eventData: EventData }> = ({ eventData }) => {
           <Image
             width={80}
             height={80}
-            src={eventData.hostDetails.avatar ?? ""}
+            src={eventData?.hostDetails?.avatar ?? ""}
             className="inline h-7 w-7 rounded-full"
             alt="user profile image"
           />
           <p className="font-medium">
-            {eventData.hostDetails.firstName} {eventData.hostDetails.lastName}
+            {eventData?.hostDetails?.firstName}{" "}
+            {eventData?.hostDetails?.lastName}
           </p>
         </div>
       </div>

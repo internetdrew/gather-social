@@ -3,18 +3,19 @@ import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 import Stripe from "stripe";
 import { TRPCError } from "@trpc/server";
 
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error("Stripe secret key not available in this environment");
+}
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2023-10-16",
+  typescript: true,
+});
+
 export const checkoutRouter = createTRPCRouter({
   createSession: privateProcedure.mutation(async ({ ctx }) => {
     const userId = ctx.userId!;
 
-    if (!process.env.STRIPE_SECRET_KEY) {
-      throw new Error("Stripe secret key not available in this environment");
-    }
-
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: "2022-11-15",
-      typescript: true,
-    });
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
@@ -55,11 +56,6 @@ export const checkoutRouter = createTRPCRouter({
       if (!process.env.STRIPE_SECRET_KEY) {
         throw new Error("Stripe secret key not available in this environment");
       }
-
-      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-        apiVersion: "2022-11-15",
-        typescript: true,
-      });
 
       const sessionWithItems = await stripe.checkout.sessions.retrieve(
         input.sessionId,

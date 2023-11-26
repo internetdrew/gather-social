@@ -10,7 +10,7 @@ export default authMiddleware({
     "/event/join/(.*)",
     "/api/trpc/events.getEventDetails,events.checkIfUserIsGuest",
   ],
-  ignoredRoutes: ["/", "/api/stripe", "/%3Cno%20source%3E"],
+  ignoredRoutes: ["/", "/api/stripe", "/%3Cno%20source%3E", "/public/(.*)"],
 });
 
 export const config = {

@@ -19,7 +19,7 @@ export const checkoutRouter = createTRPCRouter({
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
-          price: process.env.EVENT_TOKEN_CODE,
+          price: process.env.STRIPE_EVENT_TOKEN_CODE,
           quantity: 1,
           adjustable_quantity: {
             enabled: true,

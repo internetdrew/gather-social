@@ -18,7 +18,7 @@ export default function Home() {
         <h1 className="mb-5 text-center text-2xl font-semibold text-famous-white md:text-3xl">
           Create private social networks for your special events.
         </h1>
-        <div className="mx-auto flex max-w-md flex-col items-center justify-between gap-6 text-famous-black md:flex-row">
+        <div className="mx-auto flex max-w-md flex-col items-center justify-between text-famous-black md:flex-row">
           {user.isSignedIn ? (
             <Link href={"/home"}>
               <button className="prevent-select rounded-full bg-pink-400 px-10 py-2 text-lg font-semibold ring-1 ring-black transition-shadow duration-300 hover:shadow-md hover:shadow-pink-400/40">

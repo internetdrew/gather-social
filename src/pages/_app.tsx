@@ -26,10 +26,6 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
         />
         <meta property="og:url" content="https://www.gather-social.com/" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          property="og:description"
-          content="Offering tour packages for individuals or groups."
-        />
         <meta property="og:site_name" content="Gather Social" />
         <meta name="twitter:image:alt" content="Alt text for image" />
 

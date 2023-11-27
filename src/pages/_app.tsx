@@ -12,6 +12,8 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Gather Social</title>
 
         <meta property="og:title" content="Gather Social" />
@@ -25,6 +27,7 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
           content="https://www.gather-social.com/testing.jpg"
         />
         <meta property="og:url" content="https://www.gather-social.com/" />
+
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="og:site_name" content="Gather Social" />
         <meta name="twitter:image:alt" content="Alt text for image" />
